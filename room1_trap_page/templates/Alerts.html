@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TIF — Alerts</title>
+  <style>
+    :root {
+      --bg:      #0f1117;
+      --surface: #1a1d27;
+      --border:  #2a2d3a;
+      --text:    #e2e4ed;
+      --muted:   #6b7080;
+      --human:   #22c55e;
+      --script:  #f59e0b;
+      --llm:     #8b5cf6;
+      --red:     #ef4444;
+      --yellow:  #eab308;
+      --accent:  #3b82f6;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 2rem;
+    }
+
+    /* ── Nav ── */
+    nav {
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1rem;
+      align-items: center;
+    }
+
+    nav .brand {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+      margin-right: auto;
+    }
+
+    nav a {
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      transition: color 0.15s;
+    }
+
+    nav a:hover  { color: var(--text); }
+    nav a.active { color: var(--accent); }
+
+    /* ── Header ── */
+    .page-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+    }
+
+    .page-header h1 {
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+    }
+
+    #status-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--red);
+      display: inline-block;
+      margin-right: 0.4rem;
+      transition: background 0.3s;
+    }
+    #status-dot.connected { background: var(--human); }
+
+    /* ── Stats ── */
+    .stats {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .stat {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.6rem 1.2rem;
+      font-size: 0.78rem;
+      min-width: 120px;
+    }
+
+    .stat-label { color: var(--muted); margin-bottom: 0.2rem; font-size: 0.7rem; }
+    .stat-value { font-size: 1.3rem; font-weight: 700; }
+    .red    { color: var(--red);    }
+    .yellow { color: var(--yellow); }
+    .green  { color: var(--human);  }
+    .blue   { color: var(--accent); }
+
+    /* ── Alert cards ── */
+    .alerts-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .alert-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.2rem;
+      display: grid;
+      grid-template-columns: auto 1fr auto auto;
+      gap: 1rem;
+      align-items: center;
+      transition: border-color 0.15s;
+      cursor: pointer;
+    }
+
+    .alert-card:hover { border-color: var(--accent); }
+
+    .alert-card.terminate { border-left: 3px solid var(--red);    }
+    .alert-card.stepup    { border-left: 3px solid var(--yellow);  }
+
+    /* Risk badge */
+    .risk-badge {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    .risk-badge.terminate { background: rgba(239,68,68,0.12);  color: var(--red);    border: 2px solid rgba(239,68,68,0.3);  }
+    .risk-badge.stepup    { background: rgba(234,179,8,0.12);  color: var(--yellow); border: 2px solid rgba(234,179,8,0.3);  }
+    .risk-badge.allow     { background: rgba(34,197,94,0.12);  color: var(--human);  border: 2px solid rgba(34,197,94,0.3);  }
+
+    /* Alert info */
+    .alert-info {}
+    .alert-title {
+      font-size: 0.82rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+    .alert-meta {
+      font-size: 0.7rem;
+      color: var(--muted);
+      display: flex;
+      gap: 1rem;
+    }
+
+    /* Prediction badge */
+    .pred-badge {
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      border-radius: 3px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+    }
+    .pred-badge.script { background: rgba(245,158,11,0.12); color: var(--script); border: 1px solid rgba(245,158,11,0.3); }
+    .pred-badge.llm    { background: rgba(139,92,246,0.12); color: var(--llm);    border: 1px solid rgba(139,92,246,0.3); }
+    .pred-badge.human  { background: rgba(34,197,94,0.12);  color: var(--human);  border: 1px solid rgba(34,197,94,0.3);  }
+
+    /* Action badge */
+    .action-badge {
+      padding: 0.3rem 0.8rem;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+    .action-badge.terminate { background: rgba(239,68,68,0.12);  color: var(--red);    border: 1px solid rgba(239,68,68,0.3);  }
+    .action-badge.stepup    { background: rgba(234,179,8,0.12);  color: var(--yellow); border: 1px solid rgba(234,179,8,0.3);  }
+    .action-badge.allow     { background: rgba(34,197,94,0.12);  color: var(--human);  border: 1px solid rgba(34,197,94,0.3);  }
+
+    /* ── Empty state ── */
+    .empty {
+      text-align: center;
+      padding: 5rem 2rem;
+      color: var(--muted);
+      font-size: 0.85rem;
+      line-height: 2;
+      border: 1px dashed var(--border);
+      border-radius: 8px;
+    }
+
+    /* ── Detail panel ── */
+    #detail {
+      display: none;
+      position: fixed;
+      top: 0; right: 0;
+      width: 360px;
+      height: 100vh;
+      background: var(--surface);
+      border-left: 1px solid var(--border);
+      padding: 1.5rem;
+      overflow-y: auto;
+      z-index: 100;
+    }
+
+    #detail h2 {
+      font-size: 0.85rem;
+      color: var(--accent);
+      margin-bottom: 1.2rem;
+      letter-spacing: 0.06em;
+    }
+
+    .close-btn {
+      float: right;
+      background: none;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
+
+    .detail-score {
+      text-align: center;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+
+    .detail-score .big {
+      font-size: 3rem;
+      font-weight: 800;
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+
+    .detail-score .action-text {
+      font-size: 0.78rem;
+      letter-spacing: 0.06em;
+    }
+
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.4rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.75rem;
+    }
+    .detail-row .k { color: var(--muted); }
+    .detail-row .v { font-weight: 600; }
+
+    .prob-bars { margin-top: 1rem; }
+    .prob-label { font-size: 0.7rem; color: var(--muted); margin-bottom: 0.6rem; }
+    .prob-row {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 0.5rem;
+      font-size: 0.72rem;
+    }
+    .prob-name { width: 45px; color: var(--muted); }
+    .prob-bar-wrap { flex: 1; background: var(--border); border-radius: 2px; height: 6px; }
+    .prob-bar-fill { height: 100%; border-radius: 2px; transition: width 0.3s; }
+    .prob-val { width: 35px; text-align: right; font-weight: 600; }
+
+    /* ── Refresh btn ── */
+    #refresh-btn {
+      padding: 0.4rem 0.9rem;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      font-family: inherit;
+      font-size: 0.78rem;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    #refresh-btn:hover { color: var(--text); border-color: var(--text); }
+
+    /* ── Filter ── */
+    .filter-row {
+      display: flex;
+      gap: 0.6rem;
+      margin-bottom: 1rem;
+      align-items: center;
+    }
+
+    .filter-btn {
+      padding: 0.35rem 0.8rem;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      font-family: inherit;
+      font-size: 0.72rem;
+      cursor: pointer;
+      letter-spacing: 0.04em;
+      transition: all 0.15s;
+    }
+    .filter-btn:hover  { border-color: var(--accent); color: var(--text); }
+    .filter-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(59,130,246,0.08); }
+
+    /* ── Pulse animation for new alerts ── */
+    @keyframes pulse {
+      0%   { box-shadow: 0 0 0 0 rgba(239,68,68,0.4); }
+      70%  { box-shadow: 0 0 0 8px rgba(239,68,68,0); }
+      100% { box-shadow: 0 0 0 0 rgba(239,68,68,0); }
+    }
+    .alert-card.new { animation: pulse 1s ease-out; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <span class="brand">TIF SYSTEM</span>
+  <a href="dashboard.html">SESSIONS</a>
+  <a href="alerts.html" class="active">ALERTS</a>
+  <a href="analytics.html">ANALYTICS</a>
+</nav>
+
+<div class="page-header">
+  <h1><span id="status-dot"></span> ALERTS</h1>
+  <button id="refresh-btn">↻ REFRESH</button>
+</div>
+
+<div class="stats">
+  <div class="stat">
+    <div class="stat-label">TOTAL SESSIONS</div>
+    <div class="stat-value blue" id="count-total">—</div>
+  </div>
+  <div class="stat">
+    <div class="stat-label">HIGH RISK</div>
+    <div class="stat-value red" id="count-terminate">—</div>
+  </div>
+  <div class="stat">
+    <div class="stat-label">MEDIUM RISK</div>
+    <div class="stat-value yellow" id="count-stepup">—</div>
+  </div>
+  <div class="stat">
+    <div class="stat-label">LOW RISK</div>
+    <div class="stat-value green" id="count-allow">—</div>
+  </div>
+  <div class="stat">
+    <div class="stat-label">SCRIPT BOTS</div>
+    <div class="stat-value yellow" id="count-script">—</div>
+  </div>
+  <div class="stat">
+    <div class="stat-label">LLM AGENTS</div>
+    <div class="stat-value" style="color:var(--llm)" id="count-llm">—</div>
+  </div>
+</div>
+
+<div class="filter-row">
+  <button class="filter-btn active" data-filter="all">ALL</button>
+  <button class="filter-btn" data-filter="terminate">HIGH RISK</button>
+  <button class="filter-btn" data-filter="stepup">MEDIUM RISK</button>
+  <button class="filter-btn" data-filter="allow">LOW RISK</button>
+</div>
+
+<div class="alerts-list" id="alerts-list">
+  <div class="empty">Loading alerts…</div>
+</div>
+
+<!-- Detail panel -->
+<div id="detail">
+  <button class="close-btn" onclick="closeDetail()">✕</button>
+  <h2>SESSION DETAIL</h2>
+  <div id="detail-content"></div>
+</div>
+
+<script>
+  const API = 'http://localhost:5000';
+  let allResults  = [];
+  let currentFilter = 'all';
+
+  // ── Risk score calculator (mirrors Python logic) ──────────────────────────
+
+  function computeRiskScore(prediction, probabilities) {
+    const humanProb  = probabilities.human  || 0;
+    const scriptProb = probabilities.script || 0;
+    const llmProb    = probabilities.llm    || 0;
+
+    let score;
+    if (prediction === 'script') {
+      score = 85 + Math.round(scriptProb * 15);
+    } else if (prediction === 'llm') {
+      score = 71 + Math.round(llmProb * 19);
+    } else {
+      score = Math.round((1.0 - humanProb) * 65);
+    }
+    return Math.max(0, Math.min(100, score));
+  }
+
+  function getAction(score) {
+    if (score <= 40)  return 'allow';
+    if (score <= 70)  return 'stepup';
+    return 'terminate';
+  }
+
+  // ── Fetch and classify all sessions ──────────────────────────────────────
+
+  async function fetchAndClassify() {
+    try {
+      const res      = await fetch(`${API}/api/sessions`);
+      const sessions = await res.json();
+
+      document.getElementById('status-dot').classList.add('connected');
+
+      // Classify each session
+      allResults = await Promise.all(sessions.map(async (s) => {
+        try {
+          const r = await fetch(`${API}/api/risk`, {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body:    JSON.stringify(s),
+          });
+          const risk = await r.json();
+          return { ...s, ...risk };
+        } catch {
+          return { ...s, score: null, action: 'unknown', prediction: 'unknown' };
+        }
+      }));
+
+      updateStats();
+      render();
+    } catch (e) {
+      document.getElementById('alerts-list').innerHTML =
+        `<div class="empty">Cannot reach API on :5000<br>Make sure Flask is running.</div>`;
+    }
+  }
+
+  // ── Stats ─────────────────────────────────────────────────────────────────
+
+  function updateStats() {
+    const total    = allResults.length;
+    const terminate = allResults.filter(r => r.action === 'terminate').length;
+    const stepup   = allResults.filter(r => r.action === 'stepup').length;
+    const allow    = allResults.filter(r => r.action === 'allow').length;
+    const script   = allResults.filter(r => r.prediction === 'script').length;
+    const llm      = allResults.filter(r => r.prediction === 'llm').length;
+
+    document.getElementById('count-total').textContent    = total;
+    document.getElementById('count-terminate').textContent = terminate;
+    document.getElementById('count-stepup').textContent   = stepup;
+    document.getElementById('count-allow').textContent    = allow;
+    document.getElementById('count-script').textContent   = script;
+    document.getElementById('count-llm').textContent      = llm;
+  }
+
+  // ── Render alerts ─────────────────────────────────────────────────────────
+
+  function render() {
+    const filtered = allResults.filter(r => {
+      if (currentFilter === 'all') return true;
+      return r.action === currentFilter;
+    });
+
+    // Sort by score descending (highest risk first)
+    filtered.sort((a, b) => (b.score || 0) - (a.score || 0));
+
+    const list = document.getElementById('alerts-list');
+    if (filtered.length === 0) {
+      list.innerHTML = `<div class="empty">No alerts match this filter.</div>`;
+      return;
+    }
+
+    list.innerHTML = filtered.map(r => {
+      const action     = r.action || 'unknown';
+      const score      = r.score  ?? '?';
+      const pred       = r.prediction || 'unknown';
+      const probeCount = (r.probes || []).length;
+      const evtCount   = (r.passive_events || []).length;
+      const actionText = action === 'terminate' ? 'TERMINATE SESSION'
+                       : action === 'stepup'    ? 'STEP-UP VERIFICATION'
+                       :                          'ALLOW ACCESS';
+
+      return `
+        <div class="alert-card ${action}" onclick="showDetail('${r.session_id}')">
+          <div class="risk-badge ${action}">${score}</div>
+          <div class="alert-info">
+            <div class="alert-title">${r.session_id ? r.session_id.slice(0,8) + '…' : '—'}</div>
+            <div class="alert-meta">
+              <span>page: ${r.page_type || '—'}</span>
+              <span>probes: ${probeCount}</span>
+              <span>events: ${evtCount}</span>
+            </div>
+          </div>
+          <span class="pred-badge ${pred}">${pred.toUpperCase()}</span>
+          <span class="action-badge ${action}">${actionText}</span>
+        </div>`;
+    }).join('');
+  }
+
+  // ── Detail panel ──────────────────────────────────────────────────────────
+
+  function showDetail(sessionId) {
+    const r = allResults.find(x => x.session_id === sessionId);
+    if (!r) return;
+
+    const score  = r.score ?? '?';
+    const action = r.action || 'unknown';
+    const proba  = r.probabilities || { human: 0, script: 0, llm: 0 };
+
+    const scoreColor = action === 'terminate' ? 'var(--red)'
+                     : action === 'stepup'    ? 'var(--yellow)'
+                     :                          'var(--human)';
+
+    const actionText = action === 'terminate' ? 'TERMINATE SESSION'
+                     : action === 'stepup'    ? 'STEP-UP VERIFICATION'
+                     :                          'ALLOW ACCESS';
+
+    document.getElementById('detail-content').innerHTML = `
+      <div class="detail-score ${action}">
+        <div class="big" style="color:${scoreColor}">${score}</div>
+        <div class="action-text" style="color:${scoreColor}">${actionText}</div>
+      </div>
+
+      <div class="detail-row"><span class="k">SESSION ID</span><span class="v">${r.session_id ? r.session_id.slice(0,16) + '…' : '—'}</span></div>
+      <div class="detail-row"><span class="k">PAGE TYPE</span><span class="v">${r.page_type || '—'}</span></div>
+      <div class="detail-row"><span class="k">PREDICTION</span><span class="v">${(r.prediction || '—').toUpperCase()}</span></div>
+      <div class="detail-row"><span class="k">RISK SCORE</span><span class="v" style="color:${scoreColor}">${score} / 100</span></div>
+      <div class="detail-row"><span class="k">ACTION</span><span class="v">${actionText}</span></div>
+      <div class="detail-row"><span class="k">PROBES</span><span class="v">${(r.probes||[]).length}</span></div>
+      <div class="detail-row"><span class="k">EVENTS</span><span class="v">${(r.passive_events||[]).length}</span></div>
+
+      <div class="prob-bars">
+        <div class="prob-label">CLASS PROBABILITIES</div>
+        ${[
+          ['human',  proba.human  || 0, 'var(--human)'],
+          ['script', proba.script || 0, 'var(--script)'],
+          ['llm',    proba.llm    || 0, 'var(--llm)'],
+        ].map(([name, val, color]) => `
+          <div class="prob-row">
+            <span class="prob-name">${name}</span>
+            <div class="prob-bar-wrap">
+              <div class="prob-bar-fill" style="width:${(val*100).toFixed(0)}%;background:${color}"></div>
+            </div>
+            <span class="prob-val">${(val*100).toFixed(0)}%</span>
+          </div>`).join('')}
+      </div>
+    `;
+
+    document.getElementById('detail').style.display = 'block';
+  }
+
+  function closeDetail() {
+    document.getElementById('detail').style.display = 'none';
+  }
+
+  // ── Filter buttons ────────────────────────────────────────────────────────
+
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentFilter = btn.dataset.filter;
+      render();
+    });
+  });
+
+  document.getElementById('refresh-btn').addEventListener('click', fetchAndClassify);
+
+  // Auto-refresh every 10s
+  fetchAndClassify();
+  setInterval(fetchAndClassify, 10000);
+</script>
+</body>
+</html>
