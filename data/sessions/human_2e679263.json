@@ -1,0 +1,656 @@
+{
+  "session_id": "2e679263-a772-48af-993c-4b9688e8be82",
+  "page_type": "login",
+  "label": "human",
+  "start_time": 75.39999985694885,
+  "end_time": 17539.89999985695,
+  "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36",
+  "passive_events": [
+    {
+      "type": "mouse_move",
+      "ts": 439.69999980926514,
+      "x": 164,
+      "y": 1
+    },
+    {
+      "type": "mouse_move",
+      "ts": 463.59999990463257,
+      "x": 270,
+      "y": 62
+    },
+    {
+      "type": "mouse_move",
+      "ts": 496.69999980926514,
+      "x": 455,
+      "y": 170
+    },
+    {
+      "type": "mouse_move",
+      "ts": 529.7999999523163,
+      "x": 563,
+      "y": 229
+    },
+    {
+      "type": "mouse_move",
+      "ts": 563.2999999523163,
+      "x": 602,
+      "y": 257
+    },
+    {
+      "type": "mouse_move",
+      "ts": 596.7999999523163,
+      "x": 613,
+      "y": 265
+    },
+    {
+      "type": "mouse_move",
+      "ts": 815.6999998092651,
+      "x": 623,
+      "y": 274
+    },
+    {
+      "type": "mouse_move",
+      "ts": 863.2999999523163,
+      "x": 663,
+      "y": 308
+    },
+    {
+      "type": "mouse_move",
+      "ts": 896.6999998092651,
+      "x": 668,
+      "y": 313
+    },
+    {
+      "type": "mouse_move",
+      "ts": 929.8999998569489,
+      "x": 668,
+      "y": 315
+    },
+    {
+      "type": "mouse_move",
+      "ts": 963.2999999523163,
+      "x": 668,
+      "y": 317
+    },
+    {
+      "type": "mouse_move",
+      "ts": 996.3999998569489,
+      "x": 668,
+      "y": 321
+    },
+    {
+      "type": "mouse_move",
+      "ts": 1029.7999999523163,
+      "x": 668,
+      "y": 328
+    },
+    {
+      "type": "mouse_move",
+      "ts": 1063.2999999523163,
+      "x": 666,
+      "y": 330
+    },
+    {
+      "type": "mouse_move",
+      "ts": 1097,
+      "x": 664,
+      "y": 333
+    },
+    {
+      "type": "mousedown",
+      "ts": 1273.7999999523163,
+      "x": 664,
+      "y": 333,
+      "target": "INPUT"
+    },
+    {
+      "type": "focus",
+      "ts": 1274.1999998092651,
+      "target": "email"
+    },
+    {
+      "type": "mouseup",
+      "ts": 1495.6999998092651,
+      "x": 664,
+      "y": 333
+    },
+    {
+      "type": "click",
+      "ts": 1495.7999999523163,
+      "x": 664,
+      "y": 333,
+      "target": "INPUT"
+    },
+    {
+      "type": "keydown",
+      "ts": 6496,
+      "key": "l",
+      "code": "KeyL"
+    },
+    {
+      "type": "keyup",
+      "ts": 6570.899999856949,
+      "key": "l",
+      "code": "KeyL"
+    },
+    {
+      "type": "keydown",
+      "ts": 6906.299999952316,
+      "key": "a",
+      "code": "KeyA"
+    },
+    {
+      "type": "keyup",
+      "ts": 7005.299999952316,
+      "key": "a",
+      "code": "KeyA"
+    },
+    {
+      "type": "keydown",
+      "ts": 7100.699999809265,
+      "key": "k",
+      "code": "KeyK"
+    },
+    {
+      "type": "keyup",
+      "ts": 7175.399999856949,
+      "key": "k",
+      "code": "KeyK"
+    },
+    {
+      "type": "keydown",
+      "ts": 7500.699999809265,
+      "key": "s",
+      "code": "KeyS"
+    },
+    {
+      "type": "keyup",
+      "ts": 7580.399999856949,
+      "key": "s",
+      "code": "KeyS"
+    },
+    {
+      "type": "keydown",
+      "ts": 7610.5,
+      "key": "h",
+      "code": "KeyH"
+    },
+    {
+      "type": "keyup",
+      "ts": 7685.5,
+      "key": "h",
+      "code": "KeyH"
+    },
+    {
+      "type": "keydown",
+      "ts": 8175.699999809265,
+      "key": "m",
+      "code": "KeyM"
+    },
+    {
+      "type": "keyup",
+      "ts": 8235.399999856949,
+      "key": "m",
+      "code": "KeyM"
+    },
+    {
+      "type": "keydown",
+      "ts": 8351.899999856949,
+      "key": "i",
+      "code": "KeyI"
+    },
+    {
+      "type": "keyup",
+      "ts": 8411.699999809265,
+      "key": "i",
+      "code": "KeyI"
+    },
+    {
+      "type": "keydown",
+      "ts": 9131.599999904633,
+      "key": "Shift",
+      "code": "ShiftLeft"
+    },
+    {
+      "type": "keydown",
+      "ts": 9615.799999952316,
+      "key": "@",
+      "code": "Digit2"
+    },
+    {
+      "type": "keyup",
+      "ts": 9700.799999952316,
+      "key": "@",
+      "code": "Digit2"
+    },
+    {
+      "type": "keyup",
+      "ts": 9920.699999809265,
+      "key": "Shift",
+      "code": "ShiftLeft"
+    },
+    {
+      "type": "keydown",
+      "ts": 10286.099999904633,
+      "key": "g",
+      "code": "KeyG"
+    },
+    {
+      "type": "keyup",
+      "ts": 10345.799999952316,
+      "key": "g",
+      "code": "KeyG"
+    },
+    {
+      "type": "keydown",
+      "ts": 10621.199999809265,
+      "key": "m",
+      "code": "KeyM"
+    },
+    {
+      "type": "keyup",
+      "ts": 10690.899999856949,
+      "key": "m",
+      "code": "KeyM"
+    },
+    {
+      "type": "keydown",
+      "ts": 10791.099999904633,
+      "key": "a",
+      "code": "KeyA"
+    },
+    {
+      "type": "keyup",
+      "ts": 10926,
+      "key": "a",
+      "code": "KeyA"
+    },
+    {
+      "type": "keydown",
+      "ts": 11046.5,
+      "key": "i",
+      "code": "KeyI"
+    },
+    {
+      "type": "keyup",
+      "ts": 11115.899999856949,
+      "key": "i",
+      "code": "KeyI"
+    },
+    {
+      "type": "keydown",
+      "ts": 11271.199999809265,
+      "key": "l",
+      "code": "KeyL"
+    },
+    {
+      "type": "keyup",
+      "ts": 11335.799999952316,
+      "key": "l",
+      "code": "KeyL"
+    },
+    {
+      "type": "keydown",
+      "ts": 11603.099999904633,
+      "key": ".",
+      "code": "Period"
+    },
+    {
+      "type": "keyup",
+      "ts": 11630.799999952316,
+      "key": ".",
+      "code": "Period"
+    },
+    {
+      "type": "keydown",
+      "ts": 12166.299999952316,
+      "key": "c",
+      "code": "KeyC"
+    },
+    {
+      "type": "keyup",
+      "ts": 12266.199999809265,
+      "key": "c",
+      "code": "KeyC"
+    },
+    {
+      "type": "keydown",
+      "ts": 12306.5,
+      "key": "o",
+      "code": "KeyO"
+    },
+    {
+      "type": "keyup",
+      "ts": 12380.899999856949,
+      "key": "o",
+      "code": "KeyO"
+    },
+    {
+      "type": "keydown",
+      "ts": 12486.399999856949,
+      "key": "m",
+      "code": "KeyM"
+    },
+    {
+      "type": "keyup",
+      "ts": 12561.199999809265,
+      "key": "m",
+      "code": "KeyM"
+    },
+    {
+      "type": "mouse_move",
+      "ts": 13063.599999904633,
+      "x": 664,
+      "y": 336
+    },
+    {
+      "type": "mouse_move",
+      "ts": 13096.599999904633,
+      "x": 669,
+      "y": 349
+    },
+    {
+      "type": "mouse_move",
+      "ts": 13130.099999904633,
+      "x": 671,
+      "y": 358
+    },
+    {
+      "type": "mouse_move",
+      "ts": 13163.399999856949,
+      "x": 672,
+      "y": 366
+    },
+    {
+      "type": "mouse_move",
+      "ts": 13196.5,
+      "x": 672,
+      "y": 371
+    },
+    {
+      "type": "mouse_move",
+      "ts": 13230.399999856949,
+      "x": 672,
+      "y": 376
+    },
+    {
+      "type": "mouse_move",
+      "ts": 13263.5,
+      "x": 672,
+      "y": 383
+    },
+    {
+      "type": "mouse_move",
+      "ts": 13296.699999809265,
+      "x": 672,
+      "y": 387
+    },
+    {
+      "type": "mouse_move",
+      "ts": 13330.099999904633,
+      "x": 672,
+      "y": 392
+    },
+    {
+      "type": "mouse_move",
+      "ts": 13363.699999809265,
+      "x": 674,
+      "y": 397
+    },
+    {
+      "type": "mouse_move",
+      "ts": 13397.099999904633,
+      "x": 674,
+      "y": 401
+    },
+    {
+      "type": "mouse_move",
+      "ts": 13430.599999904633,
+      "x": 674,
+      "y": 403
+    },
+    {
+      "type": "mousedown",
+      "ts": 13616.899999856949,
+      "x": 674,
+      "y": 403,
+      "target": "INPUT"
+    },
+    {
+      "type": "blur",
+      "ts": 13617.099999904633,
+      "target": "email"
+    },
+    {
+      "type": "focus",
+      "ts": 13617.599999904633,
+      "target": "password"
+    },
+    {
+      "type": "mouseup",
+      "ts": 13832.299999952316,
+      "x": 674,
+      "y": 403
+    },
+    {
+      "type": "click",
+      "ts": 13832.399999856949,
+      "x": 674,
+      "y": 403,
+      "target": "INPUT"
+    },
+    {
+      "type": "keydown",
+      "ts": 14422,
+      "key": "1",
+      "code": "Numpad1"
+    },
+    {
+      "type": "keyup",
+      "ts": 14496.699999809265,
+      "key": "1",
+      "code": "Numpad1"
+    },
+    {
+      "type": "keydown",
+      "ts": 14621.799999952316,
+      "key": "2",
+      "code": "Numpad2"
+    },
+    {
+      "type": "keyup",
+      "ts": 14691.599999904633,
+      "key": "2",
+      "code": "Numpad2"
+    },
+    {
+      "type": "keydown",
+      "ts": 14812.699999809265,
+      "key": "3",
+      "code": "Numpad3"
+    },
+    {
+      "type": "keyup",
+      "ts": 14887.399999856949,
+      "key": "3",
+      "code": "Numpad3"
+    },
+    {
+      "type": "keydown",
+      "ts": 15062,
+      "key": "4",
+      "code": "Numpad4"
+    },
+    {
+      "type": "keyup",
+      "ts": 15131.899999856949,
+      "key": "4",
+      "code": "Numpad4"
+    },
+    {
+      "type": "keydown",
+      "ts": 15236.5,
+      "key": "5",
+      "code": "Numpad5"
+    },
+    {
+      "type": "keyup",
+      "ts": 15316.299999952316,
+      "key": "5",
+      "code": "Numpad5"
+    },
+    {
+      "type": "keydown",
+      "ts": 15411.399999856949,
+      "key": "6",
+      "code": "Numpad6"
+    },
+    {
+      "type": "keyup",
+      "ts": 15491.199999809265,
+      "key": "6",
+      "code": "Numpad6"
+    },
+    {
+      "type": "keydown",
+      "ts": 15691.299999952316,
+      "key": "7",
+      "code": "Numpad7"
+    },
+    {
+      "type": "keyup",
+      "ts": 15771.199999809265,
+      "key": "7",
+      "code": "Numpad7"
+    },
+    {
+      "type": "keydown",
+      "ts": 15877.399999856949,
+      "key": "8",
+      "code": "Numpad8"
+    },
+    {
+      "type": "keyup",
+      "ts": 15981.5,
+      "key": "8",
+      "code": "Numpad8"
+    },
+    {
+      "type": "keydown",
+      "ts": 16136.599999904633,
+      "key": "9",
+      "code": "Numpad9"
+    },
+    {
+      "type": "keyup",
+      "ts": 16236.399999856949,
+      "key": "9",
+      "code": "Numpad9"
+    },
+    {
+      "type": "mouse_move",
+      "ts": 16887.299999952316,
+      "x": 674,
+      "y": 407
+    },
+    {
+      "type": "mouse_move",
+      "ts": 16914.099999904633,
+      "x": 680,
+      "y": 433
+    },
+    {
+      "type": "mouse_move",
+      "ts": 16947.799999952316,
+      "x": 682,
+      "y": 465
+    },
+    {
+      "type": "mouse_move",
+      "ts": 16980.89999985695,
+      "x": 682,
+      "y": 472
+    },
+    {
+      "type": "mouse_move",
+      "ts": 17013.799999952316,
+      "x": 682,
+      "y": 474
+    },
+    {
+      "type": "mouse_move",
+      "ts": 17047.199999809265,
+      "x": 682,
+      "y": 475
+    },
+    {
+      "type": "mouse_move",
+      "ts": 17081.799999952316,
+      "x": 682,
+      "y": 476
+    },
+    {
+      "type": "mouse_move",
+      "ts": 17113.699999809265,
+      "x": 682,
+      "y": 477
+    },
+    {
+      "type": "mousedown",
+      "ts": 17309.5,
+      "x": 682,
+      "y": 477,
+      "target": "BUTTON"
+    },
+    {
+      "type": "blur",
+      "ts": 17309.89999985695,
+      "target": "password"
+    },
+    {
+      "type": "focus",
+      "ts": 17310.099999904633,
+      "target": "BUTTON"
+    },
+    {
+      "type": "mouseup",
+      "ts": 17539.099999904633,
+      "x": 682,
+      "y": 477
+    },
+    {
+      "type": "click",
+      "ts": 17539.299999952316,
+      "x": 682,
+      "y": 477,
+      "target": "BUTTON"
+    }
+  ],
+  "probes": [
+    {
+      "probeId": 1,
+      "t1": 1079.2999999523163,
+      "t2": 1097.0999999046326,
+      "delta": 17.799999952316284
+    },
+    {
+      "probeId": 2,
+      "t1": 6546.799999952316,
+      "t2": 6906.299999952316,
+      "delta": 359.5
+    },
+    {
+      "probeId": 3,
+      "t1": 12034.099999904633,
+      "t2": 12166.299999952316,
+      "delta": 132.20000004768372
+    },
+    {
+      "probeId": 4,
+      "t1": 15229.199999809265,
+      "t2": 15236.5,
+      "delta": 7.300000190734863
+    }
+  ],
+  "created_at": "2026-08-16T12:40:46.654607"
+}

@@ -1,0 +1,162 @@
+{
+  "session_id": "eed912d6-106d-401a-975b-342506f91560",
+  "page_type": "login",
+  "label": "human",
+  "start_time": 43.90000009536743,
+  "end_time": 213814.5,
+  "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36",
+  "passive_events": [],
+  "probes": [
+    {
+      "probeId": 1,
+      "t1": 1053.9000000953674,
+      "t2": null,
+      "delta": null
+    },
+    {
+      "probeId": 2,
+      "t1": 5926.600000143051,
+      "t2": null,
+      "delta": null
+    },
+    {
+      "probeId": 3,
+      "t1": 10923.300000190735,
+      "t2": null,
+      "delta": null
+    },
+    {
+      "probeId": 4,
+      "t1": 17920.400000095367,
+      "t2": null,
+      "delta": null
+    },
+    {
+      "probeId": 5,
+      "t1": 22916.700000047684,
+      "t2": null,
+      "delta": null
+    },
+    {
+      "probeId": 6,
+      "t1": 28911.700000047684,
+      "t2": null,
+      "delta": null
+    },
+    {
+      "probeId": 7,
+      "t1": 33922.5,
+      "t2": null,
+      "delta": null
+    },
+    {
+      "probeId": 8,
+      "t1": 39921.10000014305,
+      "t2": null,
+      "delta": null
+    },
+    {
+      "probeId": 9,
+      "t1": 45914.60000014305,
+      "t2": null,
+      "delta": null
+    },
+    {
+      "probeId": 10,
+      "t1": 49912.5,
+      "t2": null,
+      "delta": null
+    },
+    {
+      "probeId": 11,
+      "t1": 56916.700000047684,
+      "t2": null,
+      "delta": null
+    },
+    {
+      "probeId": 12,
+      "t1": 104918.90000009537,
+      "t2": null,
+      "delta": null
+    },
+    {
+      "probeId": 13,
+      "t1": 109291.30000019073,
+      "t2": null,
+      "delta": null
+    },
+    {
+      "probeId": 14,
+      "t1": 114911.60000014305,
+      "t2": null,
+      "delta": null
+    },
+    {
+      "probeId": 15,
+      "t1": 121927.5,
+      "t2": null,
+      "delta": null
+    },
+    {
+      "probeId": 16,
+      "t1": 125912,
+      "t2": null,
+      "delta": null
+    },
+    {
+      "probeId": 17,
+      "t1": 130924.30000019073,
+      "t2": null,
+      "delta": null
+    },
+    {
+      "probeId": 18,
+      "t1": 134916.20000004768,
+      "t2": null,
+      "delta": null
+    },
+    {
+      "probeId": 19,
+      "t1": 138915.30000019073,
+      "t2": null,
+      "delta": null
+    },
+    {
+      "probeId": 20,
+      "t1": 144913.40000009537,
+      "t2": null,
+      "delta": null
+    },
+    {
+      "probeId": 21,
+      "t1": 148913,
+      "t2": null,
+      "delta": null
+    },
+    {
+      "probeId": 22,
+      "t1": 154918.90000009537,
+      "t2": null,
+      "delta": null
+    },
+    {
+      "probeId": 23,
+      "t1": 158914.90000009537,
+      "t2": null,
+      "delta": null
+    },
+    {
+      "probeId": 24,
+      "t1": 164915.60000014305,
+      "t2": null,
+      "delta": null
+    },
+    {
+      "probeId": 25,
+      "t1": 212489.5,
+      "t2": null,
+      "delta": null
+    }
+  ],
+  "created_at": "2026-08-16T06:23:29.828106"
+}

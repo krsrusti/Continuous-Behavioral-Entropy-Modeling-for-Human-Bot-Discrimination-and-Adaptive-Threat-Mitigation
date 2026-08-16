@@ -1,6 +1,6 @@
 """app.py — Room 2: The Data Backend (Flask entry point)."""
 import os, sys, traceback
-from flask import Flask, request, jsonify
+from flask import Flask
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -15,6 +15,7 @@ if PARENT_DIR not in sys.path:
 
 from api.session_routes  import session_bp
 from api.classify_routes import classify_bp
+from api.risk_routes     import risk_bp
 from database.db         import init_db
 
 app = Flask(__name__)
@@ -29,22 +30,24 @@ def add_cors_headers(response):
 @app.route('/api/session',  methods=['OPTIONS'])
 @app.route('/api/sessions', methods=['OPTIONS'])
 @app.route('/api/classify', methods=['OPTIONS'])
+@app.route('/api/risk',     methods=['OPTIONS'])
 def handle_options():
     from flask import Response
     return Response(status=200)
 
-# Global error handler — prints full traceback and returns it as JSON
 @app.errorhandler(Exception)
 def handle_exception(e):
     tb = traceback.format_exc()
     print('=== UNHANDLED ERROR ===')
     print(tb)
+    from flask import jsonify
     return jsonify({'error': str(e), 'traceback': tb}), 500
 
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'dev-secret')
 
 app.register_blueprint(session_bp,  url_prefix='/api')
 app.register_blueprint(classify_bp, url_prefix='/api')
+app.register_blueprint(risk_bp,     url_prefix='/api')
 
 with app.app_context():
     init_db()

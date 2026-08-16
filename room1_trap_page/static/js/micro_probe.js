@@ -39,6 +39,11 @@
     // Imperceptible DOM mutation — alternates top by 1px
     ghost.style.top = (probeCounter % 2 === 0) ? '-9999px' : '-9998px';
 
+    if (pendingProbe && pendingProbe.t2 === null) {
+        pendingProbe.delta = null;  // mark as invalid
+        pendingProbe = null;
+    }
+
     pendingProbe = { probeId, t1, t2: null, delta: null };
     probes.push(pendingProbe);
 
