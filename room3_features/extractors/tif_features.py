@@ -18,7 +18,9 @@ class TIFExtractor:
 
     def _completed_deltas(self) -> List[float]:
         return [p['delta'] for p in self.probes
-                if p.get('delta') is not None and p['delta'] > 0]
+            if p.get('delta') is not None
+            and p['delta'] > 50          # filter noise (was 10)
+            and p['delta'] < 3000]       # filter idle gaps    
 
     def _action_timestamps(self) -> List[float]:
         action_types = {'mouse_move', 'keydown', 'click', 'scroll'}

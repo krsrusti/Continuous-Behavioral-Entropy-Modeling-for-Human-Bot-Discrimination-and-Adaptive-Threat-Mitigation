@@ -50,12 +50,20 @@
     scheduleNext();
   }
 
-  function recordT2() {
+  function recordT2(source) {
     if (!pendingProbe || pendingProbe.t2 !== null) return;
-    pendingProbe.t2    = performance.now();
-    pendingProbe.delta = pendingProbe.t2 - pendingProbe.t1;
+
+    const now   = performance.now();
+    const delta = now - pendingProbe.t1;
+
+    // Ignore if delta is suspiciously small — likely a same-tick mutation
+    if (delta < 50) return;
+
+    pendingProbe.t2     = now;
+    pendingProbe.delta  = delta;
+    pendingProbe.source = source || 'unknown';
     pendingProbe = null;
-  }
+}
 
   // Capture the NEXT user action after each probe fires
   ['mousemove', 'keydown', 'click', 'scroll', 'touchstart'].forEach((evt) => {

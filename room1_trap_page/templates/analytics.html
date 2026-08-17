@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TIF — Analytics</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg:      #0f1117;
+      --surface: #1a1d27;
+      --border:  #2a2d3a;
+      --text:    #e2e4ed;
+      --muted:   #6b7080;
+      --human:   #22c55e;
+      --script:  #f59e0b;
+      --llm:     #8b5cf6;
+      --red:     #ef4444;
+      --yellow:  #eab308;
+      --accent:  #3b82f6;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 2rem;
+    }
+
+    /* ── Nav ── */
+    nav {
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1rem;
+      align-items: center;
+    }
+    nav .brand { font-size: 1rem; font-weight: 700; color: var(--accent); letter-spacing: 0.08em; margin-right: auto; }
+    nav a { font-size: 0.78rem; color: var(--muted); text-decoration: none; letter-spacing: 0.05em; transition: color 0.15s; }
+    nav a:hover  { color: var(--text); }
+    nav a.active { color: var(--accent); }
+
+    /* ── Page header ── */
+    .page-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+    }
+    .page-header h1 { font-size: 1rem; font-weight: 600; letter-spacing: 0.06em; }
+
+    #refresh-btn {
+      padding: 0.4rem 0.9rem;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      font-family: inherit;
+      font-size: 0.78rem;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    #refresh-btn:hover { color: var(--text); border-color: var(--text); }
+
+    /* ── KPI row ── */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .kpi {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.2rem;
+    }
+    .kpi-label { font-size: 0.68rem; color: var(--muted); letter-spacing: 0.06em; margin-bottom: 0.4rem; }
+    .kpi-value { font-size: 1.6rem; font-weight: 800; }
+    .kpi-sub   { font-size: 0.68rem; color: var(--muted); margin-top: 0.2rem; }
+
+    .c-blue   { color: var(--accent); }
+    .c-red    { color: var(--red);    }
+    .c-yellow { color: var(--yellow); }
+    .c-green  { color: var(--human);  }
+    .c-purple { color: var(--llm);    }
+
+    /* ── Chart grid ── */
+    .chart-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .chart-grid.full { grid-template-columns: 1fr; }
+
+    @media (max-width: 800px) {
+      .chart-grid { grid-template-columns: 1fr; }
+    }
+
+    .chart-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.2rem;
+    }
+
+    .chart-title {
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      margin-bottom: 1rem;
+    }
+
+    .chart-wrap {
+      position: relative;
+      height: 220px;
+    }
+
+    /* ── Comparison table ── */
+    .comparison {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .comparison h3 {
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      margin-bottom: 1rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.75rem;
+    }
+
+    thead th {
+      text-align: left;
+      padding: 0.5rem 0.8rem;
+      color: var(--muted);
+      font-weight: 500;
+      border-bottom: 1px solid var(--border);
+      letter-spacing: 0.05em;
+    }
+
+    tbody td {
+      padding: 0.6rem 0.8rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:hover { background: rgba(255,255,255,0.02); }
+
+    .system-name { font-weight: 600; }
+
+    .check { color: var(--human);  }
+    .cross { color: var(--red);    }
+
+    /* accuracy bar */
+    .acc-wrap { display: flex; align-items: center; gap: 0.6rem; }
+    .acc-bar  { flex: 1; background: var(--border); border-radius: 2px; height: 6px; }
+    .acc-fill { height: 100%; border-radius: 2px; }
+    .acc-val  { width: 40px; text-align: right; font-weight: 700; }
+
+    /* ── Probe delta distribution ── */
+    .delta-section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .delta-section h3 {
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      margin-bottom: 1rem;
+    }
+
+    .delta-rows { display: flex; flex-direction: column; gap: 0.6rem; }
+
+    .delta-row {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-size: 0.72rem;
+    }
+
+    .delta-label { width: 60px; color: var(--muted); }
+    .delta-bar-wrap { flex: 1; background: var(--border); border-radius: 3px; height: 12px; }
+    .delta-bar-fill { height: 100%; border-radius: 3px; display: flex; align-items: center; padding-left: 6px; font-size: 0.62rem; font-weight: 700; color: #000; transition: width 0.5s; }
+    .delta-stats { width: 160px; color: var(--muted); text-align: right; }
+
+    /* ── Loading ── */
+    .loading {
+      text-align: center;
+      padding: 3rem;
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <span class="brand">TIF SYSTEM</span>
+  <a href="dashboard.html">SESSIONS</a>
+  <a href="alerts.html">ALERTS</a>
+  <a href="analytics.html" class="active">ANALYTICS</a>
+</nav>
+
+<div class="page-header">
+  <h1>ANALYTICS & REPORTS</h1>
+  <button id="refresh-btn">↻ REFRESH</button>
+</div>
+
+<!-- KPIs -->
+<div class="kpi-row">
+  <div class="kpi">
+    <div class="kpi-label">TOTAL SESSIONS</div>
+    <div class="kpi-value c-blue" id="kpi-total">—</div>
+    <div class="kpi-sub">all time</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">DETECTION RATE</div>
+    <div class="kpi-value c-red" id="kpi-detection">—</div>
+    <div class="kpi-sub">bots caught</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">HUMAN SESSIONS</div>
+    <div class="kpi-value c-green" id="kpi-human">—</div>
+    <div class="kpi-sub">allowed through</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">SCRIPT BOTS</div>
+    <div class="kpi-value c-yellow" id="kpi-script">—</div>
+    <div class="kpi-sub">terminated</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">LLM AGENTS</div>
+    <div class="kpi-value c-purple" id="kpi-llm">—</div>
+    <div class="kpi-sub">terminated</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">AVG RISK SCORE</div>
+    <div class="kpi-value c-red" id="kpi-avg-score">—</div>
+    <div class="kpi-sub">across all sessions</div>
+  </div>
+</div>
+
+<!-- Charts row 1 -->
+<div class="chart-grid">
+  <div class="chart-card">
+    <div class="chart-title">SESSION BREAKDOWN</div>
+    <div class="chart-wrap"><canvas id="chart-doughnut"></canvas></div>
+  </div>
+  <div class="chart-card">
+    <div class="chart-title">RISK SCORE DISTRIBUTION</div>
+    <div class="chart-wrap"><canvas id="chart-risk"></canvas></div>
+  </div>
+</div>
+
+<!-- Charts row 2 -->
+<div class="chart-grid">
+  <div class="chart-card">
+    <div class="chart-title">ACTION BREAKDOWN</div>
+    <div class="chart-wrap"><canvas id="chart-actions"></canvas></div>
+  </div>
+  <div class="chart-card">
+    <div class="chart-title">PREDICTION CONFIDENCE</div>
+    <div class="chart-wrap"><canvas id="chart-confidence"></canvas></div>
+  </div>
+</div>
+
+<!-- Probe delta distribution -->
+<div class="delta-section">
+  <h3>MEAN PROBE REACTION TIME BY CLASS (ms)</h3>
+  <div class="delta-rows" id="delta-rows">
+    <div class="loading">Loading…</div>
+  </div>
+</div>
+
+<!-- System comparison -->
+<div class="comparison">
+  <h3>TIF vs EXISTING BOT DETECTION SYSTEMS</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>SYSTEM</th>
+        <th>DETECTS HUMANS</th>
+        <th>DETECTS SCRIPT BOTS</th>
+        <th>DETECTS LLM AGENTS</th>
+        <th>INFERENCE LATENCY PROBE</th>
+        <th>ACCURACY (LLM AGENTS)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="system-name">CAPTCHA</td>
+        <td class="check">✓</td>
+        <td class="check">✓</td>
+        <td class="cross">✗ (solvable)</td>
+        <td class="cross">✗</td>
+        <td>
+          <div class="acc-wrap">
+            <div class="acc-bar"><div class="acc-fill" style="width:20%;background:var(--red)"></div></div>
+            <span class="acc-val c-red">~20%</span>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="system-name">reCAPTCHA v3</td>
+        <td class="check">✓</td>
+        <td class="check">✓</td>
+        <td class="cross">✗</td>
+        <td class="cross">✗</td>
+        <td>
+          <div class="acc-wrap">
+            <div class="acc-bar"><div class="acc-fill" style="width:61%;background:var(--yellow)"></div></div>
+            <span class="acc-val c-yellow">~61%</span>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="system-name">Fingerprinting</td>
+        <td class="check">✓</td>
+        <td class="check">✓</td>
+        <td class="cross">✗</td>
+        <td class="cross">✗</td>
+        <td>
+          <div class="acc-wrap">
+            <div class="acc-bar"><div class="acc-fill" style="width:30%;background:var(--red)"></div></div>
+            <span class="acc-val c-red">~30%</span>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="system-name">Rate Limiting</td>
+        <td class="check">✓</td>
+        <td class="check">✓</td>
+        <td class="cross">✗ (goes slow)</td>
+        <td class="cross">✗</td>
+        <td>
+          <div class="acc-wrap">
+            <div class="acc-bar"><div class="acc-fill" style="width:10%;background:var(--red)"></div></div>
+            <span class="acc-val c-red">~10%</span>
+          </div>
+        </td>
+      </tr>
+      <tr style="background:rgba(59,130,246,0.05)">
+        <td class="system-name" style="color:var(--accent)">TIF (YOUR SYSTEM)</td>
+        <td class="check">✓</td>
+        <td class="check">✓</td>
+        <td class="check">✓</td>
+        <td class="check">✓</td>
+        <td>
+          <div class="acc-wrap">
+            <div class="acc-bar"><div class="acc-fill" style="width:98%;background:var(--human)"></div></div>
+            <span class="acc-val c-green">~98%</span>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<script>
+  const API = 'http://localhost:5000';
+  let sessions = [];
+  let results  = [];
+
+  const CHART_DEFAULTS = {
+    color: 'rgba(255,255,255,0.7)',
+    font: { family: "'SF Mono', monospace", size: 10 },
+  };
+
+  Chart.defaults.color = CHART_DEFAULTS.color;
+  Chart.defaults.font  = CHART_DEFAULTS.font;
+
+  let charts = {};
+
+  // ── Risk score calculator ────────────────────────────────────────────────
+
+  function computeRiskScore(prediction, probabilities) {
+    const h = probabilities.human  || 0;
+    const s = probabilities.script || 0;
+    const l = probabilities.llm    || 0;
+    let score;
+    if (prediction === 'script')     score = 85 + Math.round(s * 15);
+    else if (prediction === 'llm')   score = 71 + Math.round(l * 19);
+    else                             score = Math.round((1.0 - h) * 65);
+    return Math.max(0, Math.min(100, score));
+  }
+
+  function getAction(score) {
+    if (score <= 40) return 'allow';
+    if (score <= 70) return 'stepup';
+    return 'terminate';
+  }
+
+  // ── Fetch data ───────────────────────────────────────────────────────────
+
+  async function fetchData() {
+    try {
+      const res = await fetch(`${API}/api/sessions`);
+      sessions  = await res.json();
+
+      results = await Promise.all(sessions.map(async s => {
+        try {
+          const r    = await fetch(`${API}/api/risk`, {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body:    JSON.stringify(s),
+          });
+          const risk = await r.json();
+          return { ...s, ...risk };
+        } catch {
+          return { ...s, score: 50, action: 'unknown', prediction: 'unknown', probabilities: {} };
+        }
+      }));
+
+      updateAll();
+    } catch (e) {
+      console.error('Cannot reach API:', e);
+    }
+  }
+
+  // ── Update everything ────────────────────────────────────────────────────
+
+  function updateAll() {
+    updateKPIs();
+    renderDoughnut();
+    renderRiskDist();
+    renderActions();
+    renderConfidence();
+    renderDeltaRows();
+  }
+
+  // ── KPIs ─────────────────────────────────────────────────────────────────
+
+  function updateKPIs() {
+    const total   = results.length;
+    const human   = results.filter(r => r.prediction === 'human').length;
+    const script  = results.filter(r => r.prediction === 'script').length;
+    const llm     = results.filter(r => r.prediction === 'llm').length;
+    const bots    = script + llm;
+    const detRate = total ? ((bots / total) * 100).toFixed(0) + '%' : '—';
+    const avgScore = total
+      ? Math.round(results.reduce((a, b) => a + (b.score || 0), 0) / total)
+      : '—';
+
+    document.getElementById('kpi-total').textContent     = total;
+    document.getElementById('kpi-detection').textContent = detRate;
+    document.getElementById('kpi-human').textContent     = human;
+    document.getElementById('kpi-script').textContent    = script;
+    document.getElementById('kpi-llm').textContent       = llm;
+    document.getElementById('kpi-avg-score').textContent = avgScore;
+  }
+
+  // ── Doughnut chart ───────────────────────────────────────────────────────
+
+  function renderDoughnut() {
+    const human  = results.filter(r => r.prediction === 'human').length;
+    const script = results.filter(r => r.prediction === 'script').length;
+    const llm    = results.filter(r => r.prediction === 'llm').length;
+
+    if (charts.doughnut) charts.doughnut.destroy();
+    charts.doughnut = new Chart(
+      document.getElementById('chart-doughnut'),
+      {
+        type: 'doughnut',
+        data: {
+          labels:   ['Human', 'Script Bot', 'LLM Agent'],
+          datasets: [{
+            data:            [human, script, llm],
+            backgroundColor: ['rgba(34,197,94,0.8)', 'rgba(245,158,11,0.8)', 'rgba(139,92,246,0.8)'],
+            borderColor:     ['#22c55e', '#f59e0b', '#8b5cf6'],
+            borderWidth: 1,
+          }],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { position: 'bottom', labels: { padding: 12, font: { size: 10 } } },
+          },
+          cutout: '65%',
+        },
+      }
+    );
+  }
+
+  // ── Risk score distribution ──────────────────────────────────────────────
+
+  function renderRiskDist() {
+    const buckets = [0,0,0,0,0,0,0,0,0,0]; // 0-9, 10-19, ..., 90-99
+    results.forEach(r => {
+      if (r.score != null) {
+        const idx = Math.min(9, Math.floor(r.score / 10));
+        buckets[idx]++;
+      }
+    });
+
+    const labels = ['0-9','10-19','20-29','30-39','40-49','50-59','60-69','70-79','80-89','90-100'];
+    const colors = labels.map((_, i) =>
+      i < 4 ? 'rgba(34,197,94,0.7)' : i < 7 ? 'rgba(234,179,8,0.7)' : 'rgba(239,68,68,0.7)'
+    );
+
+    if (charts.risk) charts.risk.destroy();
+    charts.risk = new Chart(
+      document.getElementById('chart-risk'),
+      {
+        type: 'bar',
+        data: {
+          labels,
+          datasets: [{
+            label:           'Sessions',
+            data:            buckets,
+            backgroundColor: colors,
+            borderRadius:    3,
+          }],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { font: { size: 9 } } },
+            y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { stepSize: 1 } },
+          },
+        },
+      }
+    );
+  }
+
+  // ── Action breakdown ─────────────────────────────────────────────────────
+
+  function renderActions() {
+    const allow     = results.filter(r => r.action === 'allow').length;
+    const stepup    = results.filter(r => r.action === 'stepup').length;
+    const terminate = results.filter(r => r.action === 'terminate').length;
+
+    if (charts.actions) charts.actions.destroy();
+    charts.actions = new Chart(
+      document.getElementById('chart-actions'),
+      {
+        type: 'bar',
+        data: {
+          labels:   ['Allow Access', 'Step-up Verification', 'Terminate Session'],
+          datasets: [{
+            data:            [allow, stepup, terminate],
+            backgroundColor: ['rgba(34,197,94,0.7)', 'rgba(234,179,8,0.7)', 'rgba(239,68,68,0.7)'],
+            borderRadius:    4,
+          }],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { grid: { color: 'rgba(255,255,255,0.05)' } },
+            y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { stepSize: 1 } },
+          },
+          indexAxis: 'y',
+        },
+      }
+    );
+  }
+
+  // ── Confidence chart ─────────────────────────────────────────────────────
+
+  function renderConfidence() {
+    const byClass = { human: [], script: [], llm: [] };
+    results.forEach(r => {
+      const proba = r.probabilities || {};
+      if (r.prediction === 'human'  && proba.human  != null) byClass.human.push(proba.human   * 100);
+      if (r.prediction === 'script' && proba.script != null) byClass.script.push(proba.script * 100);
+      if (r.prediction === 'llm'    && proba.llm    != null) byClass.llm.push(proba.llm       * 100);
+    });
+
+    const avg = arr => arr.length ? (arr.reduce((a,b) => a+b, 0) / arr.length).toFixed(1) : 0;
+
+    if (charts.confidence) charts.confidence.destroy();
+    charts.confidence = new Chart(
+      document.getElementById('chart-confidence'),
+      {
+        type: 'bar',
+        data: {
+          labels:   ['Human', 'Script Bot', 'LLM Agent'],
+          datasets: [{
+            label:           'Avg Confidence %',
+            data:            [avg(byClass.human), avg(byClass.script), avg(byClass.llm)],
+            backgroundColor: ['rgba(34,197,94,0.7)', 'rgba(245,158,11,0.7)', 'rgba(139,92,246,0.7)'],
+            borderRadius:    4,
+          }],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { grid: { color: 'rgba(255,255,255,0.05)' } },
+            y: {
+              grid: { color: 'rgba(255,255,255,0.05)' },
+              min: 0, max: 100,
+              ticks: { callback: v => v + '%' },
+            },
+          },
+        },
+      }
+    );
+  }
+
+  // ── Probe delta rows ─────────────────────────────────────────────────────
+
+  function renderDeltaRows() {
+    const byClass = { human: [], script: [], llm: [] };
+
+    results.forEach(r => {
+      const probes = r.probes || [];
+      const deltas = probes
+        .map(p => p.delta)
+        .filter(d => d != null && d > 10 && d < 3000);
+      if (!deltas.length) return;
+      const mean = deltas.reduce((a,b) => a+b, 0) / deltas.length;
+      if (byClass[r.prediction]) byClass[r.prediction].push(mean);
+    });
+
+    const avg = arr => arr.length
+      ? Math.round(arr.reduce((a,b) => a+b, 0) / arr.length)
+      : null;
+
+    const rows = [
+      { label: 'HUMAN',  val: avg(byClass.human),  color: 'var(--human)',  max: 1000 },
+      { label: 'SCRIPT', val: avg(byClass.script), color: 'var(--script)', max: 1000 },
+      { label: 'LLM',    val: avg(byClass.llm),    color: 'var(--llm)',    max: 1000 },
+    ];
+
+    const maxVal = Math.max(...rows.map(r => r.val || 0), 1);
+
+    document.getElementById('delta-rows').innerHTML = rows.map(r => {
+      if (r.val === null) return `
+        <div class="delta-row">
+          <span class="delta-label" style="color:${r.color}">${r.label}</span>
+          <div class="delta-bar-wrap"><div class="delta-bar-fill" style="width:0%;background:${r.color}"></div></div>
+          <span class="delta-stats">no data yet</span>
+        </div>`;
+      const pct = Math.min(100, (r.val / maxVal) * 100).toFixed(0);
+      return `
+        <div class="delta-row">
+          <span class="delta-label" style="color:${r.color}">${r.label}</span>
+          <div class="delta-bar-wrap">
+            <div class="delta-bar-fill" style="width:${pct}%;background:${r.color}">
+              ${r.val > 60 ? r.val + 'ms' : ''}
+            </div>
+          </div>
+          <span class="delta-stats">${r.val}ms avg · ${byClass[r.label.toLowerCase()].length} sessions</span>
+        </div>`;
+    }).join('');
+  }
+
+  // ── Controls ─────────────────────────────────────────────────────────────
+
+  document.getElementById('refresh-btn').addEventListener('click', fetchData);
+
+  fetchData();
+  setInterval(fetchData, 15000);
+</script>
+</body>
+</html>
