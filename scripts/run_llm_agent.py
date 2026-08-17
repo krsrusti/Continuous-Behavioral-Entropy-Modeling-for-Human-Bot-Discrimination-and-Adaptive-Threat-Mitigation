@@ -25,5 +25,7 @@ driver.find_element(By.ID, 'password').send_keys('password123')
 llm_think()
 driver.find_element(By.CSS_SELECTOR, 'button[type=submit]').click()
 time.sleep(2)
-driver.quit()
 print('LLM agent session submitted.')
+
+input("Press Enter to close the browser...")
+driver.quit()
