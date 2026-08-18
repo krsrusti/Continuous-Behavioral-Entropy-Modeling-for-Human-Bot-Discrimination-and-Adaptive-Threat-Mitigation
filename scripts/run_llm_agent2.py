@@ -59,5 +59,5 @@ driver.find_element(By.CSS_SELECTOR, 'button[type=submit]').click()
 time.sleep(2)
 print('Evasion agent session submitted.')
 
-input("Press Enter to close the browser...")
+#input("Press Enter to close the browser...")
 driver.quit()

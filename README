@@ -1,0 +1,9 @@
+python -m http.server 8080
+
+fetch('http://localhost:5000/api/risk', {   
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(TIFSession.buildPayload())
+})
+.then(r => r.json())
+.then(console.log)
