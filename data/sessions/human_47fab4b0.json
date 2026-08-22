@@ -1,0 +1,24 @@
+{
+  "session_id": "47fab4b0-b4f1-470d-81a7-409637649e76",
+  "page_type": "checkout",
+  "label": "human",
+  "start_time": 101.60000000009313,
+  "end_time": 6761.0,
+  "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36",
+  "passive_events": [],
+  "probes": [
+    {
+      "probeId": 1,
+      "t1": 1110.3999999999069,
+      "t2": null,
+      "delta": null
+    },
+    {
+      "probeId": 2,
+      "t1": 4520.300000000047,
+      "t2": null,
+      "delta": null
+    }
+  ],
+  "created_at": "2026-08-18T05:56:22.034618"
+}

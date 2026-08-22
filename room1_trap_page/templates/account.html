@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SecureBank — Account</title>
+  <style>
+    :root {
+      --bg:       #f4f6f9;
+      --surface:  #ffffff;
+      --border:   #e2e6ea;
+      --text:     #1a1d27;
+      --muted:    #6b7080;
+      --accent:   #2563eb;
+      --green:    #16a34a;
+      --red:      #dc2626;
+      --yellow:   #ca8a04;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── Navbar ── */
+    .navbar {
+      background: var(--accent);
+      color: #fff;
+      padding: 0 2rem;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .navbar .brand {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    .navbar .user-info {
+      font-size: 0.82rem;
+      opacity: 0.9;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .logout-btn {
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      color: #fff;
+      padding: 0.3rem 0.8rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.78rem;
+      transition: background 0.15s;
+    }
+    .logout-btn:hover { background: rgba(255,255,255,0.25); }
+
+    /* ── Monitor bar ── */
+    .monitor-bar {
+      background: #1e3a5f;
+      color: rgba(255,255,255,0.7);
+      font-size: 0.7rem;
+      font-family: monospace;
+      padding: 0.3rem 2rem;
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .monitor-bar span { display: flex; align-items: center; gap: 0.4rem; }
+
+    .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: #22c55e;
+      animation: blink 2s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.3; }
+    }
+
+    /* ── Main layout ── */
+    .main {
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+    }
+
+    /* ── Balance card ── */
+    .balance-card {
+      background: linear-gradient(135deg, #1d4ed8, #2563eb);
+      color: #fff;
+      border-radius: 12px;
+      padding: 1.8rem 2rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .balance-label { font-size: 0.82rem; opacity: 0.8; margin-bottom: 0.4rem; }
+    .balance-amount { font-size: 2.2rem; font-weight: 800; letter-spacing: -0.02em; }
+    .balance-account { font-size: 0.75rem; opacity: 0.7; margin-top: 0.4rem; }
+
+    .balance-actions { display: flex; gap: 0.75rem; }
+    .bal-btn {
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      color: #fff;
+      padding: 0.5rem 1.2rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.82rem;
+      transition: background 0.15s;
+    }
+    .bal-btn:hover { background: rgba(255,255,255,0.25); }
+
+    /* ── Grid ── */
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    @media (max-width: 700px) { .grid { grid-template-columns: 1fr; } }
+
+    /* ── Card ── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.2rem 1.5rem;
+    }
+
+    .card-title {
+      font-size: 0.78rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+
+    /* ── Transactions ── */
+    .tx-list { display: flex; flex-direction: column; gap: 0.6rem; }
+
+    .tx-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.82rem;
+    }
+    .tx-item:last-child { border-bottom: none; }
+
+    .tx-name  { font-weight: 500; }
+    .tx-date  { font-size: 0.72rem; color: var(--muted); margin-top: 0.1rem; }
+    .tx-amount { font-weight: 700; }
+    .tx-amount.credit { color: var(--green); }
+    .tx-amount.debit  { color: var(--red);   }
+
+    /* ── Quick actions ── */
+    .actions-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+
+    .action-btn {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.9rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.15s;
+      font-size: 0.8rem;
+      color: var(--text);
+    }
+    .action-btn:hover { border-color: var(--accent); color: var(--accent); background: #eff6ff; }
+    .action-btn .icon { font-size: 1.4rem; margin-bottom: 0.3rem; }
+
+    /* ── Risk indicator (subtle, for demo purposes) ── */
+    .risk-indicator {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem 1.5rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: 0.78rem;
+    }
+
+    .risk-score-circle {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    .risk-score-circle.low    { background: #dcfce7; color: var(--green); border: 2px solid #86efac; }
+    .risk-score-circle.medium { background: #fef9c3; color: var(--yellow); border: 2px solid #fde047; }
+    .risk-score-circle.high   { background: #fee2e2; color: var(--red); border: 2px solid #fca5a5; }
+
+    .risk-info { flex: 1; }
+    .risk-label { font-weight: 600; margin-bottom: 0.2rem; }
+    .risk-desc  { color: var(--muted); font-size: 0.72rem; }
+    .risk-checks { margin-left: auto; font-size: 0.7rem; color: var(--muted); text-align: right; }
+
+    /* ══════════════════════════════════════════
+       OVERLAY SYSTEM
+    ══════════════════════════════════════════ */
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+    .overlay.active { display: flex; }
+
+    /* ── Math challenge overlay ── */
+    .challenge-box {
+      background: #fff;
+      border-radius: 12px;
+      padding: 2rem;
+      width: 100%;
+      max-width: 380px;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+
+    .challenge-box .icon { font-size: 2.5rem; margin-bottom: 1rem; }
+    .challenge-box h2 { font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--text); }
+    .challenge-box p  { font-size: 0.82rem; color: var(--muted); margin-bottom: 1.5rem; line-height: 1.5; }
+
+    .math-problem {
+      background: #f4f6f9;
+      border-radius: 8px;
+      padding: 1rem;
+      font-size: 1.6rem;
+      font-weight: 800;
+      margin-bottom: 1.2rem;
+      color: var(--text);
+      letter-spacing: 0.05em;
+    }
+
+    .math-input {
+      width: 100%;
+      padding: 0.7rem;
+      border: 2px solid var(--border);
+      border-radius: 6px;
+      font-size: 1.1rem;
+      text-align: center;
+      margin-bottom: 0.8rem;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .math-input:focus { border-color: var(--accent); }
+    .math-input.wrong { border-color: var(--red); animation: shake 0.3s; }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25%       { transform: translateX(-6px); }
+      75%       { transform: translateX(6px); }
+    }
+
+    .submit-math {
+      width: 100%;
+      padding: 0.75rem;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.15s;
+    }
+    .submit-math:hover { background: #1d4ed8; }
+
+    .attempts-left {
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-top: 0.6rem;
+    }
+    .attempts-left.warning { color: var(--red); font-weight: 600; }
+
+    /* ── Terminate overlay ── */
+    .terminate-box {
+      background: #fff;
+      border-radius: 12px;
+      padding: 2.5rem 2rem;
+      width: 100%;
+      max-width: 420px;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    }
+
+    .terminate-box .icon { font-size: 3rem; margin-bottom: 1rem; }
+    .terminate-box h2 {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--red);
+      margin-bottom: 0.5rem;
+    }
+    .terminate-box p {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+
+    .terminate-details {
+      background: #fee2e2;
+      border: 1px solid #fca5a5;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      font-size: 0.78rem;
+      color: var(--red);
+      text-align: left;
+    }
+
+    .terminate-details div { margin-bottom: 0.3rem; }
+    .terminate-details strong { display: inline-block; width: 120px; }
+
+    .terminate-btn {
+      width: 100%;
+      padding: 0.75rem;
+      background: var(--red);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .terminate-btn:hover { background: #b91c1c; }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<div class="navbar">
+  <div class="brand">🏦 SecureBank</div>
+  <div class="user-info">
+    <span id="nav-email">user@example.com</span>
+    <button class="logout-btn" onclick="logout()">Sign Out</button>
+  </div>
+</div>
+
+<!-- Monitor bar -->
+<div class="monitor-bar">
+  <span><div class="dot"></div> CONTINUOUS MONITORING ACTIVE</span>
+  <span>CHECKS: <strong id="check-count">0</strong></span>
+  <span>LAST SCORE: <strong id="last-score">—</strong></span>
+  <span>STATUS: <strong id="monitor-status">WATCHING</strong></span>
+</div>
+
+<!-- Main content -->
+<div class="main">
+
+  <!-- Risk indicator -->
+  <div class="risk-indicator">
+    <div class="risk-score-circle low" id="risk-circle">—</div>
+    <div class="risk-info">
+      <div class="risk-label" id="risk-label">Initialising security check…</div>
+      <div class="risk-desc"  id="risk-desc">Continuous monitoring is active on this session.</div>
+    </div>
+    <div class="risk-checks" id="risk-checks">Actions monitored: 0</div>
+  </div>
+
+  <!-- Balance card -->
+  <div class="balance-card">
+    <div>
+      <div class="balance-label">AVAILABLE BALANCE</div>
+      <div class="balance-amount">$24,839.50</div>
+      <div class="balance-account">Checking •••• 4821</div>
+    </div>
+    <div class="balance-actions">
+      <button class="bal-btn">Transfer</button>
+      <button class="bal-btn">Pay Bills</button>
+    </div>
+  </div>
+
+  <!-- Grid -->
+  <div class="grid">
+
+    <!-- Transactions -->
+    <div class="card">
+      <div class="card-title">RECENT TRANSACTIONS</div>
+      <div class="tx-list">
+        <div class="tx-item">
+          <div>
+            <div class="tx-name">Amazon Prime</div>
+            <div class="tx-date">Aug 20, 2026</div>
+          </div>
+          <div class="tx-amount debit">-$14.99</div>
+        </div>
+        <div class="tx-item">
+          <div>
+            <div class="tx-name">Salary Deposit</div>
+            <div class="tx-date">Aug 18, 2026</div>
+          </div>
+          <div class="tx-amount credit">+$3,200.00</div>
+        </div>
+        <div class="tx-item">
+          <div>
+            <div class="tx-name">Starbucks</div>
+            <div class="tx-date">Aug 17, 2026</div>
+          </div>
+          <div class="tx-amount debit">-$6.50</div>
+        </div>
+        <div class="tx-item">
+          <div>
+            <div class="tx-name">Netflix</div>
+            <div class="tx-date">Aug 15, 2026</div>
+          </div>
+          <div class="tx-amount debit">-$15.49</div>
+        </div>
+        <div class="tx-item">
+          <div>
+            <div class="tx-name">Freelance Payment</div>
+            <div class="tx-date">Aug 12, 2026</div>
+          </div>
+          <div class="tx-amount credit">+$850.00</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick actions -->
+    <div class="card">
+      <div class="card-title">QUICK ACTIONS</div>
+      <div class="actions-grid">
+        <div class="action-btn">
+          <div class="icon">💸</div>
+          Send Money
+        </div>
+        <div class="action-btn">
+          <div class="icon">📱</div>
+          Mobile Deposit
+        </div>
+        <div class="action-btn">
+          <div class="icon">📊</div>
+          Statements
+        </div>
+        <div class="action-btn">
+          <div class="icon">⚙️</div>
+          Settings
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ MATH CHALLENGE OVERLAY ══ -->
+<div class="overlay" id="challenge-overlay">
+  <div class="challenge-box">
+    <div class="icon">🔐</div>
+    <h2>Security Verification Required</h2>
+    <p>Unusual activity detected on your session. Please solve this problem to continue.</p>
+    <div class="math-problem" id="math-problem">7 + 8 = ?</div>
+    <input type="number" class="math-input" id="math-input"
+           placeholder="Your answer" autocomplete="off" />
+    <button class="submit-math" onclick="submitMath()">Verify</button>
+    <div class="attempts-left" id="attempts-left">2 attempts remaining</div>
+  </div>
+</div>
+
+<!-- ══ TERMINATE OVERLAY ══ -->
+<div class="overlay" id="terminate-overlay">
+  <div class="terminate-box">
+    <div class="icon">🚫</div>
+    <h2>Session Terminated</h2>
+    <p>Our security system has detected automated or suspicious behaviour on this session. Access has been permanently revoked.</p>
+    <div class="terminate-details" id="terminate-details">
+      <div><strong>Risk Score:</strong> <span id="term-score">—</span> / 100</div>
+      <div><strong>Detection:</strong> <span id="term-prediction">—</span></div>
+      <div><strong>Action:</strong> Session Terminated</div>
+      <div><strong>Session ID:</strong> <span id="term-session">—</span></div>
+    </div>
+    <button class="terminate-btn" onclick="window.location.href='login.html'">
+      Return to Login
+    </button>
+  </div>
+</div>
+
+<script src="../static/js/passive_collector.js"></script>
+<script src="../static/js/micro_probe.js"></script>
+<script src="../static/js/session_transmitter.js"></script>
+<script>
+  const API = 'http://localhost:5000';
+
+  // ── Session info from login page ─────────────────────────────────────────
+  const sessionId  = sessionStorage.getItem('tif_session_id') || crypto.randomUUID();
+  const email      = sessionStorage.getItem('tif_email')      || 'user@example.com';
+  const needStepup = sessionStorage.getItem('tif_stepup')     === 'true';
+
+  document.getElementById('nav-email').textContent = email;
+
+  // Init TIF monitoring
+  TIFSession.init({ pageType: 'account', apiBase: API });
+
+  // ── Monitoring state ──────────────────────────────────────────────────────
+  let actionCount    = 0;
+  let checkCount     = 0;
+  let terminated     = false;
+  let challenged     = false;
+  let mathAnswer     = 0;
+  let attemptsLeft   = 2;
+  const CHECK_EVERY  = 5;    // check risk every N user actions
+
+  // ── Update risk indicator ─────────────────────────────────────────────────
+  function updateRiskUI(score, prediction, action) {
+    const circle = document.getElementById('risk-circle');
+    const label  = document.getElementById('risk-label');
+    const desc   = document.getElementById('risk-desc');
+
+    circle.textContent = score;
+
+    if (action === 'allow') {
+      circle.className    = 'risk-score-circle low';
+      label.textContent   = '✅ Session Verified — Low Risk';
+      desc.textContent    = `Classified as ${prediction} with score ${score}/100. Access permitted.`;
+    } else if (action === 'stepup') {
+      circle.className    = 'risk-score-circle medium';
+      label.textContent   = '⚠️ Medium Risk Detected';
+      desc.textContent    = `Unusual behaviour detected. Score: ${score}/100. Verification required.`;
+    } else {
+      circle.className    = 'risk-score-circle high';
+      label.textContent   = '🚨 High Risk — Bot Detected';
+      desc.textContent    = `Classified as ${prediction}. Score: ${score}/100. Session terminated.`;
+    }
+
+    document.getElementById('last-score').textContent   = score;
+    document.getElementById('monitor-status').textContent =
+      action === 'allow' ? 'CLEAR' : action === 'stepup' ? 'SUSPICIOUS' : 'TERMINATED';
+  }
+
+  // ── Risk check ────────────────────────────────────────────────────────────
+  async function checkRisk() {
+    if (terminated || challenged) return;
+
+    const payload = TIFSession.buildPayload();
+    payload.session_id = sessionId;
+
+    try {
+      const res  = await fetch(`${API}/api/risk`, {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify(payload),
+      });
+      const risk = await res.json();
+
+      checkCount++;
+      document.getElementById('check-count').textContent = checkCount;
+      updateRiskUI(risk.score, risk.prediction, risk.action);
+
+      if (risk.action === 'terminate') {
+        triggerTerminate(risk);
+      } else if (risk.action === 'stepup') {
+        triggerChallenge();
+      }
+
+    } catch (err) {
+      console.warn('[TIF] Risk check failed:', err);
+    }
+  }
+
+  // ── Action counter ────────────────────────────────────────────────────────
+  function onUserAction() {
+    if (terminated || challenged) return;
+    actionCount++;
+    document.getElementById('risk-checks').textContent =
+      `Actions monitored: ${actionCount}`;
+
+    if (actionCount % CHECK_EVERY === 0) {
+      checkRisk();
+    }
+  }
+
+  // Listen to all user interactions
+  ['click', 'keydown', 'scroll', 'mousemove'].forEach(evt => {
+    document.addEventListener(evt, onUserAction, { passive: true });
+  });
+
+  // ── Math challenge ────────────────────────────────────────────────────────
+  function generateMathProblem() {
+    const a  = Math.floor(Math.random() * 15) + 1;
+    const b  = Math.floor(Math.random() * 15) + 1;
+    const ops = ['+', '-', '+', '+'];  // weighted toward addition
+    const op  = ops[Math.floor(Math.random() * ops.length)];
+    mathAnswer = op === '+' ? a + b : a - b;
+    document.getElementById('math-problem').textContent = `${a} ${op} ${b} = ?`;
+    document.getElementById('math-input').value = '';
+    document.getElementById('math-input').classList.remove('wrong');
+  }
+
+  function triggerChallenge() {
+    if (challenged || terminated) return;
+    challenged   = true;
+    attemptsLeft = 2;
+    generateMathProblem();
+    updateAttemptsUI();
+    document.getElementById('challenge-overlay').classList.add('active');
+    setTimeout(() => document.getElementById('math-input').focus(), 100);
+  }
+
+  function updateAttemptsUI() {
+    const el = document.getElementById('attempts-left');
+    el.textContent = `${attemptsLeft} attempt${attemptsLeft !== 1 ? 's' : ''} remaining`;
+    el.className   = attemptsLeft === 1 ? 'attempts-left warning' : 'attempts-left';
+  }
+
+  function submitMath() {
+    const input  = document.getElementById('math-input');
+    const answer = parseInt(input.value, 10);
+
+    if (isNaN(answer)) {
+      input.classList.add('wrong');
+      input.value = '';
+      setTimeout(() => input.classList.remove('wrong'), 500);
+      return;
+    }
+
+    if (answer === mathAnswer) {
+      // Correct — unfreeze and continue
+      document.getElementById('challenge-overlay').classList.remove('active');
+      challenged = false;
+      attemptsLeft = 2;
+      updateRiskUI(35, 'human', 'allow');
+    } else {
+      // Wrong answer
+      attemptsLeft--;
+      input.classList.add('wrong');
+      input.value = '';
+      setTimeout(() => input.classList.remove('wrong'), 500);
+
+      if (attemptsLeft <= 0) {
+        // Failed both attempts — terminate
+        document.getElementById('challenge-overlay').classList.remove('active');
+        triggerTerminate({
+          score:      85,
+          prediction: 'bot (failed verification)',
+          session_id: sessionId,
+        });
+      } else {
+        // New problem for second attempt
+        generateMathProblem();
+        updateAttemptsUI();
+      }
+    }
+  }
+
+  // Allow Enter key to submit math
+  document.getElementById('math-input').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') submitMath();
+  });
+
+  // ── Terminate ─────────────────────────────────────────────────────────────
+  function triggerTerminate(risk) {
+    if (terminated) return;
+    terminated = true;
+
+    document.getElementById('term-score').textContent      = risk.score ?? '—';
+    document.getElementById('term-prediction').textContent = (risk.prediction || '—').toUpperCase();
+    document.getElementById('term-session').textContent    = (risk.session_id || sessionId || '—').slice(0, 16) + '…';
+    document.getElementById('terminate-overlay').classList.add('active');
+
+    // Disable all page interactions underneath
+    document.querySelector('.main').style.pointerEvents = 'none';
+    document.querySelector('.main').style.filter        = 'blur(3px)';
+  }
+
+  // ── Logout ────────────────────────────────────────────────────────────────
+  function logout() {
+    sessionStorage.clear();
+    window.location.href = 'login.html';
+  }
+
+  // ── On page load — check if step-up was flagged at login ─────────────────
+  window.addEventListener('load', () => {
+    // Show initial risk from login
+    const loginScore = parseInt(sessionStorage.getItem('tif_risk_score') || '0');
+    const loginPred  = sessionStorage.getItem('tif_prediction') || 'human';
+
+    if (loginScore >= 71) {
+      triggerTerminate({ score: loginScore, prediction: loginPred, session_id: sessionId });
+    } else if (needStepup || loginScore >= 41) {
+      updateRiskUI(loginScore, loginPred, 'stepup');
+      setTimeout(triggerChallenge, 800);
+    } else {
+      updateRiskUI(loginScore, loginPred, 'allow');
+    }
+  });
+</script>
+</body>
+</html>

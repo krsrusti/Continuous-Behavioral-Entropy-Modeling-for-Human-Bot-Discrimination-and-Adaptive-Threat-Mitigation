@@ -15,12 +15,82 @@
       <input type="password" id="password" name="password" placeholder="••••••••" required />
       <button type="submit">Log In</button>
     </form>
+    <p id="msg" style="margin-top:1rem;font-size:0.82rem;color:#888;text-align:center;"></p>
   </div>
+
   <script src="../static/js/passive_collector.js"></script>
   <script src="../static/js/micro_probe.js"></script>
   <script src="../static/js/session_transmitter.js"></script>
   <script>
-    TIFSession.init({ pageType: 'login', apiBase: 'http://localhost:5000' });
+    const API = 'http://localhost:5000';
+    TIFSession.init({ pageType: 'login', apiBase: API });
+
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const email    = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const msg      = document.getElementById('msg');
+
+      if (!email || !password) return;
+
+      msg.textContent = 'Verifying…';
+
+      // Build payload and check risk BEFORE letting user in
+      const payload = TIFSession.buildPayload();
+
+      try {
+        // Step 1 — Save session
+        await fetch(`${API}/api/session`, {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify(payload),
+        });
+
+        // Step 2 — Check risk score
+        const res    = await fetch(`${API}/api/risk`, {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify(payload),
+        });
+        const risk = await res.json();
+
+        // Step 3 — Act on risk score
+        if (risk.score >= 71) {
+          // HIGH RISK — block immediately, don't let in
+          msg.style.color = '#ef4444';
+          msg.textContent = '⛔ Access denied. Suspicious activity detected.';
+          document.getElementById('login-form').style.opacity = '0.3';
+          document.getElementById('login-form').style.pointerEvents = 'none';
+          return;
+        }
+
+        // Store session info for account page
+        sessionStorage.setItem('tif_session_id', payload.session_id);
+        sessionStorage.setItem('tif_risk_score',  risk.score);
+        sessionStorage.setItem('tif_prediction',  risk.prediction);
+        sessionStorage.setItem('tif_email',        email);
+
+        if (risk.score >= 41) {
+          // MEDIUM RISK — let in but flag for step-up on account page
+          sessionStorage.setItem('tif_stepup', 'true');
+        } else {
+          sessionStorage.setItem('tif_stepup', 'false');
+        }
+
+        // Redirect to account page
+        window.location.href = 'account.html';
+
+      } catch (err) {
+        // If API is down, let them through (fail open)
+        sessionStorage.setItem('tif_session_id', payload.session_id);
+        sessionStorage.setItem('tif_risk_score',  0);
+        sessionStorage.setItem('tif_prediction',  'unknown');
+        sessionStorage.setItem('tif_email',        email);
+        sessionStorage.setItem('tif_stepup',       'false');
+        window.location.href = 'account.html';
+      }
+    });
   </script>
 </body>
 </html>
