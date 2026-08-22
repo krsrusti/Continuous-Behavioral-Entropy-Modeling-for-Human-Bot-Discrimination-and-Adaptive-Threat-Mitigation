@@ -8,7 +8,7 @@
  * LLM agents that re-evaluate the DOM after each mutation exhibit a
  * characteristic latency spike reflecting their inference time.
  *
- * Exposes: window.__tifProbes — array of { probeId, t1, t2, delta }
+ * Exposes: window.__tifProbes — array of { probeId, t1, t2, delta, source }
  */
 (function () {
   'use strict';
@@ -17,7 +17,7 @@
   let probeCounter = 0;
   let pendingProbe = null;
 
-  // Create the invisible probe element — 1x1px, off-screen, aria-hidden
+  // Invisible 1x1 probe element
   const ghost = document.createElement('div');
   Object.assign(ghost.style, {
     position:      'fixed',
@@ -36,15 +36,16 @@
     const probeId = ++probeCounter;
     const t1 = performance.now();
 
+    // Close any uncompleted probe — mark as invalid
+    if (pendingProbe && pendingProbe.t2 === null) {
+      pendingProbe.delta = null;
+      pendingProbe = null;
+    }
+
     // Imperceptible DOM mutation — alternates top by 1px
     ghost.style.top = (probeCounter % 2 === 0) ? '-9999px' : '-9998px';
 
-    if (pendingProbe && pendingProbe.t2 === null) {
-        pendingProbe.delta = null;  // mark as invalid
-        pendingProbe = null;
-    }
-
-    pendingProbe = { probeId, t1, t2: null, delta: null };
+    pendingProbe = { probeId, t1, t2: null, delta: null, source: null };
     probes.push(pendingProbe);
 
     scheduleNext();
@@ -56,18 +57,30 @@
     const now   = performance.now();
     const delta = now - pendingProbe.t1;
 
-    // Ignore if delta is suspiciously small — likely a same-tick mutation
+    // Ignore suspiciously fast responses — likely same-tick mutation noise
     if (delta < 50) return;
 
     pendingProbe.t2     = now;
     pendingProbe.delta  = delta;
     pendingProbe.source = source || 'unknown';
     pendingProbe = null;
-}
+  }
 
-  // Capture the NEXT user action after each probe fires
-  ['mousemove', 'keydown', 'click', 'scroll', 'touchstart'].forEach((evt) => {
-    document.addEventListener(evt, recordT2, { passive: true });
+  // Standard user interaction events
+  ['mousemove', 'keydown', 'click', 'scroll',
+   'touchstart', 'mousedown', 'input', 'focusin', 'focusout']
+    .forEach(evt => {
+      document.addEventListener(evt, () => recordT2(evt), { passive: true });
+    });
+
+  // MutationObserver — catches DOM changes made by selenium / LLM agents
+  // when they type into fields, click buttons or modify the page
+  const observer = new MutationObserver(() => recordT2('mutation'));
+  observer.observe(document.body, {
+    childList:     true,
+    subtree:       true,
+    attributes:    true,
+    characterData: true,
   });
 
   function scheduleNext() {

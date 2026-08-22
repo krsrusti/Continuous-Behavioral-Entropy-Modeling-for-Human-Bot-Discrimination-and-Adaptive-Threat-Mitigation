@@ -17,10 +17,15 @@ class TIFExtractor:
         self.probes  = probes
 
     def _completed_deltas(self) -> List[float]:
+        """
+        Filter probe deltas:
+        - Must be > 50ms   (removes same-tick mutation noise)
+        - Must be < 3000ms (removes idle gaps where user walked away)
+        """
         return [p['delta'] for p in self.probes
-            if p.get('delta') is not None
-            and p['delta'] > 50          # filter noise (was 10)
-            and p['delta'] < 3000]       # filter idle gaps    
+                if p.get('delta') is not None
+                and p['delta'] > 50
+                and p['delta'] < 3000]
 
     def _action_timestamps(self) -> List[float]:
         action_types = {'mouse_move', 'keydown', 'click', 'scroll'}
@@ -57,13 +62,18 @@ class TIFExtractor:
         )
         gaps = []
         for foc in focuses:
-            first_kd = next((k for k in keydowns if k['ts'] > foc['ts']), None)
+            first_kd = next(
+                (k for k in keydowns if k['ts'] > foc['ts']), None
+            )
             if first_kd:
                 gaps.append(first_kd['ts'] - foc['ts'])
         return float(np.mean(gaps)) if gaps else 0.0
 
     def cross_layer_decoupling_index(self) -> float:
-        completed = [p for p in self.probes if p.get('delta') is not None]
+        completed = [p for p in self.probes
+                     if p.get('delta') is not None
+                     and p['delta'] > 50
+                     and p['delta'] < 3000]
         if len(completed) < 3:
             return 0.0
         action_ts   = self._action_timestamps()
