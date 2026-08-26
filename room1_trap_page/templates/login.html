@@ -10,87 +10,142 @@
     <h2>Sign In</h2>
     <form id="login-form" autocomplete="off">
       <label for="email">Email</label>
-      <input type="email" id="email" name="email" placeholder="you@example.com" required />
+      <input type="email" id="email" name="email"
+             placeholder="you@example.com" required />
       <label for="password">Password</label>
-      <input type="password" id="password" name="password" placeholder="••••••••" required />
+      <input type="password" id="password" name="password"
+             placeholder="••••••••" required />
       <button type="submit">Log In</button>
     </form>
-    <p id="msg" style="margin-top:1rem;font-size:0.82rem;color:#888;text-align:center;"></p>
+    <p id="msg" style="margin-top:1rem;font-size:0.82rem;
+                       color:#888;text-align:center;"></p>
   </div>
 
   <script src="../static/js/passive_collector.js"></script>
   <script src="../static/js/micro_probe.js"></script>
   <script src="../static/js/session_transmitter.js"></script>
   <script>
+    /**
+     * LOGIN PAGE — Experiment-aware session collection.
+     *
+     * Two modes:
+     *
+     * MODE 1 — Experiment mode (recommended for data collection):
+     *   Researcher calls POST /api/experiment/start first.
+     *   Passes the response as URL params:
+     *
+     *   http://localhost:8080/templates/login.html
+     *     ?experiment_id=exp_abc123
+     *     &participant_id=p_xyz789
+     *     &probe_enabled=true
+     *     &task_id=login
+     *
+     *   agent_class is NEVER in the URL — it lives server-side only.
+     *
+     * MODE 2 — Legacy mode (no experiment):
+     *   Just open the page with no URL params.
+     *   Session is submitted but agent_class will be null.
+     *   Researcher can label it later via PATCH /api/session/:id/label
+     */
+
     const API = 'http://localhost:5000';
-    TIFSession.init({ pageType: 'login', apiBase: API });
 
-    document.getElementById('login-form').addEventListener('submit', async (e) => {
-      e.preventDefault();
+    // ── Read experiment config from URL params ──────────────────────────────
+    const params        = new URLSearchParams(window.location.search);
+    const experimentId  = params.get('experiment_id')  || null;
+    const participantId = params.get('participant_id') || null;
+    const probeEnabled  = params.get('probe_enabled') === 'true';
+    const taskId        = params.get('task_id')        || 'login';
 
-      const email    = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-      const msg      = document.getElementById('msg');
-
-      if (!email || !password) return;
-
-      msg.textContent = 'Verifying…';
-
-      // Build payload and check risk BEFORE letting user in
-      const payload = TIFSession.buildPayload();
-
-      try {
-        // Step 1 — Save session
-        await fetch(`${API}/api/session`, {
-          method:  'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body:    JSON.stringify(payload),
-        });
-
-        // Step 2 — Check risk score
-        const res    = await fetch(`${API}/api/risk`, {
-          method:  'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body:    JSON.stringify(payload),
-        });
-        const risk = await res.json();
-
-        // Step 3 — Act on risk score
-        if (risk.score >= 71) {
-          // HIGH RISK — block immediately, don't let in
-          msg.style.color = '#ef4444';
-          msg.textContent = '⛔ Access denied. Suspicious activity detected.';
-          document.getElementById('login-form').style.opacity = '0.3';
-          document.getElementById('login-form').style.pointerEvents = 'none';
-          return;
-        }
-
-        // Store session info for account page
-        sessionStorage.setItem('tif_session_id', payload.session_id);
-        sessionStorage.setItem('tif_risk_score',  risk.score);
-        sessionStorage.setItem('tif_prediction',  risk.prediction);
-        sessionStorage.setItem('tif_email',        email);
-
-        if (risk.score >= 41) {
-          // MEDIUM RISK — let in but flag for step-up on account page
-          sessionStorage.setItem('tif_stepup', 'true');
-        } else {
-          sessionStorage.setItem('tif_stepup', 'false');
-        }
-
-        // Redirect to account page
-        window.location.href = 'account.html';
-
-      } catch (err) {
-        // If API is down, let them through (fail open)
-        sessionStorage.setItem('tif_session_id', payload.session_id);
-        sessionStorage.setItem('tif_risk_score',  0);
-        sessionStorage.setItem('tif_prediction',  'unknown');
-        sessionStorage.setItem('tif_email',        email);
-        sessionStorage.setItem('tif_stepup',       'false');
-        window.location.href = 'account.html';
-      }
+    // ── Init TIF session ────────────────────────────────────────────────────
+    TIFSession.init({
+      pageType:      'login',
+      apiBase:       API,
+      experimentId:  experimentId,
+      participantId: participantId,
+      taskId:        taskId,
+      probeEnabled:  probeEnabled,
     });
+
+    // ── Show experiment info in console (for researcher verification) ───────
+    console.log('[TIF] Login page loaded');
+    console.log('[TIF] Experiment ID :', experimentId  || 'none (legacy mode)');
+    console.log('[TIF] Participant ID:', participantId || 'none');
+    console.log('[TIF] Probe enabled :', probeEnabled);
+    console.log('[TIF] Task ID       :', taskId);
+    console.log('[TIF] Session ID    :', TIFSession.getSessionId());
+
+    // ── Form submit ─────────────────────────────────────────────────────────
+    document.getElementById('login-form')
+      .addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const email    = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const msg      = document.getElementById('msg');
+
+        if (!email || !password) return;
+
+        msg.style.color  = '#888';
+        msg.textContent  = 'Verifying…';
+
+        const payload = TIFSession.buildPayload();
+
+        try {
+          // Step 1 — Save session to backend
+          const saveRes = await fetch(`${API}/api/session`, {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body:    JSON.stringify(payload),
+          });
+
+          const saveData = await saveRes.json();
+          console.log('[TIF] Session saved:', saveData);
+
+          // Step 2 — Get risk score
+          const riskRes = await fetch(`${API}/api/risk`, {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body:    JSON.stringify(payload),
+          });
+
+          const risk = await riskRes.json();
+          console.log('[TIF] Risk result:', risk);
+
+          // Step 3 — Act on risk score
+          if (risk.score >= 71) {
+            // HIGH RISK — block
+            msg.style.color = '#ef4444';
+            msg.textContent = '⛔ Access denied. Suspicious activity detected.';
+            document.getElementById('login-form').style.opacity      = '0.3';
+            document.getElementById('login-form').style.pointerEvents = 'none';
+            return;
+          }
+
+          // Step 4 — Store for account page
+          sessionStorage.setItem('tif_session_id',  payload.session_id);
+          sessionStorage.setItem('tif_risk_score',  risk.score);
+          sessionStorage.setItem('tif_prediction',  risk.prediction);
+          sessionStorage.setItem('tif_email',       email);
+          sessionStorage.setItem('tif_experiment_id', experimentId || '');
+          sessionStorage.setItem('tif_stepup',
+            risk.score >= 41 ? 'true' : 'false');
+
+          // Step 5 — Redirect
+          window.location.href = 'account.html';
+
+        } catch (err) {
+          console.warn('[TIF] Error:', err);
+          // Fail open — let user through if API is down
+          sessionStorage.setItem('tif_session_id',    payload.session_id);
+          sessionStorage.setItem('tif_risk_score',    '0');
+          sessionStorage.setItem('tif_prediction',    'unknown');
+          sessionStorage.setItem('tif_email',         email);
+          sessionStorage.setItem('tif_experiment_id', experimentId || '');
+          sessionStorage.setItem('tif_stepup',        'false');
+          window.location.href = 'account.html';
+        }
+      });
   </script>
 </body>
 </html>

@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TIF — Researcher Control Panel</title>
+  <style>
+    :root {
+      --bg:      #0f1117;
+      --surface: #1a1d27;
+      --surface2:#222536;
+      --border:  #2a2d3a;
+      --text:    #e2e4ed;
+      --muted:   #6b7080;
+      --human:   #22c55e;
+      --bot:     #f59e0b;
+      --llm:     #8b5cf6;
+      --red:     #ef4444;
+      --yellow:  #eab308;
+      --accent:  #3b82f6;
+      --on:      #22c55e;
+      --off:     #6b7080;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 2rem;
+    }
+
+    /* ── Header ── */
+    header {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1rem;
+    }
+
+    header h1 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+    }
+
+    #api-status {
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-left: auto;
+    }
+
+    #api-dot {
+      display: inline-block;
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--red);
+      margin-right: 0.4rem;
+      transition: background 0.3s;
+    }
+    #api-dot.ok { background: var(--human); }
+
+    /* ── Layout ── */
+    .layout {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 1.5rem;
+      align-items: start;
+    }
+
+    @media (max-width: 900px) {
+      .layout { grid-template-columns: 1fr; }
+    }
+
+    /* ── Panel ── */
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.4rem;
+    }
+
+    .panel-title {
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      margin-bottom: 1.2rem;
+      font-weight: 600;
+    }
+
+    /* ── Toggle groups ── */
+    .toggle-group {
+      margin-bottom: 1.2rem;
+    }
+
+    .toggle-label {
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+    }
+
+    .toggle-row {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .tog {
+      padding: 0.4rem 0.9rem;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      font-family: inherit;
+      font-size: 0.75rem;
+      cursor: pointer;
+      letter-spacing: 0.04em;
+      transition: all 0.15s;
+    }
+
+    .tog:hover { border-color: var(--accent); color: var(--text); }
+
+    .tog.active.human  { border-color: var(--human); color: var(--human); background: rgba(34,197,94,0.08); }
+    .tog.active.bot    { border-color: var(--bot);   color: var(--bot);   background: rgba(245,158,11,0.08); }
+    .tog.active.llm    { border-color: var(--llm);   color: var(--llm);   background: rgba(139,92,246,0.08); }
+    .tog.active.probe  { border-color: var(--on);    color: var(--on);    background: rgba(34,197,94,0.08); }
+    .tog.active.noprobe{ border-color: var(--muted); color: var(--text);  background: rgba(107,112,128,0.08); }
+    .tog.active.task   { border-color: var(--accent); color: var(--accent); background: rgba(59,130,246,0.08); }
+
+    /* ── Notes ── */
+    .notes-input {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.75rem;
+      padding: 0.5rem 0.7rem;
+      resize: none;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .notes-input:focus { border-color: var(--accent); }
+
+    /* ── Start button ── */
+    #start-btn {
+      width: 100%;
+      padding: 0.8rem;
+      margin-top: 1.2rem;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    #start-btn:hover   { background: #1d4ed8; }
+    #start-btn:disabled { background: var(--border); color: var(--muted); cursor: not-allowed; }
+
+    /* ── Result box ── */
+    #result-box {
+      display: none;
+      margin-top: 1.2rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1rem;
+    }
+
+    .result-title {
+      font-size: 0.68rem;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      margin-bottom: 0.8rem;
+    }
+
+    .result-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.72rem;
+      padding: 0.3rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .result-row:last-child { border-bottom: none; }
+    .result-row .k { color: var(--muted); }
+    .result-row .v { color: var(--text); font-weight: 600; word-break: break-all; text-align: right; max-width: 200px; }
+
+    /* ── URL box ── */
+    .url-section { margin-top: 1rem; }
+
+    .url-label {
+      font-size: 0.68rem;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      margin-bottom: 0.4rem;
+    }
+
+    .task-urls { display: flex; flex-direction: column; gap: 0.4rem; }
+
+    .url-row {
+      display: flex;
+      gap: 0.4rem;
+      align-items: center;
+    }
+
+    .url-text {
+      flex: 1;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.35rem 0.6rem;
+      font-size: 0.62rem;
+      color: var(--accent);
+      word-break: break-all;
+      line-height: 1.4;
+    }
+
+    .copy-btn, .open-btn {
+      padding: 0.35rem 0.6rem;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      font-family: inherit;
+      font-size: 0.65rem;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s;
+      flex-shrink: 0;
+    }
+    .copy-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .open-btn:hover { border-color: var(--human);  color: var(--human);  }
+    .copy-btn.copied { border-color: var(--human); color: var(--human); }
+
+    /* ── Right side ── */
+    .right-col { display: flex; flex-direction: column; gap: 1.5rem; }
+
+    /* ── Pilot progress ── */
+    .progress-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0.75rem;
+    }
+
+    .progress-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.8rem;
+    }
+
+    .progress-card .pc-title {
+      font-size: 0.65rem;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      margin-bottom: 0.6rem;
+    }
+
+    .probe-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.4rem;
+      font-size: 0.68rem;
+    }
+
+    .probe-label { width: 55px; color: var(--muted); }
+
+    .prog-bar-wrap {
+      flex: 1;
+      background: var(--border);
+      border-radius: 2px;
+      height: 6px;
+    }
+
+    .prog-bar-fill {
+      height: 100%;
+      border-radius: 2px;
+      transition: width 0.4s;
+    }
+
+    .prog-val { width: 28px; text-align: right; font-weight: 600; font-size: 0.65rem; }
+
+    /* ── Recent experiments table ── */
+    .exp-table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.72rem;
+    }
+
+    thead th {
+      text-align: left;
+      padding: 0.5rem 0.8rem;
+      color: var(--muted);
+      font-weight: 500;
+      border-bottom: 1px solid var(--border);
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+
+    tbody td {
+      padding: 0.55rem 0.8rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:hover { background: rgba(255,255,255,0.02); }
+
+    .badge {
+      display: inline-block;
+      padding: 0.15rem 0.5rem;
+      border-radius: 3px;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+    .badge.human  { background: rgba(34,197,94,0.12);  color: var(--human); border: 1px solid rgba(34,197,94,0.3);  }
+    .badge.bot    { background: rgba(245,158,11,0.12); color: var(--bot);   border: 1px solid rgba(245,158,11,0.3); }
+    .badge.llm    { background: rgba(139,92,246,0.12); color: var(--llm);   border: 1px solid rgba(139,92,246,0.3); }
+
+    .status-dot {
+      display: inline-block;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      margin-right: 0.3rem;
+    }
+    .status-dot.done    { background: var(--human); }
+    .status-dot.pending { background: var(--yellow); }
+
+    .use-btn {
+      padding: 0.2rem 0.5rem;
+      border-radius: 3px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      font-family: inherit;
+      font-size: 0.62rem;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .use-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── Toast ── */
+    #toast {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.6rem 1.2rem;
+      font-size: 0.78rem;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: all 0.2s;
+      pointer-events: none;
+      z-index: 999;
+    }
+    #toast.show.ok  { opacity: 1; transform: translateY(0); border-color: var(--human); color: var(--human); }
+    #toast.show.err { opacity: 1; transform: translateY(0); border-color: var(--red);   color: var(--red);   }
+
+    /* ── Empty state ── */
+    .empty {
+      text-align: center;
+      padding: 2rem;
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+
+    /* ── Refresh btn ── */
+    .refresh-btn {
+      padding: 0.3rem 0.7rem;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      font-family: inherit;
+      font-size: 0.7rem;
+      cursor: pointer;
+      float: right;
+      transition: all 0.15s;
+    }
+    .refresh-btn:hover { color: var(--text); border-color: var(--text); }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>TIF / RESEARCHER CONTROL PANEL</h1>
+  <span id="api-status"><span id="api-dot"></span><span id="api-text">connecting…</span></span>
+</header>
+
+<div class="layout">
+
+  <!-- ── LEFT: Experiment creator ── -->
+  <div class="panel">
+    <div class="panel-title">CREATE EXPERIMENT</div>
+
+    <!-- Agent class -->
+    <div class="toggle-group">
+      <div class="toggle-label">AGENT CLASS</div>
+      <div class="toggle-row" id="class-group">
+        <button class="tog human" data-val="human" onclick="select(this,'class-group','human')">HUMAN</button>
+        <button class="tog bot"   data-val="bot"   onclick="select(this,'class-group','bot')">BOT</button>
+        <button class="tog llm"   data-val="llm"   onclick="select(this,'class-group','llm')">LLM</button>
+      </div>
+    </div>
+
+    <!-- Task -->
+    <div class="toggle-group">
+      <div class="toggle-label">TASK</div>
+      <div class="toggle-row" id="task-group">
+        <button class="tog task" data-val="login"      onclick="select(this,'task-group','task')">LOGIN</button>
+        <button class="tog task" data-val="checkout"   onclick="select(this,'task-group','task')">CHECKOUT</button>
+        <button class="tog task" data-val="search"     onclick="select(this,'task-group','task')">SEARCH</button>
+        <button class="tog task" data-val="navigation" onclick="select(this,'task-group','task')">NAVIGATION</button>
+      </div>
+    </div>
+
+    <!-- Probe -->
+    <div class="toggle-group">
+      <div class="toggle-label">PROBE</div>
+      <div class="toggle-row" id="probe-group">
+        <button class="tog probe"   data-val="true"  onclick="select(this,'probe-group','probe')">ON</button>
+        <button class="tog noprobe" data-val="false" onclick="select(this,'probe-group','noprobe')">OFF</button>
+      </div>
+    </div>
+
+    <!-- Notes -->
+    <div class="toggle-group">
+      <div class="toggle-label">NOTES (optional)</div>
+      <textarea class="notes-input" id="notes" rows="2"
+                placeholder="e.g. participant 3, selenium fixed delays"></textarea>
+    </div>
+
+    <button id="start-btn" onclick="startExperiment()">
+      START EXPERIMENT
+    </button>
+
+    <!-- Result -->
+    <div id="result-box">
+      <div class="result-title">EXPERIMENT CREATED</div>
+      <div id="result-rows"></div>
+      <div class="url-section">
+        <div class="url-label">SESSION URLS — open one for each task:</div>
+        <div class="task-urls" id="task-urls"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── RIGHT: Progress + history ── -->
+  <div class="right-col">
+
+    <!-- Pilot progress -->
+    <div class="panel">
+      <div class="panel-title">
+        PILOT PROGRESS
+        <button class="refresh-btn" onclick="loadAll()">↻</button>
+      </div>
+      <div class="progress-grid" id="progress-grid">
+        <div class="empty">Loading…</div>
+      </div>
+    </div>
+
+    <!-- Recent experiments -->
+    <div class="panel">
+      <div class="panel-title">
+        RECENT EXPERIMENTS
+        <button class="refresh-btn" onclick="loadAll()">↻</button>
+      </div>
+      <div class="exp-table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>CLASS</th>
+              <th>TASK</th>
+              <th>PROBE</th>
+              <th>STATUS</th>
+              <th>USE</th>
+            </tr>
+          </thead>
+          <tbody id="exp-tbody">
+            <tr><td colspan="6"><div class="empty">Loading…</div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Session stats -->
+    <div class="panel">
+      <div class="panel-title">SESSION DATASET STATS</div>
+      <div id="sess-stats"><div class="empty">Loading…</div></div>
+    </div>
+
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+  const API      = 'http://localhost:5000';
+  const PAGE_BASE = 'http://localhost:8080/templates';
+
+  // Task → page mapping
+  const TASK_PAGES = {
+    login:      'login.html',
+    checkout:   'checkout.html',
+    search:     'login.html',      // use login page for search task for now
+    navigation: 'login.html',      // use login page for navigation task for now
+  };
+
+  // ── State ──────────────────────────────────────────────────────────────────
+  let selectedClass = null;
+  let selectedTask  = null;
+  let selectedProbe = null;
+  let lastExperiment = null;
+
+  // ── Toggle selection ───────────────────────────────────────────────────────
+  function select(btn, groupId, cls) {
+    document.querySelectorAll(`#${groupId} .tog`)
+      .forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    if (groupId === 'class-group') selectedClass = btn.dataset.val;
+    if (groupId === 'task-group')  selectedTask  = btn.dataset.val;
+    if (groupId === 'probe-group') selectedProbe = btn.dataset.val === 'true';
+  }
+
+  // ── Start experiment ───────────────────────────────────────────────────────
+  async function startExperiment() {
+    if (!selectedClass) { toast('Select an agent class', 'err'); return; }
+    if (!selectedTask)  { toast('Select a task',         'err'); return; }
+    if (selectedProbe === null) { toast('Select probe ON or OFF', 'err'); return; }
+
+    const btn = document.getElementById('start-btn');
+    btn.disabled    = true;
+    btn.textContent = 'CREATING…';
+
+    try {
+      const res = await fetch(`${API}/api/experiment/start`, {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({
+          agent_class:   selectedClass,
+          task_id:       selectedTask,
+          probe_enabled: selectedProbe,
+          notes:         document.getElementById('notes').value || null,
+        }),
+      });
+
+      if (!res.ok) {
+        const err = await res.json();
+        toast(err.details ? err.details.join(', ') : err.error, 'err');
+        return;
+      }
+
+      const exp = await res.json();
+      lastExperiment = exp;
+
+      showResult(exp);
+      toast('✓ Experiment created', 'ok');
+      loadAll();
+
+    } catch (e) {
+      toast('Cannot reach API on :5000', 'err');
+    } finally {
+      btn.disabled    = false;
+      btn.textContent = 'START EXPERIMENT';
+    }
+  }
+
+  // ── Show result ────────────────────────────────────────────────────────────
+  function showResult(exp) {
+    const box  = document.getElementById('result-box');
+    const rows = document.getElementById('result-rows');
+    const urls = document.getElementById('task-urls');
+
+    box.style.display = 'block';
+
+    rows.innerHTML = [
+      ['Experiment ID',  exp.experiment_id],
+      ['Participant ID', exp.participant_id],
+      ['Task',           exp.task_id],
+      ['Probe',          exp.probe_enabled ? 'ON' : 'OFF'],
+    ].map(([k, v]) => `
+      <div class="result-row">
+        <span class="k">${k}</span>
+        <span class="v">${v}</span>
+      </div>`).join('');
+
+    // Build session URL
+    const page    = TASK_PAGES[exp.task_id] || 'login.html';
+    const url     = buildUrl(page, exp);
+
+    urls.innerHTML = `
+      <div class="url-row">
+        <div class="url-text" id="main-url">${url}</div>
+        <button class="copy-btn" onclick="copyUrl('main-url', this)">COPY</button>
+        <button class="open-btn" onclick="window.open('${url}','_blank')">OPEN</button>
+      </div>`;
+  }
+
+  function buildUrl(page, exp) {
+    const params = new URLSearchParams({
+      experiment_id:  exp.experiment_id,
+      participant_id: exp.participant_id,
+      probe_enabled:  exp.probe_enabled,
+      task_id:        exp.task_id,
+    });
+    return `${PAGE_BASE}/${page}?${params.toString()}`;
+  }
+
+  // ── Copy URL ───────────────────────────────────────────────────────────────
+  async function copyUrl(elId, btn) {
+    const text = document.getElementById(elId).textContent;
+    await navigator.clipboard.writeText(text);
+    btn.textContent = 'COPIED';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = 'COPY';
+      btn.classList.remove('copied');
+    }, 2000);
+  }
+
+  // ── Use existing experiment ────────────────────────────────────────────────
+  function useExperiment(expId, taskId, probeEnabled) {
+    const page = TASK_PAGES[taskId] || 'login.html';
+    const url  = buildUrl(page, {
+      experiment_id:  expId,
+      participant_id: '',   // not needed for URL rebuild — already in experiment
+      probe_enabled:  probeEnabled,
+      task_id:        taskId,
+    });
+    // Fetch full experiment to get participant_id
+    fetch(`${API}/api/experiment/${expId}`)
+      .then(r => r.json())
+      .then(exp => {
+        const fullUrl = buildUrl(page, exp);
+        navigator.clipboard.writeText(fullUrl);
+        toast('URL copied to clipboard', 'ok');
+      });
+  }
+
+  // ── Load all data ──────────────────────────────────────────────────────────
+  async function loadAll() {
+    await Promise.all([
+      loadProgress(),
+      loadExperiments(),
+      loadSessionStats(),
+      checkHealth(),
+    ]);
+  }
+
+  // ── Health check ───────────────────────────────────────────────────────────
+  async function checkHealth() {
+    try {
+        const controller = new AbortController();
+        const timeout    = setTimeout(() => controller.abort(), 3000);
+        const r = await fetch(`${API}/api/health`, { signal: controller.signal });
+        clearTimeout(timeout);
+        const d = await r.json();
+        document.getElementById('api-dot').classList.add('ok');
+        document.getElementById('api-text').textContent =
+            `API ok — ${d.sessions} sessions / ${d.experiments} experiments`;
+    } catch (e) {
+        // Don't show disconnected on timeout — just keep last status
+        if (e.name !== 'AbortError') {
+            document.getElementById('api-dot').classList.remove('ok');
+            document.getElementById('api-text').textContent = 'API unreachable on :5000';
+        }
+    }
+}
+
+  // ── Pilot progress ─────────────────────────────────────────────────────────
+  async function loadProgress() {
+    try {
+      const r    = await fetch(`${API}/api/experiments/stats`);
+      const data = await r.json();
+      const grid = document.getElementById('progress-grid');
+      const TARGET = data.pilot_target || 5;
+
+      const classes = ['human', 'bot', 'llm'];
+      grid.innerHTML = classes.map(cls => {
+        const on  = data.conditions[`${cls}_probe_on`]  || { completed: 0, total: 0 };
+        const off = data.conditions[`${cls}_probe_off`] || { completed: 0, total: 0 };
+        const clsColor = cls === 'human' ? 'var(--human)'
+                       : cls === 'bot'   ? 'var(--bot)'
+                       :                   'var(--llm)';
+
+        function bar(n) {
+          const pct = Math.min(100, (n / TARGET) * 100);
+          return `
+            <div class="prog-bar-wrap">
+              <div class="prog-bar-fill"
+                   style="width:${pct}%;background:${clsColor}"></div>
+            </div>`;
+        }
+
+        return `
+          <div class="progress-card">
+            <div class="pc-title" style="color:${clsColor}">${cls.toUpperCase()}</div>
+            <div class="probe-row">
+              <span class="probe-label" style="color:var(--on)">PROBE ON</span>
+              ${bar(on.completed)}
+              <span class="prog-val" style="color:${clsColor}">${on.completed}/${TARGET}</span>
+            </div>
+            <div class="probe-row">
+              <span class="probe-label" style="color:var(--muted)">PROBE OFF</span>
+              ${bar(off.completed)}
+              <span class="prog-val" style="color:${clsColor}">${off.completed}/${TARGET}</span>
+            </div>
+          </div>`;
+      }).join('');
+
+    } catch (e) {
+      document.getElementById('progress-grid').innerHTML =
+        '<div class="empty">Cannot load progress</div>';
+    }
+  }
+
+  // ── Experiments table ──────────────────────────────────────────────────────
+  async function loadExperiments() {
+    try {
+      const r    = await fetch(`${API}/api/experiments`);
+      const data = await r.json();
+      const tbody = document.getElementById('exp-tbody');
+      const exps  = data.experiments || [];
+
+      if (exps.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6"><div class="empty">No experiments yet</div></td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = exps.slice(0, 20).map(e => `
+        <tr>
+          <td style="font-size:0.65rem;color:var(--muted)">${e.experiment_id.slice(0,16)}…</td>
+          <td><span class="badge ${e.agent_class}">${e.agent_class.toUpperCase()}</span></td>
+          <td style="color:var(--muted)">${e.task_id}</td>
+          <td style="color:${e.probe_enabled ? 'var(--on)' : 'var(--muted)'}">
+            ${e.probe_enabled ? 'ON' : 'OFF'}
+          </td>
+          <td>
+            <span class="status-dot ${e.completed ? 'done' : 'pending'}"></span>
+            ${e.completed ? 'Done' : 'Pending'}
+          </td>
+          <td>
+            ${!e.completed ? `
+              <button class="use-btn"
+                onclick="useExperiment('${e.experiment_id}','${e.task_id}',${e.probe_enabled})">
+                COPY URL
+              </button>` : '—'}
+          </td>
+        </tr>`).join('');
+
+    } catch {
+      document.getElementById('exp-tbody').innerHTML =
+        '<tr><td colspan="6"><div class="empty">Cannot load experiments</div></td></tr>';
+    }
+  }
+
+  // ── Session stats ──────────────────────────────────────────────────────────
+  async function loadSessionStats() {
+    try {
+      const r    = await fetch(`${API}/api/sessions/stats`);
+      const data = await r.json();
+      const el   = document.getElementById('sess-stats');
+
+      const classes = ['human', 'bot', 'llm'];
+      const clrMap  = { human: 'var(--human)', bot: 'var(--bot)', llm: 'var(--llm)' };
+
+      el.innerHTML = `
+        <div style="display:flex;gap:1.5rem;flex-wrap:wrap;margin-bottom:1rem">
+          <div>
+            <div style="font-size:0.65rem;color:var(--muted);margin-bottom:0.2rem">TOTAL</div>
+            <div style="font-size:1.4rem;font-weight:800;color:var(--accent)">${data.total}</div>
+          </div>
+          <div>
+            <div style="font-size:0.65rem;color:var(--muted);margin-bottom:0.2rem">LABELLED</div>
+            <div style="font-size:1.4rem;font-weight:800;color:var(--human)">${data.labelled}</div>
+          </div>
+          <div>
+            <div style="font-size:0.65rem;color:var(--muted);margin-bottom:0.2rem">UNLABELLED</div>
+            <div style="font-size:1.4rem;font-weight:800;color:var(--muted)">${data.unlabelled}</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:1rem;flex-wrap:wrap">
+          ${classes.map(cls => {
+            const d = data.by_class[cls] || { total: 0, probe_on: 0, probe_off: 0 };
+            return `
+              <div style="background:var(--bg);border:1px solid var(--border);
+                          border-radius:6px;padding:0.7rem 1rem;min-width:100px">
+                <div style="font-size:0.65rem;color:${clrMap[cls]};
+                            letter-spacing:0.06em;margin-bottom:0.4rem">
+                  ${cls.toUpperCase()}
+                </div>
+                <div style="font-size:1.2rem;font-weight:800;color:${clrMap[cls]}">
+                  ${d.total}
+                </div>
+                <div style="font-size:0.65rem;color:var(--muted);margin-top:0.2rem">
+                  on:${d.probe_on} off:${d.probe_off}
+                </div>
+              </div>`;
+          }).join('')}
+        </div>`;
+
+    } catch {
+      document.getElementById('sess-stats').innerHTML =
+        '<div class="empty">Cannot load session stats</div>';
+    }
+  }
+
+  // ── Toast ──────────────────────────────────────────────────────────────────
+  function toast(msg, type = 'ok') {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className   = `show ${type}`;
+    setTimeout(() => { t.className = ''; }, 2500);
+  }
+
+  // ── Init ───────────────────────────────────────────────────────────────────
+  loadAll();
+  setInterval(loadAll, 30000);
+</script>
+</body>
+</html>
