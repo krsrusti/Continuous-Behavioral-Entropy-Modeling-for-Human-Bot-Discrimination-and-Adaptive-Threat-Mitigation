@@ -1,0 +1,494 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+
+  <title>TIF Trap — Login</title>
+
+  <link rel="stylesheet" href="../static/css/trap.css" />
+
+  <!--
+    Google reCAPTCHA v3
+
+    IMPORTANT:
+    Replace YOUR_RECAPTCHA_SITE_KEY with your reCAPTCHA v3 SITE KEY.
+
+    Do NOT put your reCAPTCHA SECRET KEY here.
+    The secret key belongs only on the Flask backend.
+  -->
+  <script src="https://www.google.com/recaptcha/api.js?render=YOUR_RECAPTCHA_SITE_KEY"></script>
+</head>
+
+<body>
+
+  <div class="trap-card">
+
+    <h2>Sign In</h2>
+
+    <form id="login-form" autocomplete="off">
+
+      <label for="email">Email</label>
+
+      <input
+        type="email"
+        id="email"
+        name="email"
+        placeholder="you@example.com"
+        required
+      />
+
+      <label for="password">Password</label>
+
+      <input
+        type="password"
+        id="password"
+        name="password"
+        placeholder="••••••••"
+        required
+      />
+
+      <button type="submit">
+        Log In
+      </button>
+
+    </form>
+
+    <p
+      id="msg"
+      style="
+        margin-top:1rem;
+        font-size:0.82rem;
+        color:#888;
+        text-align:center;
+      "
+    ></p>
+
+  </div>
+
+
+  <!-- ============================================================
+       TIF SCRIPTS
+       ============================================================ -->
+
+  <script src="../static/js/passive_collector.js"></script>
+
+  <script src="../static/js/micro_probe.js"></script>
+
+  <script src="../static/js/session_transmitter.js"></script>
+
+
+  <script>
+
+    /**
+     * ============================================================
+     * LOGIN PAGE — EXPERIMENT-AWARE SESSION COLLECTION
+     * ============================================================
+     *
+     * Two modes:
+     *
+     * MODE 1 — Experiment mode
+     *
+     * Researcher calls:
+     *
+     * POST /api/experiment/start
+     *
+     * Then opens:
+     *
+     * http://localhost:8080/templates/login.html
+     *   ?experiment_id=exp_abc123
+     *   &participant_id=p_xyz789
+     *   &probe_enabled=true
+     *   &task_id=login
+     *
+     * agent_class is NEVER taken from the browser.
+     *
+     * It is assigned server-side from the experiment.
+     *
+     *
+     * MODE 2 — Legacy mode
+     *
+     * Open the page without URL parameters.
+     *
+     * Session is submitted but agent_class may remain null.
+     *
+     * ============================================================
+     */
+
+
+    // ============================================================
+    // API
+    // ============================================================
+
+    const API = 'http://localhost:5000';
+
+
+    // ============================================================
+    // reCAPTCHA CONFIGURATION
+    // ============================================================
+
+    const RECAPTCHA_SITE_KEY = '6LcVRZ4tAAAAALWkO9gtgB3ZhsbH0IzTeXjJ9Mjz';
+
+
+    // ============================================================
+    // READ EXPERIMENT CONFIG FROM URL
+    // ============================================================
+
+    const params = new URLSearchParams(
+      window.location.search
+    );
+
+    const experimentId =
+      params.get('experiment_id') || null;
+
+    const participantId =
+      params.get('participant_id') || null;
+
+    const probeEnabled =
+      params.get('probe_enabled') === 'true';
+
+    const taskId =
+      params.get('task_id') || 'login';
+
+
+    // ============================================================
+    // INIT TIF SESSION
+    // ============================================================
+
+    TIFSession.init({
+
+      pageType: 'login',
+
+      apiBase: API,
+
+      experimentId: experimentId,
+
+      participantId: participantId,
+
+      taskId: taskId,
+
+      probeEnabled: probeEnabled
+
+    });
+
+
+    // ============================================================
+    // RESEARCHER DEBUG INFORMATION
+    // ============================================================
+
+    console.log(
+      '[TIF] Login page loaded'
+    );
+
+    console.log(
+      '[TIF] Experiment ID:',
+      experimentId || 'none (legacy mode)'
+    );
+
+    console.log(
+      '[TIF] Participant ID:',
+      participantId || 'none'
+    );
+
+    console.log(
+      '[TIF] Probe enabled:',
+      probeEnabled
+    );
+
+    console.log(
+      '[TIF] Task ID:',
+      taskId
+    );
+
+    console.log(
+      '[TIF] Session ID:',
+      TIFSession.getSessionId()
+    );
+
+
+    // ============================================================
+    // LOGIN FORM
+    // ============================================================
+
+    document
+      .getElementById('login-form')
+      .addEventListener('submit', async (e) => {
+
+        e.preventDefault();
+
+
+        // --------------------------------------------------------
+        // GET FORM VALUES
+        // --------------------------------------------------------
+
+        const email =
+          document.getElementById('email').value;
+
+        const password =
+          document.getElementById('password').value;
+
+        const msg =
+          document.getElementById('msg');
+
+
+        // --------------------------------------------------------
+        // BASIC VALIDATION
+        // --------------------------------------------------------
+
+        if (!email || !password) {
+          return;
+        }
+
+
+        msg.style.color = '#888';
+
+        msg.textContent = 'Verifying…';
+
+
+        try {
+
+
+          // ======================================================
+          // STEP 1 — GET reCAPTCHA v3 TOKEN
+          // ======================================================
+
+          console.log(
+            '[reCAPTCHA] Requesting token...'
+          );
+
+
+          const recaptchaToken =
+            await new Promise((resolve, reject) => {
+
+              grecaptcha.ready(() => {
+
+                grecaptcha
+                  .execute(
+                    RECAPTCHA_SITE_KEY,
+                    {
+                      action: 'login'
+                    }
+                  )
+                  .then(resolve)
+                  .catch(reject);
+
+              });
+
+            });
+
+
+          console.log(
+            '[reCAPTCHA] Token received'
+          );
+
+
+          // ======================================================
+          // STEP 2 — BUILD TIF SESSION PAYLOAD
+          // ======================================================
+
+          const payload =
+            TIFSession.buildPayload();
+
+
+          // ======================================================
+          // STEP 3 — ADD reCAPTCHA TOKEN
+          // ======================================================
+          //
+          // IMPORTANT:
+          //
+          // We send the TOKEN to Flask.
+          //
+          // We do NOT calculate or trust the reCAPTCHA score
+          // in the browser.
+          //
+          // Flask will verify the token server-side.
+          //
+          // ======================================================
+
+          payload.recaptcha_token =
+            recaptchaToken;
+
+
+          console.log(
+            '[TIF] Payload prepared'
+          );
+
+
+          // ======================================================
+          // STEP 4 — SAVE TIF SESSION
+          // ======================================================
+
+          const saveRes =
+            await fetch(
+              `${API}/api/session`,
+              {
+                method: 'POST',
+
+                headers: {
+                  'Content-Type':
+                    'application/json'
+                },
+
+                body: JSON.stringify(
+                  payload
+                )
+              }
+            );
+
+
+          const saveData =
+            await saveRes.json();
+
+
+          console.log(
+            '[TIF] Session saved:',
+            saveData
+          );
+
+
+          // ======================================================
+          // STEP 5 — GET TIF RISK SCORE
+          // ======================================================
+
+          const riskRes =
+            await fetch(
+              `${API}/api/risk`,
+              {
+                method: 'POST',
+
+                headers: {
+                  'Content-Type':
+                    'application/json'
+                },
+
+                body: JSON.stringify(
+                  payload
+                )
+              }
+            );
+
+
+          const risk =
+            await riskRes.json();
+
+
+          console.log(
+            '[TIF] Risk result:',
+            risk
+          );
+
+
+          // ======================================================
+          // STEP 6 — CHECK TIF RISK SCORE
+          // ======================================================
+
+          if (risk.score >= 71) {
+
+            msg.style.color =
+              '#ef4444';
+
+            msg.textContent =
+              '⛔ Access denied. Suspicious activity detected.';
+
+
+            document
+              .getElementById('login-form')
+              .style.opacity = '0.3';
+
+
+            document
+              .getElementById('login-form')
+              .style.pointerEvents = 'none';
+
+
+            return;
+          }
+
+
+          // ======================================================
+          // STEP 7 — STORE RESULTS
+          // ======================================================
+
+          sessionStorage.setItem(
+            'tif_session_id',
+            payload.session_id
+          );
+
+
+          sessionStorage.setItem(
+            'tif_risk_score',
+            risk.score
+          );
+
+
+          sessionStorage.setItem(
+            'tif_prediction',
+            risk.prediction
+          );
+
+
+          sessionStorage.setItem(
+            'tif_email',
+            email
+          );
+
+
+          sessionStorage.setItem(
+            'tif_experiment_id',
+            experimentId || ''
+          );
+
+
+          sessionStorage.setItem(
+            'tif_stepup',
+            risk.score >= 41
+              ? 'true'
+              : 'false'
+          );
+
+
+          // ======================================================
+          // STEP 8 — REDIRECT
+          // ======================================================
+
+          window.location.href =
+            'account.html';
+
+
+        } catch (err) {
+
+
+          // ======================================================
+          // ERROR HANDLING
+          // ======================================================
+
+          console.warn(
+            '[TIF] Error:',
+            err
+          );
+
+
+          /*
+            We do NOT silently bypass verification here.
+
+            If reCAPTCHA or the API fails, show an error so
+            the experiment does not accidentally record a
+            failed verification as a successful session.
+          */
+
+          msg.style.color =
+            '#ef4444';
+
+          msg.textContent =
+            'Verification failed. Please try again.';
+
+        }
+
+      });
+
+
+  </script>
+
+</body>
+</html>
+```

@@ -32,17 +32,17 @@ def compute_risk_score(prediction: str, probabilities: dict) -> int:
     Convert classifier output into a 0-100 risk score.
 
     Args:
-        prediction:    'human' | 'script' | 'llm'
-        probabilities: {'human': 0.9, 'script': 0.05, 'llm': 0.05}
+        prediction:    'human' | 'bot' | 'llm'
+        probabilities: {'human': 0.9, 'bot': 0.05, 'llm': 0.05}
 
     Returns:
         Integer risk score 0-100
     """
     human_prob  = probabilities.get('human',  0.0)
-    script_prob = probabilities.get('script', 0.0)
+    script_prob = probabilities.get('bot', 0.0)
     llm_prob    = probabilities.get('llm',    0.0)
 
-    if prediction == 'script':
+    if prediction == 'bot':
         # Script bots are most dangerous — always terminate
         # Base 85 ensures minimum score is above terminate threshold
         # Range 15 scales up to 100 with confidence
@@ -99,8 +99,8 @@ def evaluate_session(prediction: str, probabilities: dict) -> dict:
     score + action in one call.
 
     Args:
-        prediction:    'human' | 'script' | 'llm'
-        probabilities: {'human': float, 'script': float, 'llm': float}
+        prediction:    'human' | 'bot' | 'llm'
+        probabilities: {'human': float, 'bot': float, 'llm': float}
 
     Returns:
         {
@@ -116,7 +116,7 @@ def evaluate_session(prediction: str, probabilities: dict) -> dict:
     Example:
         result = evaluate_session(
             'llm',
-            {'human': 0.05, 'script': 0.10, 'llm': 0.85}
+            {'human': 0.05, 'bot': 0.10, 'llm': 0.85}
         )
         # result['score']  → 87
         # result['action'] → 'terminate'
@@ -136,7 +136,7 @@ def evaluate_session(prediction: str, probabilities: dict) -> dict:
 
 def is_bot(prediction: str) -> bool:
     """Returns True if prediction is a bot class."""
-    return prediction in ('script', 'llm')
+    return prediction in ('bot', 'llm')
 
 
 def score_band(score: int) -> str:

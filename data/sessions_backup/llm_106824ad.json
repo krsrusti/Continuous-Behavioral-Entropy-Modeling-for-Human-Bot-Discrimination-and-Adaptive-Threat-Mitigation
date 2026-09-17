@@ -1,0 +1,482 @@
+{
+  "session_id": "106824ad-2810-47f5-820f-630689ffce26",
+  "page_type": "login",
+  "label": "llm",
+  "start_time": 100.60000014305115,
+  "end_time": 10818.800000190735,
+  "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36",
+  "passive_events": [
+    {
+      "type": "mouse_move",
+      "ts": 4813.200000047684,
+      "x": 518,
+      "y": 289
+    },
+    {
+      "type": "mousedown",
+      "ts": 4813.800000190735,
+      "x": 518,
+      "y": 289,
+      "target": "INPUT"
+    },
+    {
+      "type": "focus",
+      "ts": 4814.200000047684,
+      "target": "email"
+    },
+    {
+      "type": "mouseup",
+      "ts": 4815.5,
+      "x": 518,
+      "y": 289
+    },
+    {
+      "type": "click",
+      "ts": 4815.600000143051,
+      "x": 518,
+      "y": 289,
+      "target": "INPUT"
+    },
+    {
+      "type": "keydown",
+      "ts": 6014.400000095367,
+      "key": "l",
+      "code": "KeyL"
+    },
+    {
+      "type": "keyup",
+      "ts": 6015.700000047684,
+      "key": "l",
+      "code": "KeyL"
+    },
+    {
+      "type": "keydown",
+      "ts": 6021.600000143051,
+      "key": "l",
+      "code": "KeyL"
+    },
+    {
+      "type": "keyup",
+      "ts": 6023.100000143051,
+      "key": "l",
+      "code": "KeyL"
+    },
+    {
+      "type": "keydown",
+      "ts": 6023.300000190735,
+      "key": "m",
+      "code": "KeyM"
+    },
+    {
+      "type": "keyup",
+      "ts": 6024.300000190735,
+      "key": "m",
+      "code": "KeyM"
+    },
+    {
+      "type": "keydown",
+      "ts": 6024.5,
+      "key": "a",
+      "code": "KeyA"
+    },
+    {
+      "type": "keyup",
+      "ts": 6025.800000190735,
+      "key": "a",
+      "code": "KeyA"
+    },
+    {
+      "type": "keydown",
+      "ts": 6025.900000095367,
+      "key": "g",
+      "code": "KeyG"
+    },
+    {
+      "type": "keyup",
+      "ts": 6026.700000047684,
+      "key": "g",
+      "code": "KeyG"
+    },
+    {
+      "type": "keydown",
+      "ts": 6026.800000190735,
+      "key": "e",
+      "code": "KeyE"
+    },
+    {
+      "type": "keyup",
+      "ts": 6027.400000095367,
+      "key": "e",
+      "code": "KeyE"
+    },
+    {
+      "type": "keydown",
+      "ts": 6027.600000143051,
+      "key": "n",
+      "code": "KeyN"
+    },
+    {
+      "type": "keyup",
+      "ts": 6028.5,
+      "key": "n",
+      "code": "KeyN"
+    },
+    {
+      "type": "keydown",
+      "ts": 6028.5,
+      "key": "t",
+      "code": "KeyT"
+    },
+    {
+      "type": "keyup",
+      "ts": 6029.400000095367,
+      "key": "t",
+      "code": "KeyT"
+    },
+    {
+      "type": "keydown",
+      "ts": 6029.5,
+      "key": "Shift",
+      "code": "ShiftLeft"
+    },
+    {
+      "type": "keydown",
+      "ts": 6029.600000143051,
+      "key": "@",
+      "code": "Digit2"
+    },
+    {
+      "type": "keyup",
+      "ts": 6030.100000143051,
+      "key": "@",
+      "code": "Digit2"
+    },
+    {
+      "type": "keyup",
+      "ts": 6030.200000047684,
+      "key": "Shift",
+      "code": "ShiftLeft"
+    },
+    {
+      "type": "keydown",
+      "ts": 6030.400000095367,
+      "key": "t",
+      "code": "KeyT"
+    },
+    {
+      "type": "keyup",
+      "ts": 6031.100000143051,
+      "key": "t",
+      "code": "KeyT"
+    },
+    {
+      "type": "keydown",
+      "ts": 6031.200000047684,
+      "key": "e",
+      "code": "KeyE"
+    },
+    {
+      "type": "keyup",
+      "ts": 6031.800000190735,
+      "key": "e",
+      "code": "KeyE"
+    },
+    {
+      "type": "keydown",
+      "ts": 6031.900000095367,
+      "key": "s",
+      "code": "KeyS"
+    },
+    {
+      "type": "keyup",
+      "ts": 6033.100000143051,
+      "key": "s",
+      "code": "KeyS"
+    },
+    {
+      "type": "keydown",
+      "ts": 6033.200000047684,
+      "key": "t",
+      "code": "KeyT"
+    },
+    {
+      "type": "keyup",
+      "ts": 6034.100000143051,
+      "key": "t",
+      "code": "KeyT"
+    },
+    {
+      "type": "keydown",
+      "ts": 6034.200000047684,
+      "key": ".",
+      "code": "Period"
+    },
+    {
+      "type": "keyup",
+      "ts": 6035.100000143051,
+      "key": ".",
+      "code": "Period"
+    },
+    {
+      "type": "keydown",
+      "ts": 6035.100000143051,
+      "key": "c",
+      "code": "KeyC"
+    },
+    {
+      "type": "keyup",
+      "ts": 6035.900000095367,
+      "key": "c",
+      "code": "KeyC"
+    },
+    {
+      "type": "keydown",
+      "ts": 6036.100000143051,
+      "key": "o",
+      "code": "KeyO"
+    },
+    {
+      "type": "keyup",
+      "ts": 6037.200000047684,
+      "key": "o",
+      "code": "KeyO"
+    },
+    {
+      "type": "keydown",
+      "ts": 6037.300000190735,
+      "key": "m",
+      "code": "KeyM"
+    },
+    {
+      "type": "keyup",
+      "ts": 6038.300000190735,
+      "key": "m",
+      "code": "KeyM"
+    },
+    {
+      "type": "mouse_move",
+      "ts": 7643.5,
+      "x": 518,
+      "y": 367
+    },
+    {
+      "type": "mousedown",
+      "ts": 7643.800000190735,
+      "x": 518,
+      "y": 367,
+      "target": "INPUT"
+    },
+    {
+      "type": "blur",
+      "ts": 7644,
+      "target": "email"
+    },
+    {
+      "type": "focus",
+      "ts": 7644.200000047684,
+      "target": "password"
+    },
+    {
+      "type": "mouseup",
+      "ts": 7644.800000190735,
+      "x": 518,
+      "y": 367
+    },
+    {
+      "type": "click",
+      "ts": 7644.900000095367,
+      "x": 518,
+      "y": 367,
+      "target": "INPUT"
+    },
+    {
+      "type": "keydown",
+      "ts": 9441.800000190735,
+      "key": "p",
+      "code": "KeyP"
+    },
+    {
+      "type": "keyup",
+      "ts": 9443.400000095367,
+      "key": "p",
+      "code": "KeyP"
+    },
+    {
+      "type": "keydown",
+      "ts": 9443.5,
+      "key": "a",
+      "code": "KeyA"
+    },
+    {
+      "type": "keyup",
+      "ts": 9444.200000047684,
+      "key": "a",
+      "code": "KeyA"
+    },
+    {
+      "type": "keydown",
+      "ts": 9444.200000047684,
+      "key": "s",
+      "code": "KeyS"
+    },
+    {
+      "type": "keyup",
+      "ts": 9445,
+      "key": "s",
+      "code": "KeyS"
+    },
+    {
+      "type": "keydown",
+      "ts": 9445.100000143051,
+      "key": "s",
+      "code": "KeyS"
+    },
+    {
+      "type": "keyup",
+      "ts": 9446,
+      "key": "s",
+      "code": "KeyS"
+    },
+    {
+      "type": "keydown",
+      "ts": 9446.100000143051,
+      "key": "w",
+      "code": "KeyW"
+    },
+    {
+      "type": "keyup",
+      "ts": 9447.200000047684,
+      "key": "w",
+      "code": "KeyW"
+    },
+    {
+      "type": "keydown",
+      "ts": 9447.400000095367,
+      "key": "o",
+      "code": "KeyO"
+    },
+    {
+      "type": "keyup",
+      "ts": 9448.100000143051,
+      "key": "o",
+      "code": "KeyO"
+    },
+    {
+      "type": "keydown",
+      "ts": 9448.100000143051,
+      "key": "r",
+      "code": "KeyR"
+    },
+    {
+      "type": "keyup",
+      "ts": 9449,
+      "key": "r",
+      "code": "KeyR"
+    },
+    {
+      "type": "keydown",
+      "ts": 9449.100000143051,
+      "key": "d",
+      "code": "KeyD"
+    },
+    {
+      "type": "keyup",
+      "ts": 9449.700000047684,
+      "key": "d",
+      "code": "KeyD"
+    },
+    {
+      "type": "keydown",
+      "ts": 9449.800000190735,
+      "key": "1",
+      "code": "Digit1"
+    },
+    {
+      "type": "keyup",
+      "ts": 9450.600000143051,
+      "key": "1",
+      "code": "Digit1"
+    },
+    {
+      "type": "keydown",
+      "ts": 9450.700000047684,
+      "key": "2",
+      "code": "Digit2"
+    },
+    {
+      "type": "keyup",
+      "ts": 9451.200000047684,
+      "key": "2",
+      "code": "Digit2"
+    },
+    {
+      "type": "keydown",
+      "ts": 9451.300000190735,
+      "key": "3",
+      "code": "Digit3"
+    },
+    {
+      "type": "keyup",
+      "ts": 9452.200000047684,
+      "key": "3",
+      "code": "Digit3"
+    },
+    {
+      "type": "mouse_move",
+      "ts": 10817.300000190735,
+      "x": 518,
+      "y": 432
+    },
+    {
+      "type": "mousedown",
+      "ts": 10817.400000095367,
+      "x": 518,
+      "y": 432,
+      "target": "BUTTON"
+    },
+    {
+      "type": "blur",
+      "ts": 10817.600000143051,
+      "target": "password"
+    },
+    {
+      "type": "focus",
+      "ts": 10817.800000190735,
+      "target": "BUTTON"
+    },
+    {
+      "type": "mouseup",
+      "ts": 10818.100000143051,
+      "x": 518,
+      "y": 432
+    },
+    {
+      "type": "click",
+      "ts": 10818.100000143051,
+      "x": 518,
+      "y": 432,
+      "target": "BUTTON"
+    }
+  ],
+  "probes": [
+    {
+      "probeId": 1,
+      "t1": 1109.8000001907349,
+      "t2": 4813.200000047684,
+      "delta": 3703.399999856949
+    },
+    {
+      "probeId": 2,
+      "t1": 5326.5,
+      "t2": 6014.400000095367,
+      "delta": 687.9000000953674
+    },
+    {
+      "probeId": 3,
+      "t1": 9215.600000143051,
+      "t2": 9441.800000190735,
+      "delta": 226.20000004768372
+    }
+  ],
+  "created_at": "2026-08-16T06:22:05.480419"
+}

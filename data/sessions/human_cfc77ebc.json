@@ -1,0 +1,1161 @@
+{
+  "session_id": "cfc77ebc-7377-4d9c-a3f8-305cfc0cfd40",
+  "experiment_id": "exp_bef0e3a85675",
+  "participant_id": "p_354066376709",
+  "task_id": "login",
+  "probe_enabled": true,
+  "agent_class": "human",
+  "label": "human",
+  "page_type": "login",
+  "start_time": 157.5,
+  "end_time": 105509.09999990463,
+  "passive_events": [
+    {
+      "type": "mouse_move",
+      "ts": 87617.5,
+      "x": 675,
+      "y": 16
+    },
+    {
+      "type": "mouse_move",
+      "ts": 87634.29999995232,
+      "x": 684,
+      "y": 46
+    },
+    {
+      "type": "mouse_move",
+      "ts": 87667.79999995232,
+      "x": 700,
+      "y": 121
+    },
+    {
+      "type": "mouse_move",
+      "ts": 87701.19999980927,
+      "x": 714,
+      "y": 183
+    },
+    {
+      "type": "mouse_move",
+      "ts": 87734,
+      "x": 728,
+      "y": 219
+    },
+    {
+      "type": "mouse_move",
+      "ts": 87767.39999985695,
+      "x": 733,
+      "y": 236
+    },
+    {
+      "type": "mouse_move",
+      "ts": 87800.79999995232,
+      "x": 736,
+      "y": 247
+    },
+    {
+      "type": "mouse_move",
+      "ts": 87834.29999995232,
+      "x": 736,
+      "y": 250
+    },
+    {
+      "type": "mouse_move",
+      "ts": 87867.89999985695,
+      "x": 736,
+      "y": 253
+    },
+    {
+      "type": "mouse_move",
+      "ts": 87913.69999980927,
+      "x": 736,
+      "y": 254
+    },
+    {
+      "type": "mouse_move",
+      "ts": 87948.79999995232,
+      "x": 736,
+      "y": 255
+    },
+    {
+      "type": "mouse_move",
+      "ts": 87967.59999990463,
+      "x": 735,
+      "y": 256
+    },
+    {
+      "type": "mouse_move",
+      "ts": 88000.79999995232,
+      "x": 734,
+      "y": 268
+    },
+    {
+      "type": "mouse_move",
+      "ts": 88034.5,
+      "x": 735,
+      "y": 289
+    },
+    {
+      "type": "mouse_move",
+      "ts": 88067.69999980927,
+      "x": 737,
+      "y": 305
+    },
+    {
+      "type": "mouse_move",
+      "ts": 88100.79999995232,
+      "x": 739,
+      "y": 312
+    },
+    {
+      "type": "mouse_move",
+      "ts": 88134.19999980927,
+      "x": 739,
+      "y": 314
+    },
+    {
+      "type": "mouse_move",
+      "ts": 88167.5,
+      "x": 739,
+      "y": 316
+    },
+    {
+      "type": "mouse_move",
+      "ts": 88201.19999980927,
+      "x": 739,
+      "y": 318
+    },
+    {
+      "type": "mousedown",
+      "ts": 88407.39999985695,
+      "x": 739,
+      "y": 318,
+      "target": "INPUT"
+    },
+    {
+      "type": "focus",
+      "ts": 88408.29999995232,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "mouseup",
+      "ts": 88626.69999980927,
+      "x": 739,
+      "y": 318
+    },
+    {
+      "type": "click",
+      "ts": 88626.89999985695,
+      "x": 739,
+      "y": 318,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "keydown",
+      "ts": 90044.59999990463,
+      "code": "KeyH",
+      "key_category": "character"
+    },
+    {
+      "type": "input",
+      "ts": 90046.59999990463,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "keyup",
+      "ts": 90114.39999985695,
+      "code": "KeyH",
+      "key_category": "character"
+    },
+    {
+      "type": "keydown",
+      "ts": 90539.09999990463,
+      "code": "KeyO",
+      "key_category": "character"
+    },
+    {
+      "type": "input",
+      "ts": 90540,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "keyup",
+      "ts": 90614.39999985695,
+      "code": "KeyO",
+      "key_category": "character"
+    },
+    {
+      "type": "keydown",
+      "ts": 90829.79999995232,
+      "code": "KeyU",
+      "key_category": "character"
+    },
+    {
+      "type": "input",
+      "ts": 90831.09999990463,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "keyup",
+      "ts": 90904.29999995232,
+      "code": "KeyU",
+      "key_category": "character"
+    },
+    {
+      "type": "keydown",
+      "ts": 91173.09999990463,
+      "code": "KeyS",
+      "key_category": "character"
+    },
+    {
+      "type": "input",
+      "ts": 91174.59999990463,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "keyup",
+      "ts": 91264.39999985695,
+      "code": "KeyS",
+      "key_category": "character"
+    },
+    {
+      "type": "keydown",
+      "ts": 91316.59999990463,
+      "code": "KeyE",
+      "key_category": "character"
+    },
+    {
+      "type": "input",
+      "ts": 91318.09999990463,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "keyup",
+      "ts": 91415.29999995232,
+      "code": "KeyE",
+      "key_category": "character"
+    },
+    {
+      "type": "keydown",
+      "ts": 91865.59999990463,
+      "code": "KeyN",
+      "key_category": "character"
+    },
+    {
+      "type": "input",
+      "ts": 91866.5,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "keyup",
+      "ts": 91919.59999990463,
+      "code": "KeyN",
+      "key_category": "character"
+    },
+    {
+      "type": "keydown",
+      "ts": 92336.89999985695,
+      "code": "Backspace",
+      "key_category": "backspace"
+    },
+    {
+      "type": "input",
+      "ts": 92338.19999980927,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "keyup",
+      "ts": 92410.59999990463,
+      "code": "Backspace",
+      "key_category": "backspace"
+    },
+    {
+      "type": "keydown",
+      "ts": 92695.89999985695,
+      "code": "KeyT",
+      "key_category": "character"
+    },
+    {
+      "type": "input",
+      "ts": 92697.5,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "keyup",
+      "ts": 92768.59999990463,
+      "code": "KeyT",
+      "key_category": "character"
+    },
+    {
+      "type": "keydown",
+      "ts": 92891.39999985695,
+      "code": "KeyE",
+      "key_category": "character"
+    },
+    {
+      "type": "input",
+      "ts": 92892.79999995232,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "keyup",
+      "ts": 92961.09999990463,
+      "code": "KeyE",
+      "key_category": "character"
+    },
+    {
+      "type": "keydown",
+      "ts": 94672,
+      "code": "KeyN",
+      "key_category": "character"
+    },
+    {
+      "type": "input",
+      "ts": 94673,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "keyup",
+      "ts": 94751.69999980927,
+      "code": "KeyN",
+      "key_category": "character"
+    },
+    {
+      "type": "keydown",
+      "ts": 95037.29999995232,
+      "code": "ShiftLeft",
+      "key_category": "modifier"
+    },
+    {
+      "type": "keydown",
+      "ts": 95223.29999995232,
+      "code": "Digit2",
+      "key_category": "digit"
+    },
+    {
+      "type": "input",
+      "ts": 95224.5,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "keyup",
+      "ts": 95312.89999985695,
+      "code": "ShiftLeft",
+      "key_category": "modifier"
+    },
+    {
+      "type": "keyup",
+      "ts": 95322.69999980927,
+      "code": "Digit2",
+      "key_category": "digit"
+    },
+    {
+      "type": "keydown",
+      "ts": 95619,
+      "code": "KeyG",
+      "key_category": "character"
+    },
+    {
+      "type": "input",
+      "ts": 95620.5,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "keyup",
+      "ts": 95693.69999980927,
+      "code": "KeyG",
+      "key_category": "character"
+    },
+    {
+      "type": "keydown",
+      "ts": 95869.09999990463,
+      "code": "KeyM",
+      "key_category": "character"
+    },
+    {
+      "type": "input",
+      "ts": 95870.39999985695,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "keyup",
+      "ts": 95947.89999985695,
+      "code": "KeyM",
+      "key_category": "character"
+    },
+    {
+      "type": "keydown",
+      "ts": 96228.89999985695,
+      "code": "KeyA",
+      "key_category": "character"
+    },
+    {
+      "type": "input",
+      "ts": 96230.09999990463,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "keyup",
+      "ts": 96303,
+      "code": "KeyA",
+      "key_category": "character"
+    },
+    {
+      "type": "keydown",
+      "ts": 96608.69999980927,
+      "code": "KeyI",
+      "key_category": "character"
+    },
+    {
+      "type": "input",
+      "ts": 96610.19999980927,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "keyup",
+      "ts": 96678.39999985695,
+      "code": "KeyI",
+      "key_category": "character"
+    },
+    {
+      "type": "keydown",
+      "ts": 96809.19999980927,
+      "code": "KeyL",
+      "key_category": "character"
+    },
+    {
+      "type": "input",
+      "ts": 96810.19999980927,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "keyup",
+      "ts": 96879.5,
+      "code": "KeyL",
+      "key_category": "character"
+    },
+    {
+      "type": "keydown",
+      "ts": 97157.39999985695,
+      "code": "Period",
+      "key_category": "other"
+    },
+    {
+      "type": "input",
+      "ts": 97158.59999990463,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "keyup",
+      "ts": 97229,
+      "code": "Period",
+      "key_category": "other"
+    },
+    {
+      "type": "keydown",
+      "ts": 97495,
+      "code": "KeyC",
+      "key_category": "character"
+    },
+    {
+      "type": "input",
+      "ts": 97496.29999995232,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "keyup",
+      "ts": 97561.29999995232,
+      "code": "KeyC",
+      "key_category": "character"
+    },
+    {
+      "type": "keydown",
+      "ts": 97730.39999985695,
+      "code": "KeyO",
+      "key_category": "character"
+    },
+    {
+      "type": "input",
+      "ts": 97731.79999995232,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "keyup",
+      "ts": 97835.19999980927,
+      "code": "KeyO",
+      "key_category": "character"
+    },
+    {
+      "type": "keydown",
+      "ts": 97880.09999990463,
+      "code": "KeyM",
+      "key_category": "character"
+    },
+    {
+      "type": "input",
+      "ts": 97881.5,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "keyup",
+      "ts": 97990.19999980927,
+      "code": "KeyM",
+      "key_category": "character"
+    },
+    {
+      "type": "mouse_move",
+      "ts": 98517.5,
+      "x": 738,
+      "y": 323
+    },
+    {
+      "type": "mouse_move",
+      "ts": 98550.79999995232,
+      "x": 736,
+      "y": 329
+    },
+    {
+      "type": "mouse_move",
+      "ts": 98583.79999995232,
+      "x": 734,
+      "y": 333
+    },
+    {
+      "type": "mouse_move",
+      "ts": 98617.89999985695,
+      "x": 733,
+      "y": 338
+    },
+    {
+      "type": "mouse_move",
+      "ts": 98650.89999985695,
+      "x": 733,
+      "y": 341
+    },
+    {
+      "type": "mouse_move",
+      "ts": 98684.69999980927,
+      "x": 733,
+      "y": 345
+    },
+    {
+      "type": "mouse_move",
+      "ts": 98717.79999995232,
+      "x": 733,
+      "y": 349
+    },
+    {
+      "type": "mouse_move",
+      "ts": 98751.19999980927,
+      "x": 733,
+      "y": 353
+    },
+    {
+      "type": "mouse_move",
+      "ts": 98784.29999995232,
+      "x": 734,
+      "y": 359
+    },
+    {
+      "type": "mouse_move",
+      "ts": 98817.59999990463,
+      "x": 735,
+      "y": 362
+    },
+    {
+      "type": "mouse_move",
+      "ts": 98851.59999990463,
+      "x": 736,
+      "y": 367
+    },
+    {
+      "type": "mouse_move",
+      "ts": 98884.69999980927,
+      "x": 738,
+      "y": 373
+    },
+    {
+      "type": "mouse_move",
+      "ts": 98918,
+      "x": 738,
+      "y": 376
+    },
+    {
+      "type": "mouse_move",
+      "ts": 98951.09999990463,
+      "x": 739,
+      "y": 378
+    },
+    {
+      "type": "mousedown",
+      "ts": 99153.59999990463,
+      "x": 739,
+      "y": 378,
+      "target": "FORM"
+    },
+    {
+      "type": "blur",
+      "ts": 99153.89999985695,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "mouse_move",
+      "ts": 99432.79999995232,
+      "x": 739,
+      "y": 381
+    },
+    {
+      "type": "mouse_move",
+      "ts": 99451.39999985695,
+      "x": 739,
+      "y": 386
+    },
+    {
+      "type": "mouse_move",
+      "ts": 99484.79999995232,
+      "x": 739,
+      "y": 397
+    },
+    {
+      "type": "mouse_move",
+      "ts": 99517.79999995232,
+      "x": 739,
+      "y": 401
+    },
+    {
+      "type": "mouseup",
+      "ts": 99520.89999985695,
+      "x": 739,
+      "y": 401
+    },
+    {
+      "type": "click",
+      "ts": 99520.89999985695,
+      "x": 739,
+      "y": 401,
+      "target": "FORM",
+      "target_id": "login-form"
+    },
+    {
+      "type": "mouse_move",
+      "ts": 99550.89999985695,
+      "x": 739,
+      "y": 401
+    },
+    {
+      "type": "mousedown",
+      "ts": 99687.59999990463,
+      "x": 739,
+      "y": 401,
+      "target": "INPUT"
+    },
+    {
+      "type": "focus",
+      "ts": 99688.09999990463,
+      "target": "INPUT",
+      "target_id": "password"
+    },
+    {
+      "type": "mouseup",
+      "ts": 99913.69999980927,
+      "x": 739,
+      "y": 401
+    },
+    {
+      "type": "click",
+      "ts": 99913.69999980927,
+      "x": 739,
+      "y": 401,
+      "target": "INPUT",
+      "target_id": "password"
+    },
+    {
+      "type": "keydown",
+      "ts": 100062.39999985695,
+      "code": "KeyO",
+      "key_category": "character"
+    },
+    {
+      "type": "input",
+      "ts": 100063.5,
+      "target": "INPUT",
+      "target_id": "password"
+    },
+    {
+      "type": "keyup",
+      "ts": 100127.29999995232,
+      "code": "KeyO",
+      "key_category": "character"
+    },
+    {
+      "type": "keydown",
+      "ts": 100221.39999985695,
+      "code": "KeyP",
+      "key_category": "character"
+    },
+    {
+      "type": "input",
+      "ts": 100222.69999980927,
+      "target": "INPUT",
+      "target_id": "password"
+    },
+    {
+      "type": "keyup",
+      "ts": 100317.59999990463,
+      "code": "KeyP",
+      "key_category": "character"
+    },
+    {
+      "type": "keydown",
+      "ts": 100678.09999990463,
+      "code": "KeyG",
+      "key_category": "character"
+    },
+    {
+      "type": "input",
+      "ts": 100679.29999995232,
+      "target": "INPUT",
+      "target_id": "password"
+    },
+    {
+      "type": "keyup",
+      "ts": 100781.89999985695,
+      "code": "KeyG",
+      "key_category": "character"
+    },
+    {
+      "type": "keydown",
+      "ts": 100786.59999990463,
+      "code": "KeyV",
+      "key_category": "character"
+    },
+    {
+      "type": "input",
+      "ts": 100787.69999980927,
+      "target": "INPUT",
+      "target_id": "password"
+    },
+    {
+      "type": "keyup",
+      "ts": 100847,
+      "code": "KeyV",
+      "key_category": "character"
+    },
+    {
+      "type": "keydown",
+      "ts": 100878.69999980927,
+      "code": "KeyG",
+      "key_category": "character"
+    },
+    {
+      "type": "input",
+      "ts": 100879.59999990463,
+      "target": "INPUT",
+      "target_id": "password"
+    },
+    {
+      "type": "keyup",
+      "ts": 100957.29999995232,
+      "code": "KeyG",
+      "key_category": "character"
+    },
+    {
+      "type": "keydown",
+      "ts": 100977.29999995232,
+      "code": "KeyV",
+      "key_category": "character"
+    },
+    {
+      "type": "input",
+      "ts": 100978.29999995232,
+      "target": "INPUT",
+      "target_id": "password"
+    },
+    {
+      "type": "keyup",
+      "ts": 101017.29999995232,
+      "code": "KeyV",
+      "key_category": "character"
+    },
+    {
+      "type": "keydown",
+      "ts": 101857.59999990463,
+      "code": "Digit9",
+      "key_category": "digit"
+    },
+    {
+      "type": "input",
+      "ts": 101858.39999985695,
+      "target": "INPUT",
+      "target_id": "password"
+    },
+    {
+      "type": "keyup",
+      "ts": 102007.39999985695,
+      "code": "Digit9",
+      "key_category": "digit"
+    },
+    {
+      "type": "keydown",
+      "ts": 102163.89999985695,
+      "code": "Digit0",
+      "key_category": "digit"
+    },
+    {
+      "type": "input",
+      "ts": 102164.79999995232,
+      "target": "INPUT",
+      "target_id": "password"
+    },
+    {
+      "type": "keyup",
+      "ts": 102272.79999995232,
+      "code": "Digit0",
+      "key_category": "digit"
+    },
+    {
+      "type": "mouse_move",
+      "ts": 102800.89999985695,
+      "x": 741,
+      "y": 406
+    },
+    {
+      "type": "mouse_move",
+      "ts": 102834.29999995232,
+      "x": 741,
+      "y": 408
+    },
+    {
+      "type": "mouse_move",
+      "ts": 102867.29999995232,
+      "x": 741,
+      "y": 409
+    },
+    {
+      "type": "mouse_move",
+      "ts": 102900.79999995232,
+      "x": 740,
+      "y": 410
+    },
+    {
+      "type": "mouse_move",
+      "ts": 102934.19999980927,
+      "x": 740,
+      "y": 414
+    },
+    {
+      "type": "mouse_move",
+      "ts": 102968.19999980927,
+      "x": 740,
+      "y": 417
+    },
+    {
+      "type": "mouse_move",
+      "ts": 103001.19999980927,
+      "x": 740,
+      "y": 422
+    },
+    {
+      "type": "mouse_move",
+      "ts": 103034.19999980927,
+      "x": 740,
+      "y": 427
+    },
+    {
+      "type": "mouse_move",
+      "ts": 103067.39999985695,
+      "x": 741,
+      "y": 437
+    },
+    {
+      "type": "mouse_move",
+      "ts": 103101.09999990463,
+      "x": 741,
+      "y": 445
+    },
+    {
+      "type": "mouse_move",
+      "ts": 103134.79999995232,
+      "x": 741,
+      "y": 450
+    },
+    {
+      "type": "mouse_move",
+      "ts": 103168,
+      "x": 742,
+      "y": 452
+    },
+    {
+      "type": "mousedown",
+      "ts": 103392.09999990463,
+      "x": 742,
+      "y": 452,
+      "target": "BUTTON"
+    },
+    {
+      "type": "blur",
+      "ts": 103392.59999990463,
+      "target": "INPUT",
+      "target_id": "password"
+    },
+    {
+      "type": "focus",
+      "ts": 103392.69999980927,
+      "target": "BUTTON",
+      "target_id": null
+    },
+    {
+      "type": "mouseup",
+      "ts": 103612.69999980927,
+      "x": 742,
+      "y": 452
+    },
+    {
+      "type": "click",
+      "ts": 103612.69999980927,
+      "x": 742,
+      "y": 452,
+      "target": "BUTTON",
+      "target_id": null
+    },
+    {
+      "type": "mouse_move",
+      "ts": 103987.79999995232,
+      "x": 742,
+      "y": 429
+    },
+    {
+      "type": "mouse_move",
+      "ts": 104017.79999995232,
+      "x": 745,
+      "y": 311
+    },
+    {
+      "type": "mouse_move",
+      "ts": 104051.09999990463,
+      "x": 748,
+      "y": 224
+    },
+    {
+      "type": "mouse_move",
+      "ts": 104084.29999995232,
+      "x": 747,
+      "y": 180
+    },
+    {
+      "type": "mouse_move",
+      "ts": 104117.39999985695,
+      "x": 745,
+      "y": 141
+    },
+    {
+      "type": "mouse_move",
+      "ts": 104151.29999995232,
+      "x": 745,
+      "y": 97
+    },
+    {
+      "type": "mouse_move",
+      "ts": 104184.79999995232,
+      "x": 735,
+      "y": 17
+    }
+  ],
+  "probes": [
+    {
+      "probeId": 1,
+      "t1": 4448,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 0,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": true,
+      "abandoned": true
+    },
+    {
+      "probeId": 2,
+      "t1": 11456.399999856949,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 0,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": true,
+      "abandoned": true
+    },
+    {
+      "probeId": 3,
+      "t1": 15451.5,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 0,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": true,
+      "abandoned": true
+    },
+    {
+      "probeId": 4,
+      "t1": 21456.299999952316,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 0,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": true,
+      "abandoned": true
+    },
+    {
+      "probeId": 5,
+      "t1": 26461.599999904633,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 0,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": true,
+      "abandoned": true
+    },
+    {
+      "probeId": 6,
+      "t1": 32452.299999952316,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 0,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": true,
+      "abandoned": true
+    },
+    {
+      "probeId": 7,
+      "t1": 39449.09999990463,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 0,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": true,
+      "abandoned": true
+    },
+    {
+      "probeId": 8,
+      "t1": 46448.199999809265,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 0,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": true,
+      "abandoned": true
+    },
+    {
+      "probeId": 9,
+      "t1": 50448.699999809265,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 0,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": true,
+      "abandoned": true
+    },
+    {
+      "probeId": 10,
+      "t1": 55448.5,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 0,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": true,
+      "abandoned": true
+    },
+    {
+      "probeId": 11,
+      "t1": 87082.69999980927,
+      "t2": 87617.5,
+      "delta": 534.8000001907349,
+      "source": "mousemove",
+      "response_target": "body",
+      "pre_probe_n": 0,
+      "post_probe_n": 23,
+      "behavioral_change": 23,
+      "idle_before": true,
+      "abandoned": false
+    },
+    {
+      "probeId": 12,
+      "t1": 93617,
+      "t2": 94672,
+      "delta": 1055,
+      "source": "keydown",
+      "response_target": "email",
+      "pre_probe_n": 12,
+      "post_probe_n": 19,
+      "behavioral_change": 7,
+      "idle_before": false,
+      "abandoned": false
+    },
+    {
+      "probeId": 13,
+      "t1": 99551.39999985695,
+      "t2": 99687.59999990463,
+      "delta": 136.20000004768372,
+      "source": "mousedown",
+      "response_target": "password",
+      "pre_probe_n": 30,
+      "post_probe_n": 22,
+      "behavioral_change": -8,
+      "idle_before": false,
+      "abandoned": false
+    }
+  ],
+  "_metadata": {
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
+    "created_at": "2026-09-05T07:06:38.405389"
+  }
+}

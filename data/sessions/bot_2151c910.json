@@ -1,0 +1,88 @@
+{
+  "session_id": "2151c910-d45a-4941-adf3-77ffbf1cda0a",
+  "experiment_id": "exp_d14d88556825",
+  "participant_id": "p_f13ce2f301fc",
+  "task_id": "login",
+  "probe_enabled": true,
+  "agent_class": "bot",
+  "label": "bot",
+  "page_type": "login",
+  "start_time": 98.5,
+  "end_time": 4279.799999952316,
+  "passive_events": [
+    {
+      "type": "focus",
+      "ts": 3159.5999999046326,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "input",
+      "ts": 3164.7000000476837,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "blur",
+      "ts": 3175.899999856949,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "focus",
+      "ts": 3177.2000000476837,
+      "target": "INPUT",
+      "target_id": "password"
+    },
+    {
+      "type": "input",
+      "ts": 3182.899999856949,
+      "target": "INPUT",
+      "target_id": "password"
+    },
+    {
+      "type": "mouse_move",
+      "ts": 3234.899999856949,
+      "x": 640,
+      "y": 460
+    },
+    {
+      "type": "mousedown",
+      "ts": 3235.5,
+      "x": 640,
+      "y": 460,
+      "target": "BUTTON"
+    },
+    {
+      "type": "blur",
+      "ts": 3235.5999999046326,
+      "target": "INPUT",
+      "target_id": "password"
+    },
+    {
+      "type": "focus",
+      "ts": 3235.5999999046326,
+      "target": "BUTTON",
+      "target_id": null
+    },
+    {
+      "type": "mouseup",
+      "ts": 3236,
+      "x": 640,
+      "y": 460
+    },
+    {
+      "type": "click",
+      "ts": 3236,
+      "x": 640,
+      "y": 460,
+      "target": "BUTTON",
+      "target_id": null
+    }
+  ],
+  "probes": [],
+  "_metadata": {
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36",
+    "created_at": "2026-09-05T08:36:26.369472"
+  }
+}

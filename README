@@ -7,3 +7,19 @@ fetch('http://localhost:5000/api/risk', {
 })
 .then(r => r.json())
 .then(console.log)
+
+
+import sqlite3
+
+conn = sqlite3.connect("data/tif.db")
+
+for row in conn.execute("""
+    SELECT experiment_id, agent_class, task_id,
+           probe_enabled, completed, session_id
+    FROM experiments
+    ORDER BY created_at DESC
+    LIMIT 5
+"""):
+    print(row)
+
+conn.close()

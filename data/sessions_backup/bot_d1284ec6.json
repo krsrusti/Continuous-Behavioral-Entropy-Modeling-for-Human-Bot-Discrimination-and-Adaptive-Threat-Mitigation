@@ -1,0 +1,94 @@
+{
+  "session_id": "d1284ec6-5074-401b-8a7e-6ea126f5226d",
+  "experiment_id": "exp_d4f4d97d924b",
+  "participant_id": "p_4890184bafbb",
+  "task_id": "login",
+  "probe_enabled": true,
+  "agent_class": "bot",
+  "label": "bot",
+  "page_type": "login",
+  "start_time": 161.79999995231628,
+  "end_time": 4567.900000095367,
+  "passive_events": [
+    {
+      "type": "mouse_move",
+      "ts": 372.40000009536743,
+      "x": 804,
+      "y": 612
+    },
+    {
+      "type": "focus",
+      "ts": 3260,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "input",
+      "ts": 3265.7000000476837,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "blur",
+      "ts": 3300.0999999046326,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "focus",
+      "ts": 3300.5,
+      "target": "INPUT",
+      "target_id": "password"
+    },
+    {
+      "type": "input",
+      "ts": 3311,
+      "target": "INPUT",
+      "target_id": "password"
+    },
+    {
+      "type": "mouse_move",
+      "ts": 3363.5,
+      "x": 640,
+      "y": 460
+    },
+    {
+      "type": "mousedown",
+      "ts": 3364.5999999046326,
+      "x": 640,
+      "y": 460,
+      "target": "BUTTON"
+    },
+    {
+      "type": "blur",
+      "ts": 3364.7000000476837,
+      "target": "INPUT",
+      "target_id": "password"
+    },
+    {
+      "type": "focus",
+      "ts": 3365,
+      "target": "BUTTON",
+      "target_id": null
+    },
+    {
+      "type": "mouseup",
+      "ts": 3365.9000000953674,
+      "x": 640,
+      "y": 460
+    },
+    {
+      "type": "click",
+      "ts": 3366.0999999046326,
+      "x": 640,
+      "y": 460,
+      "target": "BUTTON",
+      "target_id": null
+    }
+  ],
+  "probes": [],
+  "_metadata": {
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36",
+    "created_at": "2026-09-01T09:02:54.029674"
+  }
+}

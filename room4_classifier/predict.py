@@ -16,7 +16,7 @@ from pipeline               import extract_feature_vector, FEATURE_NAMES
 from calculators.risk_score import evaluate_session, score_band
 
 MODEL_PATH = os.path.join(os.path.dirname(__file__), 'saved_models/rf_model.pkl')
-LABEL_MAP  = {0: 'human', 1: 'script', 2: 'llm'}
+LABEL_MAP  = {0: 'human', 1: 'bot', 2: 'llm'}
 
 
 # ── Core prediction function ──────────────────────────────────────────────────
@@ -49,7 +49,7 @@ def predict_session(session: dict) -> dict:
     prediction    = LABEL_MAP[pred]
     probabilities = {
         'human':  float(proba[0]),
-        'script': float(proba[1]),
+        'bot': float(proba[1]),
         'llm':    float(proba[2]),
     }
 
@@ -120,7 +120,7 @@ def print_result(result: dict, verbose: bool = False):
         # Show what class this mean delta suggests
         mean = ps['mean_delta_ms']
         if mean < 80:
-            hint = 'SCRIPT-LIKE (too fast)'
+            hint = 'BOT-LIKE (too fast)'
         elif mean < 700:
             hint = 'HUMAN-LIKE (normal range)'
         else:

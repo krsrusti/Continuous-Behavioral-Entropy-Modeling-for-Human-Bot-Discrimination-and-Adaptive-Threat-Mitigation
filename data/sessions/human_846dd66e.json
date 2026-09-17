@@ -1,0 +1,166 @@
+{
+  "session_id": "846dd66e-d164-4310-a0bf-bc078b531fa6",
+  "experiment_id": "exp_02070ff106da",
+  "participant_id": "p_c2cf5dbc58cd",
+  "task_id": "navigation",
+  "probe_enabled": true,
+  "agent_class": "human",
+  "label": "human",
+  "page_type": "login",
+  "start_time": 415.2000000476837,
+  "end_time": 14133.900000095367,
+  "passive_events": [
+    {
+      "type": "mouse_move",
+      "ts": 424.80000019073486,
+      "x": 587,
+      "y": 133
+    },
+    {
+      "type": "mouse_move",
+      "ts": 451.10000014305115,
+      "x": 520,
+      "y": 96
+    },
+    {
+      "type": "mouse_move",
+      "ts": 467.60000014305115,
+      "x": 487,
+      "y": 77
+    },
+    {
+      "type": "mouse_move",
+      "ts": 484.40000009536743,
+      "x": 470,
+      "y": 65
+    },
+    {
+      "type": "mouse_move",
+      "ts": 501,
+      "x": 456,
+      "y": 58
+    },
+    {
+      "type": "mouse_move",
+      "ts": 517.7000000476837,
+      "x": 436,
+      "y": 51
+    },
+    {
+      "type": "mouse_move",
+      "ts": 534.5,
+      "x": 423,
+      "y": 48
+    },
+    {
+      "type": "mouse_move",
+      "ts": 551.3000001907349,
+      "x": 404,
+      "y": 45
+    },
+    {
+      "type": "mouse_move",
+      "ts": 568.2000000476837,
+      "x": 373,
+      "y": 42
+    },
+    {
+      "type": "mouse_move",
+      "ts": 584.7000000476837,
+      "x": 359,
+      "y": 39
+    },
+    {
+      "type": "mouse_move",
+      "ts": 601.3000001907349,
+      "x": 342,
+      "y": 36
+    },
+    {
+      "type": "mouse_move",
+      "ts": 618.1000001430511,
+      "x": 332,
+      "y": 32
+    },
+    {
+      "type": "mouse_move",
+      "ts": 634.6000001430511,
+      "x": 323,
+      "y": 28
+    },
+    {
+      "type": "mouse_move",
+      "ts": 651.8000001907349,
+      "x": 313,
+      "y": 25
+    },
+    {
+      "type": "mouse_move",
+      "ts": 668.1000001430511,
+      "x": 308,
+      "y": 21
+    },
+    {
+      "type": "mouse_move",
+      "ts": 684.8000001907349,
+      "x": 304,
+      "y": 19
+    },
+    {
+      "type": "mouse_move",
+      "ts": 701.7000000476837,
+      "x": 300,
+      "y": 15
+    },
+    {
+      "type": "mouse_move",
+      "ts": 718.5,
+      "x": 296,
+      "y": 13
+    },
+    {
+      "type": "mouse_move",
+      "ts": 734.6000001430511,
+      "x": 293,
+      "y": 7
+    },
+    {
+      "type": "mouse_move",
+      "ts": 751.2000000476837,
+      "x": 292,
+      "y": 1
+    }
+  ],
+  "probes": [
+    {
+      "probeId": 1,
+      "t1": 5460.100000143051,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 0,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": true,
+      "abandoned": true
+    },
+    {
+      "probeId": 2,
+      "t1": 9927.300000190735,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 0,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": true,
+      "abandoned": false
+    }
+  ],
+  "_metadata": {
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36",
+    "created_at": "2026-08-30T19:00:43.810607"
+  }
+}

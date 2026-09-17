@@ -1,0 +1,91 @@
+{
+  "session_id": "7d5cfdd9-f73d-40be-8505-3e868e6da249",
+  "page_type": "login",
+  "label": "human",
+  "start_time": 248.29999995231628,
+  "end_time": 15261.799999952316,
+  "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36",
+  "passive_events": [
+    {
+      "type": "mouse_move",
+      "ts": 2808.699999809265,
+      "x": 568,
+      "y": 3
+    },
+    {
+      "type": "mouse_move",
+      "ts": 2837.699999809265,
+      "x": 523,
+      "y": 15
+    },
+    {
+      "type": "mouse_move",
+      "ts": 2854.2999999523163,
+      "x": 506,
+      "y": 15
+    },
+    {
+      "type": "mouse_move",
+      "ts": 2871,
+      "x": 486,
+      "y": 15
+    },
+    {
+      "type": "mouse_move",
+      "ts": 2887.699999809265,
+      "x": 472,
+      "y": 15
+    },
+    {
+      "type": "mouse_move",
+      "ts": 2904.2999999523163,
+      "x": 460,
+      "y": 15
+    },
+    {
+      "type": "mouse_move",
+      "ts": 2921.0999999046326,
+      "x": 441,
+      "y": 13
+    },
+    {
+      "type": "mouse_move",
+      "ts": 2937.5999999046326,
+      "x": 431,
+      "y": 10
+    },
+    {
+      "type": "mouse_move",
+      "ts": 2954.199999809265,
+      "x": 415,
+      "y": 3
+    }
+  ],
+  "probes": [
+    {
+      "probeId": 1,
+      "t1": 1255.6999998092651,
+      "t2": 2808.699999809265,
+      "delta": 1553
+    },
+    {
+      "probeId": 2,
+      "t1": 4938.099999904633,
+      "t2": null,
+      "delta": null
+    },
+    {
+      "probeId": 3,
+      "t1": 8296.5,
+      "t2": null,
+      "delta": null
+    },
+    {
+      "probeId": 4,
+      "t1": 12693.699999809265,
+      "t2": null,
+      "delta": null
+    }
+  ],
+  "created_at": "2026-08-16T16:24:06.508239"
+}

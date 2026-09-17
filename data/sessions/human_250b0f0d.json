@@ -1,0 +1,32 @@
+{
+  "session_id": "250b0f0d-35c6-484f-bb94-a7e7b4b79130",
+  "experiment_id": "exp_081ef0dae0ab",
+  "participant_id": "p_3ce5bd8b5f24",
+  "task_id": "search",
+  "probe_enabled": true,
+  "agent_class": "human",
+  "label": "human",
+  "page_type": "login",
+  "start_time": 122.80000007152557,
+  "end_time": 8062.300000071526,
+  "passive_events": [],
+  "probes": [
+    {
+      "probeId": 1,
+      "t1": 6977,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 0,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": true,
+      "abandoned": false
+    }
+  ],
+  "_metadata": {
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36",
+    "created_at": "2026-08-29T04:25:42.650420"
+  }
+}

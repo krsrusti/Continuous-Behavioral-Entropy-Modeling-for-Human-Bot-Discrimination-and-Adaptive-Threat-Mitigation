@@ -1,0 +1,697 @@
+{
+  "session_id": "7f46d58b-8512-4ec7-a309-b12e5dfa1d70",
+  "experiment_id": "exp_a5805858e53f",
+  "participant_id": "p_5925f87493ce",
+  "task_id": "login",
+  "probe_enabled": true,
+  "agent_class": "human",
+  "label": "human",
+  "page_type": "login",
+  "start_time": 57.699999928474426,
+  "end_time": 501858.10000002384,
+  "passive_events": [
+    {
+      "type": "mouse_move",
+      "ts": 708.1999999284744,
+      "x": 841,
+      "y": 15
+    },
+    {
+      "type": "mouse_move",
+      "ts": 732.3999999761581,
+      "x": 913,
+      "y": 69
+    },
+    {
+      "type": "mouse_move",
+      "ts": 750.6000000238419,
+      "x": 940,
+      "y": 95
+    },
+    {
+      "type": "mouse_move",
+      "ts": 769.7999999523163,
+      "x": 952,
+      "y": 109
+    },
+    {
+      "type": "mouse_move",
+      "ts": 1025.2999999523163,
+      "x": 962,
+      "y": 119
+    },
+    {
+      "type": "mouse_move",
+      "ts": 1045.2999999523163,
+      "x": 1004,
+      "y": 148
+    },
+    {
+      "type": "mouse_move",
+      "ts": 424476.89999997616,
+      "x": 924,
+      "y": 11
+    },
+    {
+      "type": "mouse_move",
+      "ts": 424497.89999997616,
+      "x": 964,
+      "y": 52
+    },
+    {
+      "type": "mouse_move",
+      "ts": 424518.7999999523,
+      "x": 990,
+      "y": 96
+    },
+    {
+      "type": "mouse_move",
+      "ts": 424539.6999999285,
+      "x": 1008,
+      "y": 141
+    },
+    {
+      "type": "mouse_move",
+      "ts": 424560.60000002384,
+      "x": 1020,
+      "y": 177
+    },
+    {
+      "type": "mouse_move",
+      "ts": 429040.1999999285,
+      "x": 1008,
+      "y": 123
+    },
+    {
+      "type": "mouse_move",
+      "ts": 429060.7999999523,
+      "x": 917,
+      "y": 55
+    },
+    {
+      "type": "mouse_move",
+      "ts": 499364.1999999285,
+      "x": 796,
+      "y": 1
+    },
+    {
+      "type": "mouse_move",
+      "ts": 499385.60000002384,
+      "x": 857,
+      "y": 55
+    },
+    {
+      "type": "mouse_move",
+      "ts": 499402.10000002384,
+      "x": 900,
+      "y": 104
+    },
+    {
+      "type": "mouse_move",
+      "ts": 499419.5,
+      "x": 968,
+      "y": 192
+    },
+    {
+      "type": "mouse_move",
+      "ts": 500637.5,
+      "x": 1016,
+      "y": 224
+    },
+    {
+      "type": "mouse_move",
+      "ts": 500657.60000002384,
+      "x": 992,
+      "y": 193
+    },
+    {
+      "type": "mouse_move",
+      "ts": 500678.6999999285,
+      "x": 969,
+      "y": 165
+    },
+    {
+      "type": "mouse_move",
+      "ts": 500699.60000002384,
+      "x": 923,
+      "y": 124
+    },
+    {
+      "type": "mouse_move",
+      "ts": 500720.6999999285,
+      "x": 882,
+      "y": 77
+    },
+    {
+      "type": "mouse_move",
+      "ts": 500741.10000002384,
+      "x": 855,
+      "y": 45
+    },
+    {
+      "type": "mouse_move",
+      "ts": 500763.1999999285,
+      "x": 831,
+      "y": 17
+    }
+  ],
+  "probes": [
+    {
+      "probeId": 1,
+      "t1": 1059.7999999523163,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 6,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": false,
+      "abandoned": true
+    },
+    {
+      "probeId": 2,
+      "t1": 7415.799999952316,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 0,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": true,
+      "abandoned": true
+    },
+    {
+      "probeId": 3,
+      "t1": 13834.100000023842,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 0,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": true,
+      "abandoned": true
+    },
+    {
+      "probeId": 4,
+      "t1": 18961.600000023842,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 0,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": true,
+      "abandoned": true
+    },
+    {
+      "probeId": 5,
+      "t1": 25963.5,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 0,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": true,
+      "abandoned": true
+    },
+    {
+      "probeId": 6,
+      "t1": 31967.100000023842,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 0,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": true,
+      "abandoned": true
+    },
+    {
+      "probeId": 7,
+      "t1": 35962.89999997616,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 0,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": true,
+      "abandoned": true
+    },
+    {
+      "probeId": 8,
+      "t1": 42965.60000002384,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 0,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": true,
+      "abandoned": true
+    },
+    {
+      "probeId": 9,
+      "t1": 47963.699999928474,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 0,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": true,
+      "abandoned": true
+    },
+    {
+      "probeId": 10,
+      "t1": 53962.89999997616,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 0,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": true,
+      "abandoned": true
+    },
+    {
+      "probeId": 11,
+      "t1": 59959,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 0,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": true,
+      "abandoned": true
+    },
+    {
+      "probeId": 12,
+      "t1": 63964.10000002384,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 0,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": true,
+      "abandoned": true
+    },
+    {
+      "probeId": 13,
+      "t1": 67965.19999992847,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 0,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": true,
+      "abandoned": true
+    },
+    {
+      "probeId": 14,
+      "t1": 73962.89999997616,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 0,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": true,
+      "abandoned": true
+    },
+    {
+      "probeId": 15,
+      "t1": 98963.79999995232,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 0,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": true,
+      "abandoned": true
+    },
+    {
+      "probeId": 16,
+      "t1": 158964,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 0,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": true,
+      "abandoned": true
+    },
+    {
+      "probeId": 17,
+      "t1": 218957.5,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 0,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": true,
+      "abandoned": true
+    },
+    {
+      "probeId": 18,
+      "t1": 278963.89999997616,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 0,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": true,
+      "abandoned": true
+    },
+    {
+      "probeId": 19,
+      "t1": 338962.89999997616,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 0,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": true,
+      "abandoned": true
+    },
+    {
+      "probeId": 20,
+      "t1": 376339.2999999523,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 0,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": true,
+      "abandoned": true
+    },
+    {
+      "probeId": 21,
+      "t1": 382960.2999999523,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 0,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": true,
+      "abandoned": true
+    },
+    {
+      "probeId": 22,
+      "t1": 389971.2999999523,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 0,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": true,
+      "abandoned": true
+    },
+    {
+      "probeId": 23,
+      "t1": 396956.10000002384,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 0,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": true,
+      "abandoned": true
+    },
+    {
+      "probeId": 24,
+      "t1": 401958,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 0,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": true,
+      "abandoned": true
+    },
+    {
+      "probeId": 25,
+      "t1": 407963.39999997616,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 0,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": true,
+      "abandoned": true
+    },
+    {
+      "probeId": 26,
+      "t1": 412961.1999999285,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 0,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": true,
+      "abandoned": true
+    },
+    {
+      "probeId": 27,
+      "t1": 419962.1999999285,
+      "t2": 424476.89999997616,
+      "delta": 4514.700000047684,
+      "source": "mousemove",
+      "response_target": "body",
+      "pre_probe_n": 0,
+      "post_probe_n": 5,
+      "behavioral_change": 5,
+      "idle_before": true,
+      "abandoned": false
+    },
+    {
+      "probeId": 28,
+      "t1": 426755.39999997616,
+      "t2": 429040.1999999285,
+      "delta": 2284.7999999523163,
+      "source": "mousemove",
+      "response_target": "body",
+      "pre_probe_n": 0,
+      "post_probe_n": 2,
+      "behavioral_change": 2,
+      "idle_before": false,
+      "abandoned": false
+    },
+    {
+      "probeId": 29,
+      "t1": 430958.5,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 2,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": false,
+      "abandoned": true
+    },
+    {
+      "probeId": 30,
+      "t1": 436962.1999999285,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 0,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": true,
+      "abandoned": true
+    },
+    {
+      "probeId": 31,
+      "t1": 440956.39999997616,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 0,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": true,
+      "abandoned": true
+    },
+    {
+      "probeId": 32,
+      "t1": 446968.10000002384,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 0,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": true,
+      "abandoned": true
+    },
+    {
+      "probeId": 33,
+      "t1": 450968.6999999285,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 0,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": true,
+      "abandoned": true
+    },
+    {
+      "probeId": 34,
+      "t1": 457958.10000002384,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 0,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": true,
+      "abandoned": true
+    },
+    {
+      "probeId": 35,
+      "t1": 461963.6999999285,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 0,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": true,
+      "abandoned": true
+    },
+    {
+      "probeId": 36,
+      "t1": 465961.60000002384,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 0,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": true,
+      "abandoned": true
+    },
+    {
+      "probeId": 37,
+      "t1": 470971.39999997616,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 0,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": true,
+      "abandoned": true
+    },
+    {
+      "probeId": 38,
+      "t1": 477960.5,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 0,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": true,
+      "abandoned": true
+    },
+    {
+      "probeId": 39,
+      "t1": 484961.89999997616,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 0,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": true,
+      "abandoned": true
+    },
+    {
+      "probeId": 40,
+      "t1": 490970.1999999285,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 0,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": true,
+      "abandoned": true
+    },
+    {
+      "probeId": 41,
+      "t1": 497963.5,
+      "t2": 499364.2999999523,
+      "delta": 1400.7999999523163,
+      "source": "mousemove",
+      "response_target": "body",
+      "pre_probe_n": 0,
+      "post_probe_n": 11,
+      "behavioral_change": 11,
+      "idle_before": true,
+      "abandoned": false
+    }
+  ],
+  "_metadata": {
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36",
+    "created_at": "2026-08-26T19:06:16.911208"
+  }
+}

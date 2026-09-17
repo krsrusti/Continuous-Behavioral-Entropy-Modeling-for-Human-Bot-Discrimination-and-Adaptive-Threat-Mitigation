@@ -1,0 +1,18 @@
+{
+  "session_id": "af436fd8-5428-44b1-8085-1039798447fc",
+  "experiment_id": "exp_02070ff106da",
+  "participant_id": "p_c2cf5dbc58cd",
+  "task_id": "navigation",
+  "probe_enabled": true,
+  "agent_class": "human",
+  "label": "human",
+  "page_type": "login",
+  "start_time": 78.60000002384186,
+  "end_time": 2322.600000023842,
+  "passive_events": [],
+  "probes": [],
+  "_metadata": {
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36",
+    "created_at": "2026-08-29T04:26:06.979002"
+  }
+}

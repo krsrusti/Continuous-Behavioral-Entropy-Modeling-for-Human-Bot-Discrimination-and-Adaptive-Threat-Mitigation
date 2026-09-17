@@ -1,0 +1,94 @@
+{
+  "session_id": "ea16172c-0df9-4922-8800-0d933f30d432",
+  "experiment_id": "exp_f8ff25e4bde3",
+  "participant_id": "p_36ceecb69bce",
+  "task_id": "login",
+  "probe_enabled": true,
+  "agent_class": "bot",
+  "label": "bot",
+  "page_type": "login",
+  "start_time": 139.40000009536743,
+  "end_time": 4283.700000047684,
+  "passive_events": [
+    {
+      "type": "mouse_move",
+      "ts": 473.2999999523163,
+      "x": 1277,
+      "y": 501
+    },
+    {
+      "type": "focus",
+      "ts": 3188.4000000953674,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "input",
+      "ts": 3192.5,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "blur",
+      "ts": 3206.2000000476837,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "focus",
+      "ts": 3206.4000000953674,
+      "target": "INPUT",
+      "target_id": "password"
+    },
+    {
+      "type": "input",
+      "ts": 3208.9000000953674,
+      "target": "INPUT",
+      "target_id": "password"
+    },
+    {
+      "type": "mouse_move",
+      "ts": 3257,
+      "x": 640,
+      "y": 460
+    },
+    {
+      "type": "mousedown",
+      "ts": 3257.7000000476837,
+      "x": 640,
+      "y": 460,
+      "target": "BUTTON"
+    },
+    {
+      "type": "blur",
+      "ts": 3257.7999999523163,
+      "target": "INPUT",
+      "target_id": "password"
+    },
+    {
+      "type": "focus",
+      "ts": 3258,
+      "target": "BUTTON",
+      "target_id": null
+    },
+    {
+      "type": "mouseup",
+      "ts": 3258.2999999523163,
+      "x": 640,
+      "y": 460
+    },
+    {
+      "type": "click",
+      "ts": 3258.4000000953674,
+      "x": 640,
+      "y": 460,
+      "target": "BUTTON",
+      "target_id": null
+    }
+  ],
+  "probes": [],
+  "_metadata": {
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36",
+    "created_at": "2026-09-05T09:28:06.827165"
+  }
+}

@@ -1,0 +1,162 @@
+{
+  "session_id": "f210652b-0cf9-480c-b8c6-a60088025f8f",
+  "experiment_id": "exp_3c2d22324898",
+  "participant_id": "p_00534015bf47",
+  "task_id": "login",
+  "probe_enabled": true,
+  "agent_class": "bot",
+  "label": "bot",
+  "page_type": "login",
+  "start_time": 140.59999990463257,
+  "end_time": 6068.699999809265,
+  "passive_events": [
+    {
+      "type": "mouse_move",
+      "ts": 367.09999990463257,
+      "x": 1109,
+      "y": 563
+    },
+    {
+      "type": "mouse_move",
+      "ts": 3819.899999856949,
+      "x": 640,
+      "y": 318
+    },
+    {
+      "type": "mousedown",
+      "ts": 3823.2999999523163,
+      "x": 640,
+      "y": 318,
+      "target": "INPUT"
+    },
+    {
+      "type": "focus",
+      "ts": 3823.899999856949,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "mouseup",
+      "ts": 3825.899999856949,
+      "x": 640,
+      "y": 318
+    },
+    {
+      "type": "click",
+      "ts": 3826.2999999523163,
+      "x": 640,
+      "y": 318,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "input",
+      "ts": 4173.599999904633,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "mouse_move",
+      "ts": 4963.699999809265,
+      "x": 640,
+      "y": 395
+    },
+    {
+      "type": "mousedown",
+      "ts": 4964.099999904633,
+      "x": 640,
+      "y": 395,
+      "target": "INPUT"
+    },
+    {
+      "type": "blur",
+      "ts": 4964.399999856949,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "focus",
+      "ts": 4964.599999904633,
+      "target": "INPUT",
+      "target_id": "password"
+    },
+    {
+      "type": "mouseup",
+      "ts": 4965.599999904633,
+      "x": 640,
+      "y": 395
+    },
+    {
+      "type": "click",
+      "ts": 4965.599999904633,
+      "x": 640,
+      "y": 395,
+      "target": "INPUT",
+      "target_id": "password"
+    },
+    {
+      "type": "input",
+      "ts": 5247.599999904633,
+      "target": "INPUT",
+      "target_id": "password"
+    },
+    {
+      "type": "mouse_move",
+      "ts": 6066.399999856949,
+      "x": 640,
+      "y": 460
+    },
+    {
+      "type": "mousedown",
+      "ts": 6067.299999952316,
+      "x": 640,
+      "y": 460,
+      "target": "BUTTON"
+    },
+    {
+      "type": "blur",
+      "ts": 6067.399999856949,
+      "target": "INPUT",
+      "target_id": "password"
+    },
+    {
+      "type": "focus",
+      "ts": 6067.599999904633,
+      "target": "BUTTON",
+      "target_id": null
+    },
+    {
+      "type": "mouseup",
+      "ts": 6067.699999809265,
+      "x": 640,
+      "y": 460
+    },
+    {
+      "type": "click",
+      "ts": 6067.799999952316,
+      "x": 640,
+      "y": 460,
+      "target": "BUTTON",
+      "target_id": null
+    }
+  ],
+  "probes": [
+    {
+      "probeId": 1,
+      "t1": 5831.599999904633,
+      "t2": 6066.399999856949,
+      "delta": 234.79999995231628,
+      "source": "mousemove",
+      "response_target": "button",
+      "pre_probe_n": 8,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": false,
+      "abandoned": false
+    }
+  ],
+  "_metadata": {
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36",
+    "created_at": "2026-08-31T17:56:07.285321"
+  }
+}

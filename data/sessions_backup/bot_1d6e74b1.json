@@ -1,0 +1,94 @@
+{
+  "session_id": "1d6e74b1-d141-4603-8633-d51727252508",
+  "experiment_id": "exp_51e13ba1be12",
+  "participant_id": "p_46416f0309d4",
+  "task_id": "login",
+  "probe_enabled": true,
+  "agent_class": "bot",
+  "label": "bot",
+  "page_type": "login",
+  "start_time": 183.79999995231628,
+  "end_time": 4897.399999856949,
+  "passive_events": [
+    {
+      "type": "mouse_move",
+      "ts": 801.8999998569489,
+      "x": 764,
+      "y": 595
+    },
+    {
+      "type": "focus",
+      "ts": 3280.199999809265,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "input",
+      "ts": 3287.0999999046326,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "blur",
+      "ts": 3315.2999999523163,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "focus",
+      "ts": 3315.5999999046326,
+      "target": "INPUT",
+      "target_id": "password"
+    },
+    {
+      "type": "input",
+      "ts": 3320.2999999523163,
+      "target": "INPUT",
+      "target_id": "password"
+    },
+    {
+      "type": "mouse_move",
+      "ts": 3377.7999999523163,
+      "x": 640,
+      "y": 460
+    },
+    {
+      "type": "mousedown",
+      "ts": 3379.0999999046326,
+      "x": 640,
+      "y": 460,
+      "target": "BUTTON"
+    },
+    {
+      "type": "blur",
+      "ts": 3379.199999809265,
+      "target": "INPUT",
+      "target_id": "password"
+    },
+    {
+      "type": "focus",
+      "ts": 3379.2999999523163,
+      "target": "BUTTON",
+      "target_id": null
+    },
+    {
+      "type": "mouseup",
+      "ts": 3380.399999856949,
+      "x": 640,
+      "y": 460
+    },
+    {
+      "type": "click",
+      "ts": 3380.699999809265,
+      "x": 640,
+      "y": 460,
+      "target": "BUTTON",
+      "target_id": null
+    }
+  ],
+  "probes": [],
+  "_metadata": {
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36",
+    "created_at": "2026-08-31T16:43:33.786738"
+  }
+}

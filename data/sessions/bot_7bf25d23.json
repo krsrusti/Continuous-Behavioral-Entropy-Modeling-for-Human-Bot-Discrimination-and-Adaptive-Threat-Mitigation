@@ -1,0 +1,112 @@
+{
+  "session_id": "7bf25d23-67ab-4ec2-a257-1bac382fd60f",
+  "experiment_id": "exp_718365cb82c4",
+  "participant_id": "p_0624e44d03dc",
+  "task_id": "login",
+  "probe_enabled": true,
+  "agent_class": "bot",
+  "label": "bot",
+  "page_type": "login",
+  "start_time": 82.30000019073486,
+  "end_time": 4231.800000190735,
+  "passive_events": [
+    {
+      "type": "mouse_move",
+      "ts": 534.3000001907349,
+      "x": 1087,
+      "y": 521
+    },
+    {
+      "type": "mouse_move",
+      "ts": 553.8000001907349,
+      "x": 1104,
+      "y": 446
+    },
+    {
+      "type": "mouse_move",
+      "ts": 570.8000001907349,
+      "x": 1143,
+      "y": 309
+    },
+    {
+      "type": "mouse_move",
+      "ts": 603,
+      "x": 1220,
+      "y": 128
+    },
+    {
+      "type": "focus",
+      "ts": 3155.4000000953674,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "input",
+      "ts": 3160.600000143051,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "blur",
+      "ts": 3175.2000000476837,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "focus",
+      "ts": 3175.5,
+      "target": "INPUT",
+      "target_id": "password"
+    },
+    {
+      "type": "input",
+      "ts": 3178.100000143051,
+      "target": "INPUT",
+      "target_id": "password"
+    },
+    {
+      "type": "mouse_move",
+      "ts": 3237.100000143051,
+      "x": 640,
+      "y": 460
+    },
+    {
+      "type": "mousedown",
+      "ts": 3240.100000143051,
+      "x": 640,
+      "y": 460,
+      "target": "BUTTON"
+    },
+    {
+      "type": "blur",
+      "ts": 3240.300000190735,
+      "target": "INPUT",
+      "target_id": "password"
+    },
+    {
+      "type": "focus",
+      "ts": 3240.800000190735,
+      "target": "BUTTON",
+      "target_id": null
+    },
+    {
+      "type": "mouseup",
+      "ts": 3241.7000000476837,
+      "x": 640,
+      "y": 460
+    },
+    {
+      "type": "click",
+      "ts": 3241.800000190735,
+      "x": 640,
+      "y": 460,
+      "target": "BUTTON",
+      "target_id": null
+    }
+  ],
+  "probes": [],
+  "_metadata": {
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36",
+    "created_at": "2026-09-05T08:37:40.321991"
+  }
+}

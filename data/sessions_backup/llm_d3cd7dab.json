@@ -1,0 +1,130 @@
+{
+  "session_id": "d3cd7dab-82c4-4170-98f5-3b82ad8c2c90",
+  "experiment_id": "exp_0b59ed078e5a",
+  "participant_id": "p_6d7d9e4eeaa8",
+  "task_id": "login",
+  "probe_enabled": true,
+  "agent_class": "llm",
+  "label": "llm",
+  "page_type": "login",
+  "start_time": 127.19999992847443,
+  "end_time": 22178.199999928474,
+  "passive_events": [
+    {
+      "type": "mousedown",
+      "ts": 1786,
+      "x": 895,
+      "y": 19,
+      "target": "BODY"
+    },
+    {
+      "type": "mouse_move",
+      "ts": 1811.1999999284744,
+      "x": 895,
+      "y": 20
+    },
+    {
+      "type": "mouseup",
+      "ts": 1979,
+      "x": 895,
+      "y": 20
+    },
+    {
+      "type": "click",
+      "ts": 1979.1000000238419,
+      "x": 895,
+      "y": 20,
+      "target": "BODY",
+      "target_id": null
+    },
+    {
+      "type": "mouse_move",
+      "ts": 1996,
+      "x": 895,
+      "y": 20
+    },
+    {
+      "type": "mousedown",
+      "ts": 2121.2999999523163,
+      "x": 895,
+      "y": 20,
+      "target": "BODY"
+    },
+    {
+      "type": "mouseup",
+      "ts": 2172.899999976158,
+      "x": 895,
+      "y": 20
+    },
+    {
+      "type": "mouse_move",
+      "ts": 3549.6999999284744,
+      "x": 996,
+      "y": 477
+    },
+    {
+      "type": "mouse_move",
+      "ts": 4806.699999928474,
+      "x": 1009,
+      "y": 446
+    }
+  ],
+  "probes": [
+    {
+      "probeId": 1,
+      "t1": 1127.5,
+      "t2": 1786,
+      "delta": 658.5,
+      "source": "mousedown",
+      "response_target": "body",
+      "pre_probe_n": 0,
+      "post_probe_n": 8,
+      "behavioral_change": 8,
+      "idle_before": true,
+      "abandoned": false
+    },
+    {
+      "probeId": 2,
+      "t1": 6514,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 1,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": false,
+      "abandoned": true
+    },
+    {
+      "probeId": 3,
+      "t1": 11238.199999928474,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 0,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": true,
+      "abandoned": true
+    },
+    {
+      "probeId": 4,
+      "t1": 16239.5,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 0,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": true,
+      "abandoned": true
+    }
+  ],
+  "_metadata": {
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36",
+    "created_at": "2026-08-27T17:44:13.261635"
+  }
+}

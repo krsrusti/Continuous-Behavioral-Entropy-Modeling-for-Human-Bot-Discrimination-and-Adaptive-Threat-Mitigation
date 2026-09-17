@@ -25,12 +25,12 @@ def compute_latency_stats(probes: List[Dict]) -> Dict:
 
 def classify_latency_profile(stats: Dict) -> str:
     """Heuristic pre-classifier based on latency stats alone.
-    Returns 'human' | 'script' | 'llm' | 'unknown'."""
+    Returns 'human' | 'bot' | 'llm' | 'unknown'."""
     if stats['count'] == 0 or stats['mean'] is None:
         return 'unknown'
     mean, std = stats['mean'], stats['std']
     if mean < 50 and std < 10:
-        return 'script'
+        return 'bot'
     if mean > 300 and std > 150:
         return 'llm'
     return 'human'

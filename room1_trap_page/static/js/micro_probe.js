@@ -1,246 +1,475 @@
 /**
- * micro_probe.js — THE NOVEL PART: Active Micro-Probe System.
+ * micro_probe.js
+ *
+ * Active Micro-Probe System
  *
  * Behaviour:
- *   - If probeEnabled = false: does nothing. No DOM mutations. No probes recorded.
- *   - If probeEnabled = true:
- *       Every 3-7s fires an imperceptible DOM mutation (1px shift of hidden div).
- *       Records T1 (probe fired).
- *       Waits for next user interaction to record T2.
- *       If no T2 within 5s: marks probe as abandoned.
+ *   - probeEnabled = false:
+ *       No probes are fired.
  *
- * Each probe record contains:
- *   probeId          — sequential ID
- *   t1               — timestamp when probe fired (performance.now())
- *   t2               — timestamp of next interaction (null if abandoned)
- *   delta            — T2 - T1 in ms (null if abandoned)
- *   source           — event type that triggered T2 (click/keydown/mousemove/etc)
- *   response_target  — element ID or tag that was interacted with
- *   pre_probe_n      — passive events in 2s before T1
- *   post_probe_n     — passive events in 2s after T2 (filled after T2 + 2s)
- *   behavioral_change — post_probe_n - pre_probe_n
- *   idle_before      — true if no passive events in 3s before T1
- *   abandoned        — true if no T2 recorded within 5s
+ *   - probeEnabled = true:
+ *       A small hidden DOM mutation is made every 3–7 seconds.
+ *       T1 = probe fired.
+ *       T2 = next meaningful user/agent interaction.
+ *       delta = T2 - T1.
  *
- * Exposes: window.__tifProbes
- * Reads:   window.__tifPassive (must be loaded before this script)
+ * Important:
+ *   - The probe's own DOM mutation must NOT count as the response.
+ *   - Only meaningful interaction events should complete a probe.
+ *   - If nothing happens within 5 seconds, the probe is abandoned.
+ *
+ * Exposes:
+ *   window.__tifProbes
+ *   window.__tifProbeSetEnabled()
  */
+
 (function () {
   'use strict';
 
-  // ── Config ────────────────────────────────────────────────────────────────
-  // probeEnabled is set by TIFSession.init() via window.__tifProbeEnabled.
-  // Default false — probe does nothing until explicitly enabled.
+  // ─────────────────────────────────────────────────────────────────────────
+  // Configuration
+  // ─────────────────────────────────────────────────────────────────────────
 
-  let probeEnabled  = false;
-  const probes      = [];
-  let probeCounter  = 0;
-  let pendingProbe  = null;
-  let abandonTimer  = null;
+  let probeEnabled = false;
 
-  // ── Ghost element ─────────────────────────────────────────────────────────
+  const probes = [];
+
+  let probeCounter = 0;
+
+  let pendingProbe = null;
+
+  let abandonTimer = null;
+
+  let nextProbeTimer = null;
+
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // Hidden ghost element
+  // ─────────────────────────────────────────────────────────────────────────
 
   const ghost = document.createElement('div');
+
   Object.assign(ghost.style, {
-    position:      'fixed',
-    width:         '1px',
-    height:        '1px',
-    opacity:       '0',
+    position: 'fixed',
+    width: '1px',
+    height: '1px',
+    opacity: '0',
     pointerEvents: 'none',
-    top:           '-9999px',
-    left:          '-9999px',
-    zIndex:        '-1',
+    top: '-9999px',
+    left: '-9999px',
+    zIndex: '-1',
   });
+
   ghost.setAttribute('aria-hidden', 'true');
+
   document.body.appendChild(ghost);
 
-  // ── Helpers ───────────────────────────────────────────────────────────────
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // Helpers
+  // ─────────────────────────────────────────────────────────────────────────
 
   function getPassiveEvents() {
     return window.__tifPassive || [];
   }
 
-  function countEventsInWindow(centerTs, windowMs) {
+
+  function countEventsBefore(centerTs, windowMs) {
     const events = getPassiveEvents();
-    const from   = centerTs - windowMs;
-    const to     = centerTs + windowMs;
-    return events.filter(e => e.ts >= from && e.ts <= to).length;
+
+    const from = centerTs - windowMs;
+    const to = centerTs;
+
+    return events.filter(
+      e => e.ts >= from && e.ts <= to
+    ).length;
   }
+
+
+  function countEventsAfter(centerTs, windowMs) {
+    const events = getPassiveEvents();
+
+    const from = centerTs;
+    const to = centerTs + windowMs;
+
+    return events.filter(
+      e => e.ts >= from && e.ts <= to
+    ).length;
+  }
+
 
   function wasIdleBefore(t1, idleWindowMs) {
     const events = getPassiveEvents();
-    const from   = t1 - idleWindowMs;
-    return !events.some(e => e.ts >= from && e.ts < t1);
+
+    const from = t1 - idleWindowMs;
+
+    return !events.some(
+      e => e.ts >= from && e.ts < t1
+    );
   }
+
 
   function getResponseTarget(event) {
-    if (!event || !event.target) return null;
+    if (!event || !event.target) {
+      return null;
+    }
+
     const el = event.target;
-    // Prefer ID, then name, then tag
-    if (el.id)   return el.id;
-    if (el.name) return el.name;
-    return el.tagName ? el.tagName.toLowerCase() : null;
+
+    if (el.id) {
+      return el.id;
+    }
+
+    if (el.name) {
+      return el.name;
+    }
+
+    if (el.tagName) {
+      return el.tagName.toLowerCase();
+    }
+
+    return null;
   }
 
-  // ── Probe lifecycle ───────────────────────────────────────────────────────
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // Finish probe
+  // ─────────────────────────────────────────────────────────────────────────
+
+  function completeProbe(event, sourceOverride = null) {
+
+    if (!pendingProbe) {
+      return;
+    }
+
+    if (pendingProbe.t2 !== null) {
+      return;
+    }
+
+    const now = performance.now();
+
+    const delta = now - pendingProbe.t1;
+
+    // Ignore same-tick events.
+    if (delta < 50) {
+      return;
+    }
+
+    // Stop abandonment timer.
+    if (abandonTimer) {
+      clearTimeout(abandonTimer);
+      abandonTimer = null;
+    }
+
+    pendingProbe.t2 = now;
+
+    pendingProbe.delta = delta;
+
+    pendingProbe.source =
+      sourceOverride ||
+      event?.type ||
+      'unknown';
+
+    pendingProbe.response_target =
+      getResponseTarget(event);
+
+    const completedProbe = pendingProbe;
+
+    pendingProbe = null;
+
+
+    // Wait 2 seconds before calculating post-probe behaviour.
+    setTimeout(() => {
+
+      const postProbeCount =
+        countEventsAfter(
+          completedProbe.t2,
+          2000
+        );
+
+      completedProbe.post_probe_n =
+        postProbeCount;
+
+      completedProbe.behavioral_change =
+        postProbeCount -
+        completedProbe.pre_probe_n;
+
+    }, 2000);
+  }
+
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // Fire probe
+  // ─────────────────────────────────────────────────────────────────────────
 
   function fireProbe() {
+
     if (!probeEnabled) {
       scheduleNext();
       return;
     }
 
-    const probeId = ++probeCounter;
-    const t1      = performance.now();
 
-    // Close any previously abandoned probe
+    // If a previous probe is still waiting,
+    // abandon it before starting another.
     if (pendingProbe && pendingProbe.t2 === null) {
+
       pendingProbe.abandoned = true;
-      pendingProbe.delta     = null;
+
+      pendingProbe.delta = null;
+
       pendingProbe = null;
     }
 
-    // Clear any existing abandon timer
+
     if (abandonTimer) {
+
       clearTimeout(abandonTimer);
+
       abandonTimer = null;
     }
 
-    // Imperceptible DOM mutation — alternates top by 1px
-    ghost.style.top = (probeCounter % 2 === 0) ? '-9999px' : '-9998px';
 
-    // Count passive events in 2s before T1
-    const pre_probe_n = countEventsInWindow(t1, 2000);
+    probeCounter += 1;
 
-    // Was user idle in 3s before probe?
-    const idle_before = wasIdleBefore(t1, 3000);
+    const probeId = probeCounter;
+
+    const t1 = performance.now();
+
+
+    // ───────────────────────────────────────────────────────────────────────
+    // Measure behaviour BEFORE probe
+    // ───────────────────────────────────────────────────────────────────────
+
+    const preProbeCount =
+      countEventsBefore(
+        t1,
+        2000
+      );
+
+    const idleBefore =
+      wasIdleBefore(
+        t1,
+        3000
+      );
+
+
+    // ───────────────────────────────────────────────────────────────────────
+    // Create probe record
+    // ───────────────────────────────────────────────────────────────────────
 
     const probe = {
+
       probeId,
+
       t1,
-      t2:                null,
-      delta:             null,
-      source:            null,
-      response_target:   null,
-      pre_probe_n,
-      post_probe_n:      null,   // filled 2s after T2
-      behavioral_change: null,   // filled 2s after T2
-      idle_before,
-      abandoned:         false,
+
+      t2: null,
+
+      delta: null,
+
+      source: null,
+
+      response_target: null,
+
+      pre_probe_n:
+        preProbeCount,
+
+      post_probe_n: null,
+
+      behavioral_change: null,
+
+      idle_before:
+        idleBefore,
+
+      abandoned: false,
     };
 
+
     probes.push(probe);
+
     pendingProbe = probe;
 
-    // Abandon timer — if no T2 within 5s, mark abandoned
+
+    // ───────────────────────────────────────────────────────────────────────
+    // DOM mutation
+    //
+    // IMPORTANT:
+    // This mutation happens immediately after T1.
+    // The MutationObserver below ignores mutations caused by the ghost.
+    // ───────────────────────────────────────────────────────────────────────
+
+    ghost.style.top =
+      (probeCounter % 2 === 0)
+        ? '-9999px'
+        : '-9998px';
+
+
+    // ───────────────────────────────────────────────────────────────────────
+    // Abandon after 5 seconds
+    // ───────────────────────────────────────────────────────────────────────
+
     abandonTimer = setTimeout(() => {
-      if (pendingProbe && pendingProbe.t2 === null) {
+
+      if (
+        pendingProbe &&
+        pendingProbe.probeId === probeId &&
+        pendingProbe.t2 === null
+      ) {
+
         pendingProbe.abandoned = true;
-        pendingProbe.delta     = null;
-        pendingProbe           = null;
+
+        pendingProbe.delta = null;
+
+        pendingProbe = null;
       }
+
       abandonTimer = null;
+
     }, 5000);
+
 
     scheduleNext();
   }
 
-  function recordT2(event) {
-    if (!pendingProbe || pendingProbe.t2 !== null) return;
 
-    const now   = performance.now();
-    const delta = now - pendingProbe.t1;
-
-    // Ignore suspiciously fast responses — same-tick noise
-    if (delta < 50) return;
-
-    // Clear abandon timer — T2 was recorded in time
-    if (abandonTimer) {
-      clearTimeout(abandonTimer);
-      abandonTimer = null;
-    }
-
-    pendingProbe.t2             = now;
-    pendingProbe.delta          = delta;
-    pendingProbe.source         = event.type || 'unknown';
-    pendingProbe.response_target = getResponseTarget(event);
-
-    // Capture reference before async delay
-    const completedProbe = pendingProbe;
-    pendingProbe = null;
-
-    // Fill post_probe_n and behavioral_change 2s after T2
-    setTimeout(() => {
-      const post_probe_n = countEventsInWindow(completedProbe.t2, 2000);
-      completedProbe.post_probe_n      = post_probe_n;
-      completedProbe.behavioral_change = post_probe_n - completedProbe.pre_probe_n;
-    }, 2000);
-  }
-
-  // ── Event listeners ───────────────────────────────────────────────────────
-  // Use capture=false, passive=true — don't interfere with page behaviour.
-  // Pass the full event so we can extract response_target.
-
-  ['mousemove', 'keydown', 'click', 'scroll',
-   'touchstart', 'mousedown', 'input', 'focusin']
-    .forEach(evt => {
-      document.addEventListener(evt, recordT2, { passive: true });
-    });
-
-  // MutationObserver — catches selenium/LLM agent DOM changes
-  // that don't fire standard input events
-  const observer = new MutationObserver((mutations) => {
-    if (!pendingProbe || pendingProbe.t2 !== null) return;
-    const now   = performance.now();
-    const delta = now - pendingProbe.t1;
-    if (delta < 50) return;
-
-    if (abandonTimer) {
-      clearTimeout(abandonTimer);
-      abandonTimer = null;
-    }
-
-    pendingProbe.t2              = now;
-    pendingProbe.delta           = delta;
-    pendingProbe.source          = 'mutation';
-    pendingProbe.response_target = mutations[0]?.target?.id
-                                || mutations[0]?.target?.tagName?.toLowerCase()
-                                || 'dom';
-
-    const completedProbe = pendingProbe;
-    pendingProbe = null;
-
-    setTimeout(() => {
-      const post_probe_n = countEventsInWindow(completedProbe.t2, 2000);
-      completedProbe.post_probe_n      = post_probe_n;
-      completedProbe.behavioral_change = post_probe_n - completedProbe.pre_probe_n;
-    }, 2000);
-  });
-
-  observer.observe(document.body, {
-    childList:     true,
-    subtree:       true,
-    attributes:    true,
-    characterData: true,
-  });
-
-  // ── Scheduling ────────────────────────────────────────────────────────────
+  // ─────────────────────────────────────────────────────────────────────────
+  // Schedule next probe
+  // ─────────────────────────────────────────────────────────────────────────
 
   function scheduleNext() {
-    const delay = 3000 + Math.random() * 4000;
-    setTimeout(fireProbe, delay);
+
+    if (nextProbeTimer) {
+      clearTimeout(nextProbeTimer);
+    }
+
+    const delay =
+      3000 +
+      Math.random() * 4000;
+
+    nextProbeTimer =
+      setTimeout(
+        fireProbe,
+        delay
+      );
   }
 
-  // ── Public API ────────────────────────────────────────────────────────────
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // User / agent interaction events
+  // ─────────────────────────────────────────────────────────────────────────
+
+  [
+    'mousemove',
+    'keydown',
+    'click',
+    'scroll',
+    'touchstart',
+    'mousedown',
+    'input',
+    'focusin'
+  ].forEach(evt => {
+
+    document.addEventListener(
+      evt,
+      function (event) {
+
+        if (!probeEnabled) {
+          return;
+        }
+
+        completeProbe(event);
+
+      },
+      {
+        passive: true
+      }
+    );
+
+  });
+
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // MutationObserver
+  //
+  // We DO NOT let arbitrary DOM mutations immediately become probe
+  // responses. The main signal should come from actual interaction.
+  //
+  // This prevents the page itself / Selenium / framework DOM updates
+  // from creating lots of false probe responses.
+  // ─────────────────────────────────────────────────────────────────────────
+
+  const observer =
+    new MutationObserver(() => {
+
+      // Intentionally ignored.
+      //
+      // The probe's own DOM mutation must not complete the probe.
+      //
+      // We still observe mutations here so the system can be extended later,
+      // but mutations are not currently used as T2.
+    });
+
+
+  observer.observe(
+    document.body,
+    {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      characterData: true
+    }
+  );
+
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // Public API
+  // ─────────────────────────────────────────────────────────────────────────
 
   window.__tifProbes = probes;
 
-  // Called by session_transmitter.js after init()
-  window.__tifProbeSetEnabled = function (enabled) {
-    probeEnabled = !!enabled;
-  };
 
-  // Kick off scheduling — probe won't actually fire if probeEnabled = false
-  setTimeout(fireProbe, 1000);
+  window.__tifProbeSetEnabled =
+    function (enabled) {
+
+      probeEnabled = !!enabled;
+
+      console.log(
+        '[TIF Probe] Enabled:',
+        probeEnabled
+      );
+
+      // If disabled, cancel future scheduling.
+      if (!probeEnabled) {
+
+        if (nextProbeTimer) {
+          clearTimeout(nextProbeTimer);
+          nextProbeTimer = null;
+        }
+
+        if (abandonTimer) {
+          clearTimeout(abandonTimer);
+          abandonTimer = null;
+        }
+
+        pendingProbe = null;
+
+        return;
+      }
+
+      // If enabled, start the probe cycle.
+      if (!nextProbeTimer) {
+        scheduleNext();
+      }
+    };
+
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // Initial state
+  // ─────────────────────────────────────────────────────────────────────────
+
+  console.log(
+    '[TIF Probe] Loaded. Waiting for TIFSession.init().'
+  );
 
 })();

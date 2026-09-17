@@ -43,7 +43,7 @@ def rand_focuses(t_max):
 def rand_probes(label):
     delta_params = {
         'human':  (350, 80),    # moderate, natural variance
-        'script': (20,  5),     # near-instant, very consistent
+        'bot':    (20,  5),     # near-instant, very consistent
         'llm':    (800, 300),   # slow, high variance (inference overhead)
     }
     mu, sigma = delta_params[label]
@@ -80,7 +80,7 @@ def make_session(label):
 
 
 def main():
-    counts = {'human': 30, 'script': 5, 'llm': 5}
+    counts = {'human': 30, 'bot': 5, 'llm': 5}
     total  = 0
     for label, n in counts.items():
         for _ in range(n):
@@ -91,7 +91,7 @@ def main():
                 json.dump(sess, f, indent=2)
             total += 1
     print(f'Generated {total} synthetic sessions → {SESSIONS_DIR}')
-    print(f'  human: {counts["human"]}  script: {counts["script"]}  llm: {counts["llm"]}')
+    print(f'  human: {counts["human"]}  bot: {counts["bot"]}  llm: {counts["llm"]}')
 
 
 if __name__ == '__main__':

@@ -1,0 +1,106 @@
+{
+  "session_id": "907af18f-27da-4781-95f9-c8f74ee152ea",
+  "experiment_id": "exp_d12450c19d20",
+  "participant_id": "p_7397bca06528",
+  "task_id": "login",
+  "probe_enabled": true,
+  "agent_class": "bot",
+  "label": "bot",
+  "page_type": "login",
+  "start_time": 121.90000009536743,
+  "end_time": 4430.400000095367,
+  "passive_events": [
+    {
+      "type": "mouse_move",
+      "ts": 328.7000000476837,
+      "x": 1027,
+      "y": 712
+    },
+    {
+      "type": "mouse_move",
+      "ts": 345,
+      "x": 1026,
+      "y": 713
+    },
+    {
+      "type": "mouse_move",
+      "ts": 376,
+      "x": 1025,
+      "y": 714
+    },
+    {
+      "type": "focus",
+      "ts": 3187,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "input",
+      "ts": 3191.7999999523163,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "blur",
+      "ts": 3204.4000000953674,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "focus",
+      "ts": 3204.7000000476837,
+      "target": "INPUT",
+      "target_id": "password"
+    },
+    {
+      "type": "input",
+      "ts": 3206.7000000476837,
+      "target": "INPUT",
+      "target_id": "password"
+    },
+    {
+      "type": "mouse_move",
+      "ts": 3254.7999999523163,
+      "x": 640,
+      "y": 460
+    },
+    {
+      "type": "mousedown",
+      "ts": 3256,
+      "x": 640,
+      "y": 460,
+      "target": "BUTTON"
+    },
+    {
+      "type": "blur",
+      "ts": 3256.2000000476837,
+      "target": "INPUT",
+      "target_id": "password"
+    },
+    {
+      "type": "focus",
+      "ts": 3256.2999999523163,
+      "target": "BUTTON",
+      "target_id": null
+    },
+    {
+      "type": "mouseup",
+      "ts": 3256.7999999523163,
+      "x": 640,
+      "y": 460
+    },
+    {
+      "type": "click",
+      "ts": 3257,
+      "x": 640,
+      "y": 460,
+      "target": "BUTTON",
+      "target_id": null
+    }
+  ],
+  "probes": [],
+  "_metadata": {
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36",
+    "created_at": "2026-09-05T08:34:53.974350"
+  }
+}

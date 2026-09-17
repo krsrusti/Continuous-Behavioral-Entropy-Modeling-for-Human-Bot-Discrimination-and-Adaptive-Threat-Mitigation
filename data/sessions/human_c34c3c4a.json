@@ -1,0 +1,64 @@
+{
+  "session_id": "c34c3c4a-73fc-46f7-af8b-70261fb73bfb",
+  "experiment_id": "exp_379a278934f6",
+  "participant_id": "p_3ab23cd97468",
+  "task_id": "login",
+  "probe_enabled": true,
+  "agent_class": "human",
+  "label": "human",
+  "page_type": "login",
+  "start_time": 152.80000019073486,
+  "end_time": 14821.400000095367,
+  "passive_events": [
+    {
+      "type": "mouse_move",
+      "ts": 2611.100000143051,
+      "x": 800,
+      "y": 320
+    },
+    {
+      "type": "mouse_move",
+      "ts": 2642.2000000476837,
+      "x": 819,
+      "y": 161
+    },
+    {
+      "type": "mouse_move",
+      "ts": 2658.600000143051,
+      "x": 860,
+      "y": 49
+    }
+  ],
+  "probes": [
+    {
+      "probeId": 1,
+      "t1": 4841.900000095367,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 0,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": false,
+      "abandoned": true
+    },
+    {
+      "probeId": 2,
+      "t1": 11848.400000095367,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 0,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": true,
+      "abandoned": false
+    }
+  ],
+  "_metadata": {
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
+    "created_at": "2026-09-01T15:10:55.840763"
+  }
+}

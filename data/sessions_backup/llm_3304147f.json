@@ -1,0 +1,295 @@
+{
+  "session_id": "3304147f-e96d-45d2-807b-00142a2074d4",
+  "experiment_id": "exp_0a7a84862ffe",
+  "participant_id": "p_6c9b5ab31c78",
+  "task_id": "login",
+  "probe_enabled": true,
+  "agent_class": "llm",
+  "label": "llm",
+  "page_type": "login",
+  "start_time": 139.19999980926514,
+  "end_time": 12170.199999809265,
+  "passive_events": [
+    {
+      "type": "mouse_move",
+      "ts": 723.2999999523163,
+      "x": 771,
+      "y": 48
+    },
+    {
+      "type": "mouse_move",
+      "ts": 746.5999999046326,
+      "x": 783,
+      "y": 81
+    },
+    {
+      "type": "mouse_move",
+      "ts": 763.2999999523163,
+      "x": 791,
+      "y": 100
+    },
+    {
+      "type": "mouse_move",
+      "ts": 780.0999999046326,
+      "x": 802,
+      "y": 133
+    },
+    {
+      "type": "mouse_move",
+      "ts": 796.8999998569489,
+      "x": 807,
+      "y": 154
+    },
+    {
+      "type": "mouse_move",
+      "ts": 813.2999999523163,
+      "x": 813,
+      "y": 177
+    },
+    {
+      "type": "mouse_move",
+      "ts": 830.0999999046326,
+      "x": 819,
+      "y": 204
+    },
+    {
+      "type": "mouse_move",
+      "ts": 846.6999998092651,
+      "x": 820,
+      "y": 216
+    },
+    {
+      "type": "mouse_move",
+      "ts": 863.5,
+      "x": 820,
+      "y": 233
+    },
+    {
+      "type": "mouse_move",
+      "ts": 880.1999998092651,
+      "x": 823,
+      "y": 245
+    },
+    {
+      "type": "mouse_move",
+      "ts": 896.6999998092651,
+      "x": 824,
+      "y": 256
+    },
+    {
+      "type": "mouse_move",
+      "ts": 913.6999998092651,
+      "x": 824,
+      "y": 270
+    },
+    {
+      "type": "mouse_move",
+      "ts": 929.7999999523163,
+      "x": 825,
+      "y": 277
+    },
+    {
+      "type": "mouse_move",
+      "ts": 946.6999998092651,
+      "x": 825,
+      "y": 289
+    },
+    {
+      "type": "mouse_move",
+      "ts": 963.2999999523163,
+      "x": 825,
+      "y": 301
+    },
+    {
+      "type": "mouse_move",
+      "ts": 980.1999998092651,
+      "x": 824,
+      "y": 310
+    },
+    {
+      "type": "mouse_move",
+      "ts": 996.5,
+      "x": 824,
+      "y": 316
+    },
+    {
+      "type": "mouse_move",
+      "ts": 1014,
+      "x": 824,
+      "y": 322
+    },
+    {
+      "type": "mouse_move",
+      "ts": 1047,
+      "x": 824,
+      "y": 333
+    },
+    {
+      "type": "mouse_move",
+      "ts": 1063.3999998569489,
+      "x": 824,
+      "y": 337
+    },
+    {
+      "type": "mouse_move",
+      "ts": 1080.0999999046326,
+      "x": 824,
+      "y": 349
+    },
+    {
+      "type": "mouse_move",
+      "ts": 1096.5,
+      "x": 824,
+      "y": 357
+    },
+    {
+      "type": "mouse_move",
+      "ts": 1113.1999998092651,
+      "x": 826,
+      "y": 377
+    },
+    {
+      "type": "mouse_move",
+      "ts": 1130.7999999523163,
+      "x": 828,
+      "y": 397
+    },
+    {
+      "type": "mouse_move",
+      "ts": 1163.3999998569489,
+      "x": 830,
+      "y": 429
+    },
+    {
+      "type": "mouse_move",
+      "ts": 1179.8999998569489,
+      "x": 830,
+      "y": 438
+    },
+    {
+      "type": "mouse_move",
+      "ts": 1197.5,
+      "x": 830,
+      "y": 450
+    },
+    {
+      "type": "mouse_move",
+      "ts": 1229.7999999523163,
+      "x": 831,
+      "y": 465
+    },
+    {
+      "type": "mouse_move",
+      "ts": 1246.2999999523163,
+      "x": 832,
+      "y": 469
+    },
+    {
+      "type": "mousedown",
+      "ts": 1695.1999998092651,
+      "x": 832,
+      "y": 469,
+      "target": "BUTTON"
+    },
+    {
+      "type": "focus",
+      "ts": 1695.5,
+      "target": "BUTTON",
+      "target_id": null
+    },
+    {
+      "type": "mouseup",
+      "ts": 1907.8999998569489,
+      "x": 832,
+      "y": 469
+    },
+    {
+      "type": "click",
+      "ts": 1908.1999998092651,
+      "x": 832,
+      "y": 469,
+      "target": "BUTTON",
+      "target_id": null
+    },
+    {
+      "type": "blur",
+      "ts": 1908.5,
+      "target": "BUTTON",
+      "target_id": null
+    },
+    {
+      "type": "focus",
+      "ts": 1909.0999999046326,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "mouse_move",
+      "ts": 4864.599999904633,
+      "x": 803,
+      "y": 374
+    },
+    {
+      "type": "mouse_move",
+      "ts": 4881.699999809265,
+      "x": 784,
+      "y": 291
+    },
+    {
+      "type": "mouse_move",
+      "ts": 4898.099999904633,
+      "x": 768,
+      "y": 209
+    },
+    {
+      "type": "mouse_move",
+      "ts": 4915.199999809265,
+      "x": 743,
+      "y": 65
+    },
+    {
+      "type": "blur",
+      "ts": 5841.5,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "focus",
+      "ts": 11233.299999952316,
+      "target": "INPUT",
+      "target_id": "email"
+    }
+  ],
+  "probes": [
+    {
+      "probeId": 1,
+      "t1": 3395.2999999523163,
+      "t2": 4864.699999809265,
+      "delta": 1469.3999998569489,
+      "source": "mousemove",
+      "response_target": "label",
+      "pre_probe_n": 6,
+      "post_probe_n": 4,
+      "behavioral_change": -2,
+      "idle_before": false,
+      "abandoned": false
+    },
+    {
+      "probeId": 2,
+      "t1": 7603.799999952316,
+      "t2": 11233.299999952316,
+      "delta": 3629.5,
+      "source": "focusin",
+      "response_target": "email",
+      "pre_probe_n": 1,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": false,
+      "abandoned": false
+    }
+  ],
+  "_metadata": {
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36",
+    "created_at": "2026-08-31T12:32:10.760534"
+  }
+}

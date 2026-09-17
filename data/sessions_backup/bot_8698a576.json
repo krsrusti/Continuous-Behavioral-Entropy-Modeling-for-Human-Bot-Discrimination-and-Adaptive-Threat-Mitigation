@@ -1,0 +1,94 @@
+{
+  "session_id": "8698a576-72ff-453c-8e5d-290cc5aa3b37",
+  "experiment_id": "exp_893ae2d96404",
+  "participant_id": "p_c5b7fb02d6d3",
+  "task_id": "login",
+  "probe_enabled": true,
+  "agent_class": "bot",
+  "label": "bot",
+  "page_type": "login",
+  "start_time": 150.09999990463257,
+  "end_time": 4479.299999952316,
+  "passive_events": [
+    {
+      "type": "mouse_move",
+      "ts": 349.2000000476837,
+      "x": 798,
+      "y": 643
+    },
+    {
+      "type": "focus",
+      "ts": 3231.2000000476837,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "input",
+      "ts": 3237.5,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "blur",
+      "ts": 3261.2000000476837,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "focus",
+      "ts": 3261.2999999523163,
+      "target": "INPUT",
+      "target_id": "password"
+    },
+    {
+      "type": "input",
+      "ts": 3265.5999999046326,
+      "target": "INPUT",
+      "target_id": "password"
+    },
+    {
+      "type": "mouse_move",
+      "ts": 3330.399999856949,
+      "x": 640,
+      "y": 460
+    },
+    {
+      "type": "mousedown",
+      "ts": 3331.7000000476837,
+      "x": 640,
+      "y": 460,
+      "target": "BUTTON"
+    },
+    {
+      "type": "blur",
+      "ts": 3332,
+      "target": "INPUT",
+      "target_id": "password"
+    },
+    {
+      "type": "focus",
+      "ts": 3332.0999999046326,
+      "target": "BUTTON",
+      "target_id": null
+    },
+    {
+      "type": "mouseup",
+      "ts": 3332.899999856949,
+      "x": 640,
+      "y": 460
+    },
+    {
+      "type": "click",
+      "ts": 3333.0999999046326,
+      "x": 640,
+      "y": 460,
+      "target": "BUTTON",
+      "target_id": null
+    }
+  ],
+  "probes": [],
+  "_metadata": {
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36",
+    "created_at": "2026-09-01T09:10:19.202087"
+  }
+}

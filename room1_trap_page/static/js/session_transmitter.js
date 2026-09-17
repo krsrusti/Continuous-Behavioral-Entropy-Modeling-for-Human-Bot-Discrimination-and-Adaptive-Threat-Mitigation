@@ -51,7 +51,7 @@ const TIFSession = (function () {
       sessionId = config.sessionId;
     }
 
-    attachFormListeners();
+    //attachFormListeners();
     attachUnloadListener();
   }
 
@@ -118,14 +118,14 @@ const TIFSession = (function () {
 
   // ── Form listeners ────────────────────────────────────────────────────────
 
-  function attachFormListeners() {
-    document.querySelectorAll('form').forEach((form) => {
-      form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        await transmit();
-      });
-    });
-  }
+  //function attachFormListeners() {
+    //document.querySelectorAll('form').forEach((form) => {
+      //form.addEventListener('submit', async (e) => {
+        //e.preventDefault();
+        //await transmit();
+      //});
+    //});
+  //}
 
   // ── Unload listener ───────────────────────────────────────────────────────
   // sendBeacon is best-effort — fires even if page is closing.

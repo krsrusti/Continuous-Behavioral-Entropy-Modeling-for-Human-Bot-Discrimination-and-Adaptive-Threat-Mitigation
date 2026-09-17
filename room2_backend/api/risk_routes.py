@@ -48,11 +48,11 @@ def risk():
     pred = model.predict(X)[0]
     proba = model.predict_proba(X)[0].tolist()
 
-    label_map     = {0: 'human', 1: 'script', 2: 'llm'}
+    label_map     = {0: 'human', 1: 'bot', 2: 'llm'}
     prediction    = label_map[pred]
     probabilities = {
         'human':  proba[0],
-        'script': proba[1],
+        'bot':    proba[1],
         'llm':    proba[2],
     }
 
@@ -104,9 +104,9 @@ def risk_batch():
             X             = np.array(features).reshape(1, -1)
             pred          = model.predict(X)[0]
             proba         = model.predict_proba(X)[0].tolist()
-            label_map     = {0: 'human', 1: 'script', 2: 'llm'}
+            label_map     = {0: 'human', 1: 'bot', 2: 'llm'}
             prediction    = label_map[pred]
-            probabilities = {'human': proba[0], 'script': proba[1], 'llm': proba[2]}
+            probabilities = {'human': proba[0], 'bot': proba[1], 'llm': proba[2]}
             result        = evaluate_session(prediction, probabilities)
             results.append({
                 'session_id': session.get('session_id'),

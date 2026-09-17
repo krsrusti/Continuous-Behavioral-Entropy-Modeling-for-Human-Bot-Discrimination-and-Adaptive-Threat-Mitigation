@@ -1,0 +1,94 @@
+{
+  "session_id": "b9a84b58-678b-4d11-941f-23472abd99cf",
+  "experiment_id": "exp_4bb877812e3e",
+  "participant_id": "p_ebea91c23d49",
+  "task_id": "login",
+  "probe_enabled": true,
+  "agent_class": "bot",
+  "label": "bot",
+  "page_type": "login",
+  "start_time": 100.79999995231628,
+  "end_time": 4267.299999952316,
+  "passive_events": [
+    {
+      "type": "mouse_move",
+      "ts": 285.59999990463257,
+      "x": 1041,
+      "y": 297
+    },
+    {
+      "type": "focus",
+      "ts": 3151.699999809265,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "input",
+      "ts": 3156.899999856949,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "blur",
+      "ts": 3174.199999809265,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "focus",
+      "ts": 3174.5,
+      "target": "INPUT",
+      "target_id": "password"
+    },
+    {
+      "type": "input",
+      "ts": 3178,
+      "target": "INPUT",
+      "target_id": "password"
+    },
+    {
+      "type": "mouse_move",
+      "ts": 3233.5999999046326,
+      "x": 640,
+      "y": 460
+    },
+    {
+      "type": "mousedown",
+      "ts": 3234.0999999046326,
+      "x": 640,
+      "y": 460,
+      "target": "BUTTON"
+    },
+    {
+      "type": "blur",
+      "ts": 3234.199999809265,
+      "target": "INPUT",
+      "target_id": "password"
+    },
+    {
+      "type": "focus",
+      "ts": 3234.399999856949,
+      "target": "BUTTON",
+      "target_id": null
+    },
+    {
+      "type": "mouseup",
+      "ts": 3234.5999999046326,
+      "x": 640,
+      "y": 460
+    },
+    {
+      "type": "click",
+      "ts": 3234.699999809265,
+      "x": 640,
+      "y": 460,
+      "target": "BUTTON",
+      "target_id": null
+    }
+  ],
+  "probes": [],
+  "_metadata": {
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36",
+    "created_at": "2026-09-05T08:30:59.580252"
+  }
+}

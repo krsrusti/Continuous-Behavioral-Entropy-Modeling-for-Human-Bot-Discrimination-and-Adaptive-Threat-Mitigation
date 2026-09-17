@@ -1,0 +1,94 @@
+{
+  "session_id": "496db387-3f08-44af-bd72-cd43cea9e510",
+  "experiment_id": "exp_ab167eaa4a79",
+  "participant_id": "p_f50e443cab97",
+  "task_id": "login",
+  "probe_enabled": true,
+  "agent_class": "bot",
+  "label": "bot",
+  "page_type": "login",
+  "start_time": 128.79999995231628,
+  "end_time": 4648.200000047684,
+  "passive_events": [
+    {
+      "type": "mouse_move",
+      "ts": 333.10000014305115,
+      "x": 764,
+      "y": 595
+    },
+    {
+      "type": "focus",
+      "ts": 3206.600000143051,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "input",
+      "ts": 3213,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "blur",
+      "ts": 3232.600000143051,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "focus",
+      "ts": 3232.7999999523163,
+      "target": "INPUT",
+      "target_id": "password"
+    },
+    {
+      "type": "input",
+      "ts": 3236.2999999523163,
+      "target": "INPUT",
+      "target_id": "password"
+    },
+    {
+      "type": "mouse_move",
+      "ts": 3311.100000143051,
+      "x": 640,
+      "y": 460
+    },
+    {
+      "type": "mousedown",
+      "ts": 3312,
+      "x": 640,
+      "y": 460,
+      "target": "BUTTON"
+    },
+    {
+      "type": "blur",
+      "ts": 3312.100000143051,
+      "target": "INPUT",
+      "target_id": "password"
+    },
+    {
+      "type": "focus",
+      "ts": 3312.2999999523163,
+      "target": "BUTTON",
+      "target_id": null
+    },
+    {
+      "type": "mouseup",
+      "ts": 3312.7000000476837,
+      "x": 640,
+      "y": 460
+    },
+    {
+      "type": "click",
+      "ts": 3312.7000000476837,
+      "x": 640,
+      "y": 460,
+      "target": "BUTTON",
+      "target_id": null
+    }
+  ],
+  "probes": [],
+  "_metadata": {
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36",
+    "created_at": "2026-08-31T16:43:54.052042"
+  }
+}

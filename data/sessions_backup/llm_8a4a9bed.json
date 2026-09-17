@@ -1,0 +1,170 @@
+{
+  "session_id": "8a4a9bed-6d39-4744-8da5-ff030117acbd",
+  "experiment_id": "exp_37fdc1d3a1a5",
+  "participant_id": "p_8d72eea0af26",
+  "task_id": "login",
+  "probe_enabled": true,
+  "agent_class": "llm",
+  "label": "llm",
+  "page_type": "login",
+  "start_time": 150.0,
+  "end_time": 32096.89999985695,
+  "passive_events": [
+    {
+      "type": "mouse_move",
+      "ts": 597.5999999046326,
+      "x": 1049,
+      "y": 5
+    },
+    {
+      "type": "mouse_move",
+      "ts": 627.1999998092651,
+      "x": 1080,
+      "y": 53
+    },
+    {
+      "type": "mouse_move",
+      "ts": 661.1999998092651,
+      "x": 1096,
+      "y": 85
+    },
+    {
+      "type": "mouse_move",
+      "ts": 694.1999998092651,
+      "x": 1096,
+      "y": 87
+    },
+    {
+      "type": "mousedown",
+      "ts": 944.1999998092651,
+      "x": 1096,
+      "y": 87,
+      "target": "BODY"
+    },
+    {
+      "type": "mouseup",
+      "ts": 979.0999999046326,
+      "x": 1096,
+      "y": 87
+    },
+    {
+      "type": "mouse_move",
+      "ts": 2587.199999809265,
+      "x": 1155,
+      "y": 544
+    },
+    {
+      "type": "mouse_move",
+      "ts": 2960,
+      "x": 1154,
+      "y": 543
+    },
+    {
+      "type": "mouse_move",
+      "ts": 15650.099999904633,
+      "x": 1021,
+      "y": 103
+    },
+    {
+      "type": "mouse_move",
+      "ts": 15670.299999952316,
+      "x": 961,
+      "y": 20
+    },
+    {
+      "type": "focus",
+      "ts": 29733,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "mouse_move",
+      "ts": 29761.39999985695,
+      "x": 1516,
+      "y": 5
+    },
+    {
+      "type": "mouse_move",
+      "ts": 29793.5,
+      "x": 1516,
+      "y": 6
+    },
+    {
+      "type": "mouse_move",
+      "ts": 30111.39999985695,
+      "x": 1496,
+      "y": 0
+    }
+  ],
+  "probes": [
+    {
+      "probeId": 1,
+      "t1": 6189.099999904633,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 0,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": true,
+      "abandoned": true
+    },
+    {
+      "probeId": 2,
+      "t1": 11637.099999904633,
+      "t2": 15650.099999904633,
+      "delta": 4013,
+      "source": "mousemove",
+      "response_target": "body",
+      "pre_probe_n": 0,
+      "post_probe_n": 2,
+      "behavioral_change": 2,
+      "idle_before": true,
+      "abandoned": false
+    },
+    {
+      "probeId": 3,
+      "t1": 17278.39999985695,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 2,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": false,
+      "abandoned": true
+    },
+    {
+      "probeId": 4,
+      "t1": 22048.5,
+      "t2": null,
+      "delta": null,
+      "source": null,
+      "response_target": null,
+      "pre_probe_n": 0,
+      "post_probe_n": null,
+      "behavioral_change": null,
+      "idle_before": true,
+      "abandoned": true
+    },
+    {
+      "probeId": 5,
+      "t1": 28144,
+      "t2": 29733,
+      "delta": 1589,
+      "source": "focusin",
+      "response_target": "email",
+      "pre_probe_n": 0,
+      "post_probe_n": 4,
+      "behavioral_change": 4,
+      "idle_before": true,
+      "abandoned": false
+    }
+  ],
+  "_metadata": {
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36",
+    "created_at": "2026-08-31T17:30:08.512932"
+  }
+}

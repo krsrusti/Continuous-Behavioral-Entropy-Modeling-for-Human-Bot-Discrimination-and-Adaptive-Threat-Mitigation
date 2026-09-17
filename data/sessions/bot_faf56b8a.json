@@ -1,0 +1,94 @@
+{
+  "session_id": "faf56b8a-9651-4065-8a5a-92e7bddaeab7",
+  "experiment_id": "exp_12c27af85661",
+  "participant_id": "p_e09d4caf9fdb",
+  "task_id": "login",
+  "probe_enabled": true,
+  "agent_class": "bot",
+  "label": "bot",
+  "page_type": "login",
+  "start_time": 142.80000019073486,
+  "end_time": 4745.0,
+  "passive_events": [
+    {
+      "type": "mouse_move",
+      "ts": 347.2000000476837,
+      "x": 935,
+      "y": 590
+    },
+    {
+      "type": "focus",
+      "ts": 3220.600000143051,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "input",
+      "ts": 3224.9000000953674,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "blur",
+      "ts": 3245.600000143051,
+      "target": "INPUT",
+      "target_id": "email"
+    },
+    {
+      "type": "focus",
+      "ts": 3245.800000190735,
+      "target": "INPUT",
+      "target_id": "password"
+    },
+    {
+      "type": "input",
+      "ts": 3250.100000143051,
+      "target": "INPUT",
+      "target_id": "password"
+    },
+    {
+      "type": "mouse_move",
+      "ts": 3299.100000143051,
+      "x": 640,
+      "y": 460
+    },
+    {
+      "type": "mousedown",
+      "ts": 3300.300000190735,
+      "x": 640,
+      "y": 460,
+      "target": "BUTTON"
+    },
+    {
+      "type": "blur",
+      "ts": 3300.7000000476837,
+      "target": "INPUT",
+      "target_id": "password"
+    },
+    {
+      "type": "focus",
+      "ts": 3301.100000143051,
+      "target": "BUTTON",
+      "target_id": null
+    },
+    {
+      "type": "mouseup",
+      "ts": 3302.300000190735,
+      "x": 640,
+      "y": 460
+    },
+    {
+      "type": "click",
+      "ts": 3302.600000143051,
+      "x": 640,
+      "y": 460,
+      "target": "BUTTON",
+      "target_id": null
+    }
+  ],
+  "probes": [],
+  "_metadata": {
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36",
+    "created_at": "2026-08-31T16:45:17.021217"
+  }
+}
