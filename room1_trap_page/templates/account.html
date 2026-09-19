@@ -191,7 +191,7 @@
     .action-btn:hover { border-color: var(--accent); color: var(--accent); background: #eff6ff; }
     .action-btn .icon { font-size: 1.4rem; margin-bottom: 0.3rem; }
 
-    /* ── Risk indicator (subtle, for demo purposes) ── */
+    /* ── Risk indicator ── */
     .risk-indicator {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -233,6 +233,9 @@
       z-index: 1000;
       align-items: center;
       justify-content: center;
+      /* Overlay itself intercepts all pointer/keyboard events by default
+         (it's a normal block element covering the viewport), so nothing
+         extra is required here for it to block interaction with .main. */
     }
     .overlay.active { display: flex; }
 
@@ -521,13 +524,46 @@
   TIFSession.init({ pageType: 'account', apiBase: API });
 
   // ── Monitoring state ──────────────────────────────────────────────────────
-  let actionCount    = 0;
-  let checkCount     = 0;
-  let terminated     = false;
-  let challenged     = false;
-  let mathAnswer     = 0;
-  let attemptsLeft   = 2;
-  const CHECK_EVERY  = 5;    // check risk every N user actions
+  let actionCount     = 0;
+  let checkCount      = 0;
+  let terminated      = false;
+  let challenged      = false;
+  let mathAnswer      = 0;
+  let attemptsLeft    = 2;
+  let consecutiveFailures  = 0;
+  let consecutiveHighRisk  = 0;   // debounce: how many checks IN A ROW
+                                  // have come back as terminate-level risk
+  let challengeTimer  = null;
+
+  const CHECK_EVERY        = 5;     // check risk every N user actions
+  const TIMED_CHECK_MS     = 10000; // ALSO check on a fixed timer (less
+                                     // frequently than before), so a session
+                                     // producing no real click/keydown/scroll/
+                                     // mousemove events (headless/automation
+                                     // driving the DOM directly) still gets
+                                     // evaluated instead of running forever
+                                     // at the initial "allow" state — without
+                                     // subjecting a normal human session to
+                                     // so many total checks that one noisy
+                                     // classification becomes near-certain.
+  const REQUIRED_HIGH_RISK_HITS = 2; // a single 'terminate'-level reading is
+                                      // not enough to actually terminate — the
+                                      // classifier has no confidence smoothing
+                                      // of its own, so this page requires the
+                                      // SAME session to score terminate-level
+                                      // risk on two checks in a row before it
+                                      // acts. This is the main fix for real
+                                      // users getting kicked by one bad read.
+  const MAX_RISK_FAILURES  = 8;     // consecutive /api/risk failures before
+                                     // we flag monitoring as degraded. This is
+                                     // now purely informational — network/API
+                                     // outages no longer terminate a session
+                                     // on their own; that conflates "our
+                                     // backend is down" with "this user is a
+                                     // bot," which is what was locking out
+                                     // real users.
+  const CHALLENGE_TIMEOUT_MS = 30000; // auto-terminate if the step-up
+                                       // challenge is never answered
 
   // ── Update risk indicator ─────────────────────────────────────────────────
   function updateRiskUI(score, prediction, action) {
@@ -564,25 +600,53 @@
     payload.session_id = sessionId;
 
     try {
-      const res  = await fetch(`${API}/api/risk`, {
+      const res = await fetch(`${API}/api/risk`, {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
         body:    JSON.stringify(payload),
       });
+
+      if (!res.ok) {
+        throw new Error(`Risk API returned ${res.status}`);
+      }
+
       const risk = await res.json();
+
+      // Reset the failure counter on any successful, well-formed response.
+      consecutiveFailures = 0;
 
       checkCount++;
       document.getElementById('check-count').textContent = checkCount;
       updateRiskUI(risk.score, risk.prediction, risk.action);
 
       if (risk.action === 'terminate') {
-        triggerTerminate(risk);
-      } else if (risk.action === 'stepup') {
-        triggerChallenge();
+        consecutiveHighRisk++;
+
+        if (consecutiveHighRisk >= REQUIRED_HIGH_RISK_HITS) {
+          triggerTerminate(risk);
+        }
+      } else {
+        consecutiveHighRisk = 0;
+
+        if (risk.action === 'stepup') {
+          triggerChallenge();
+        }
       }
 
     } catch (err) {
       console.warn('[TIF] Risk check failed:', err);
+
+      // A broken/unreachable risk endpoint is a monitoring-infrastructure
+      // problem, not evidence the session is a bot — it must NOT terminate
+      // a real user. We track it only to surface a "monitoring degraded"
+      // status; actual access decisions still require an actual response
+      // from the risk engine.
+      consecutiveFailures++;
+
+      if (consecutiveFailures >= MAX_RISK_FAILURES) {
+        document.getElementById('monitor-status').textContent = 'DEGRADED';
+        console.warn('[TIF] Risk engine appears unreachable — monitoring degraded, access not restricted.');
+      }
     }
   }
 
@@ -598,10 +662,28 @@
     }
   }
 
-  // Listen to all user interactions
+  // Listen to all user interactions. NOTE: these only fire on trusted,
+  // real browser-dispatched events (which is intentional — programmatic
+  // dispatchEvent() calls from a page script do not carry isTrusted:true
+  // and are ignored the same way by the browser's own event pipeline
+  // when it matters). An automated client that never generates real
+  // input still won't trip this counter, which is exactly why the
+  // timer-based check below exists as a backstop.
   ['click', 'keydown', 'scroll', 'mousemove'].forEach(evt => {
     document.addEventListener(evt, onUserAction, { passive: true });
   });
+
+  // Timer-based backstop check — runs regardless of whether the session
+  // ever generates click/keydown/scroll/mousemove events at all. This
+  // closes the biggest gap in the original implementation: a session
+  // that never fires a "real" interaction event never incremented
+  // actionCount, so checkRisk() was never called, and the page just
+  // sat at its initial low-risk state indefinitely.
+  setInterval(() => {
+    if (!terminated && !challenged) {
+      checkRisk();
+    }
+  }, TIMED_CHECK_MS);
 
   // ── Math challenge ────────────────────────────────────────────────────────
   function generateMathProblem() {
@@ -623,6 +705,23 @@
     updateAttemptsUI();
     document.getElementById('challenge-overlay').classList.add('active');
     setTimeout(() => document.getElementById('math-input').focus(), 100);
+
+    // If nobody (or nothing) answers the challenge at all, don't leave
+    // the session hanging in "challenged" limbo forever — the original
+    // code had no timeout, so a client that simply never interacts with
+    // the overlay would stay stuck in a non-terminated, non-allowed
+    // state, and checkRisk() is skipped the whole time (challenged === true).
+    clearTimeout(challengeTimer);
+    challengeTimer = setTimeout(() => {
+      if (challenged && !terminated) {
+        document.getElementById('challenge-overlay').classList.remove('active');
+        triggerTerminate({
+          score:      90,
+          prediction: 'bot (verification timed out)',
+          session_id: sessionId,
+        });
+      }
+    }, CHALLENGE_TIMEOUT_MS);
   }
 
   function updateAttemptsUI() {
@@ -644,9 +743,11 @@
 
     if (answer === mathAnswer) {
       // Correct — unfreeze and continue
+      clearTimeout(challengeTimer);
       document.getElementById('challenge-overlay').classList.remove('active');
       challenged = false;
       attemptsLeft = 2;
+      consecutiveHighRisk = 0; // passing the challenge clears the debounce
       updateRiskUI(35, 'human', 'allow');
     } else {
       // Wrong answer
@@ -657,6 +758,7 @@
 
       if (attemptsLeft <= 0) {
         // Failed both attempts — terminate
+        clearTimeout(challengeTimer);
         document.getElementById('challenge-overlay').classList.remove('active');
         triggerTerminate({
           score:      85,
@@ -680,15 +782,35 @@
   function triggerTerminate(risk) {
     if (terminated) return;
     terminated = true;
+    clearTimeout(challengeTimer);
 
+    document.getElementById('challenge-overlay').classList.remove('active');
     document.getElementById('term-score').textContent      = risk.score ?? '—';
     document.getElementById('term-prediction').textContent = (risk.prediction || '—').toUpperCase();
     document.getElementById('term-session').textContent    = (risk.session_id || sessionId || '—').slice(0, 16) + '…';
     document.getElementById('terminate-overlay').classList.add('active');
 
-    // Disable all page interactions underneath
+    // Disable all page interactions underneath. Note: this is a UI-layer
+    // freeze only. A script driving the page through the DOM directly
+    // (rather than through real input) is not physically blocked by
+    // pointer-events/blur — true containment requires the server to also
+    // invalidate the session so that any further API calls (balance,
+    // transfer, etc.) are rejected server-side regardless of what the
+    // client-side DOM state looks like. This page cannot enforce that on
+    // its own; it can only stop issuing further risk checks and clearly
+    // signal termination.
     document.querySelector('.main').style.pointerEvents = 'none';
     document.querySelector('.main').style.filter        = 'blur(3px)';
+    document.querySelector('.main').setAttribute('aria-hidden', 'true');
+
+    // Invalidate the local session id so a reload or a lingering script
+    // can't keep acting as if this exact session were still valid.
+    // Deliberately NOT persisting a standalone "terminated" flag across
+    // reloads: with the debounced check above this should now be rare
+    // for real users, but if a false positive does slip through, a
+    // reload should let a genuine human get a fresh evaluation rather
+    // than being permanently locked out until they log out.
+    sessionStorage.removeItem('tif_session_id');
   }
 
   // ── Logout ────────────────────────────────────────────────────────────────
@@ -699,11 +821,10 @@
 
   // ── On page load — check if step-up was flagged at login ─────────────────
   window.addEventListener('load', () => {
-    // Show initial risk from login
     const loginScore = parseInt(sessionStorage.getItem('tif_risk_score') || '0');
     const loginPred  = sessionStorage.getItem('tif_prediction') || 'human';
 
-    if (loginScore >= 71) {
+    if (loginScore > 71) {
       triggerTerminate({ score: loginScore, prediction: loginPred, session_id: sessionId });
     } else if (needStepup || loginScore >= 41) {
       updateRiskUI(loginScore, loginPred, 'stepup');
@@ -711,6 +832,10 @@
     } else {
       updateRiskUI(loginScore, loginPred, 'allow');
     }
+
+    // Run one risk check shortly after load, rather than waiting for
+    // either 5 real interaction events or the first timer tick.
+    setTimeout(checkRisk, 1500);
   });
 </script>
 </body>
