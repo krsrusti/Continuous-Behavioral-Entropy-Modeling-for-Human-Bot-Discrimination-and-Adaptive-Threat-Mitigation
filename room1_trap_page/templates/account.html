@@ -497,7 +497,6 @@
     <p>Our security system has detected automated or suspicious behaviour on this session. Access has been permanently revoked.</p>
     <div class="terminate-details" id="terminate-details">
       <div><strong>Risk Score:</strong> <span id="term-score">—</span> / 100</div>
-      <div><strong>Detection:</strong> <span id="term-prediction">—</span></div>
       <div><strong>Action:</strong> Session Terminated</div>
       <div><strong>Session ID:</strong> <span id="term-session">—</span></div>
     </div>
@@ -625,12 +624,11 @@
         if (consecutiveHighRisk >= REQUIRED_HIGH_RISK_HITS) {
           triggerTerminate(risk);
         }
+      } else if (risk.action === 'stepup') {
+        // Keep monitoring. A step-up result must not stop the
+        // continuous risk checks or reset the high-risk count.
       } else {
         consecutiveHighRisk = 0;
-
-        if (risk.action === 'stepup') {
-          triggerChallenge();
-        }
       }
 
     } catch (err) {
