@@ -222,7 +222,7 @@ def main():
 
         print()
         print(
-            f"==========  ACTION {i}/15 =========="
+            f"========== ARTIFICIAL ACTION {i}/15 =========="
         )
 
         # Exactly the same reasoning delay.
@@ -268,7 +268,7 @@ def main():
 
     print()
     print(
-        "[TEST] interaction sequence finished."
+        "[TEST] Artificial interaction sequence finished."
     )
 
     print(
