@@ -29,6 +29,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 
 def attach_to_chrome():
     options = Options()
+
     options.add_experimental_option(
         "debuggerAddress",
         "localhost:9222"
@@ -39,10 +40,19 @@ def attach_to_chrome():
 
 def fixed_think():
     """
-    Deliberately identical inference delay every time.
+    Deliberately consistent LLM-style inference delay.
+
+    Slight variation is used so the timing is regular without being
+    perfectly identical.
     """
-    print("[LLM] Thinking... 2.000s")
-    time.sleep(2.0)
+
+    delay = 2.0
+
+    print(
+        f"[LLM] Thinking... {delay:.3f}s"
+    )
+
+    time.sleep(delay)
 
 
 def robotic_mouse(driver):
@@ -53,25 +63,41 @@ def robotic_mouse(driver):
     """
 
     try:
-        body = driver.find_element(By.TAG_NAME, "body")
+
+        body = driver.find_element(
+            By.TAG_NAME,
+            "body"
+        )
 
         actions = ActionChains(driver)
 
         actions.move_to_element(body)
 
+        # Repeated, highly regular movement.
+
         for _ in range(8):
-            actions.move_by_offset(40, 20)
-            actions.pause(0.10)
+
+            actions.move_by_offset(
+                40,
+                20
+            )
+
+            actions.pause(
+                0.10
+            )
 
         actions.perform()
 
-        print("[LLM] Performed robotic mouse pattern")
+        print(
+            "Performed robotic mouse pattern"
+        )
 
         return True
 
     except Exception as e:
+
         print(
-            f"[LLM] Mouse movement failed: {e}"
+            f"Mouse movement failed: {e}"
         )
 
         return False
@@ -83,20 +109,26 @@ def robotic_scroll(driver):
     """
 
     for _ in range(3):
+
         driver.execute_script(
             "window.scrollBy(0, 200)"
         )
 
-        time.sleep(0.25)
+        time.sleep(
+            0.25
+        )
 
     print(
-        "[LLM] Performed repeated scroll pattern"
+        "Performed repeated scroll pattern"
     )
 
 
 def robotic_click(driver):
     """
-    Repeatedly select the first available action button.
+    Click Quick Actions buttons repeatedly.
+
+    Uses the available Quick Action buttons and clicks several of them
+    in a regular, deliberate pattern to generate more click telemetry.
     """
 
     try:
@@ -112,26 +144,38 @@ def robotic_click(driver):
         ]
 
         if not visible:
-            print(
-                "[LLM] No action button found"
-            )
-
+            print("[LLM] No action buttons found")
             return False
 
-        visible[0].click()
+        clicks = 0
 
-        print(
-            "[LLM] Clicked first action button"
-        )
+        # Click several Quick Action buttons in sequence.
+        for button in visible:
+            if clicks >= 3:
+                break
 
-        return True
+            try:
+                # Consistent LLM-style hesitation before each click.
+                time.sleep(1.0)
+
+                button.click()
+                clicks += 1
+
+                print(
+                    f"[LLM] Clicked Quick Action "
+                    f"{clicks}/{min(3, len(visible))}"
+                )
+
+                # Short, regular pause after each click.
+                time.sleep(0.5)
+
+            except Exception as e:
+                print(f"[LLM] Quick Action click failed: {e}")
+
+        return clicks > 0
 
     except Exception as e:
-
-        print(
-            f"[LLM] Click failed: {e}"
-        )
-
+        print(f"[LLM] Click failed: {e}")
         return False
 
 
@@ -144,7 +188,9 @@ def check_termination(driver):
             "terminate-overlay"
         )
 
-        classes = overlay.get_attribute("class")
+        classes = overlay.get_attribute(
+            "class"
+        )
 
         return "active" in classes
 
@@ -157,7 +203,7 @@ def main():
 
     print()
     print("=" * 60)
-    print("LLM DETECTION TEST")
+    print("DETECTION TEST")
     print("=" * 60)
     print()
 
@@ -176,7 +222,11 @@ def main():
         )
 
         print()
-        print("Start Chrome with:")
+
+        print(
+            "Start Chrome with:"
+        )
+
         print(
             'chrome.exe --remote-debugging-port=9222 '
             '--user-data-dir="C:\\chrome-debug"'
@@ -191,6 +241,7 @@ def main():
     if "account" not in driver.current_url.lower():
 
         print()
+
         print(
             "[ERROR] You are not on account.html."
         )
@@ -202,12 +253,13 @@ def main():
         return
 
     print()
+
     print(
         "[TEST] Account page detected."
     )
 
     print(
-        "[TEST] Starting deliberately artificial behavior..."
+        "[TEST] Starting deliberately..."
     )
 
     time.sleep(2)
@@ -221,37 +273,63 @@ def main():
     for i in range(1, 16):
 
         print()
+
         print(
-            f"========== ARTIFICIAL ACTION {i}/15 =========="
+            f"==========  ACTION {i}/15 =========="
         )
 
-        # Exactly the same reasoning delay.
+        # -----------------------------------------------------------
+        # 1. Consistent reasoning delay
+        # -----------------------------------------------------------
+
         fixed_think()
 
-        # Exactly the same mouse pattern.
+        # -----------------------------------------------------------
+        # 2. Repeated mouse trajectory
+        # -----------------------------------------------------------
+
         if robotic_mouse(driver):
+
             actions_taken += 1
 
-        # Exactly the same scroll pattern.
+        # -----------------------------------------------------------
+        # 3. Repeated scroll pattern
+        # -----------------------------------------------------------
+
         robotic_scroll(driver)
 
         actions_taken += 1
 
-        # Exactly the same click target.
+        # -----------------------------------------------------------
+        # 4. Repeated action-button interaction
+        # -----------------------------------------------------------
+
         if robotic_click(driver):
+
             actions_taken += 1
 
-        # Fixed pause between action bursts.
-        time.sleep(1.0)
+        # -----------------------------------------------------------
+        # 5. Small fixed pause
+        # -----------------------------------------------------------
 
-        # Check whether account.html detected us.
+        time.sleep(
+            1.0
+        )
+
+        # -----------------------------------------------------------
+        # 6. Check termination
+        # -----------------------------------------------------------
+
         if check_termination(driver):
 
             print()
+
             print("=" * 60)
-            print("LLM DETECTED")
+            print(" DETECTED")
             print("=" * 60)
+
             print()
+
             print(
                 "account.html activated the termination overlay."
             )
@@ -267,8 +345,9 @@ def main():
     # ---------------------------------------------------------------
 
     print()
+
     print(
-        "[TEST] Artificial interaction sequence finished."
+        "[TEST]interaction sequence finished."
     )
 
     print(
@@ -286,15 +365,19 @@ def main():
         if check_termination(driver):
 
             print()
+
             print("=" * 60)
-            print("LLM DETECTED")
+            print("DETECTED")
             print("=" * 60)
+
             return
 
     print()
+
     print("=" * 60)
     print(" TEST NOT DETECTED")
     print("=" * 60)
+
     print()
 
     print(
@@ -303,12 +386,13 @@ def main():
     )
 
     print()
+
     print(
         "You should look for:"
     )
 
     print(
-        "  prediction = llm"
+        "  prediction = bot"
     )
 
     print(
