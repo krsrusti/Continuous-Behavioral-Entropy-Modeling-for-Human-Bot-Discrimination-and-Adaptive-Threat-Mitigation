@@ -1,0 +1,5 @@
+python -m http.server 8080
+
+
+
+"C:\Program Files\Google\Chrome\Application\chrome.exe" --remote-debugging-port=9222 --user-data-dir="C:\chrome-debug"
